@@ -29,7 +29,7 @@
                 {
                     "name": "",
                     "id": "bf219eb5-4f53-4864-ae41-7622597fc533",
-                    "path": "<Gamepad>/leftStick/x",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

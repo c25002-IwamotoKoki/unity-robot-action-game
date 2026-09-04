@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace RobotAction.GamePlay.Player
+namespace RobotAction.Gameplay.Player
 {
     /// <summary>
     /// Provides programmatic access to <see cref="InputActionAsset" />, <see cref="InputActionMap" />, <see cref="InputAction" /> and <see cref="InputControlScheme" /> instances defined in asset "Assets/RobotAction/CreateAssets/PlayerInputAction.inputactions".
@@ -117,7 +117,7 @@ namespace RobotAction.GamePlay.Player
                 {
                     ""name"": """",
                     ""id"": ""bf219eb5-4f53-4864-ae41-7622597fc533"",
-                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

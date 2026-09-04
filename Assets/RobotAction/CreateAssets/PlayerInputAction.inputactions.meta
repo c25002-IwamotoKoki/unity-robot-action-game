@@ -11,4 +11,4 @@ ScriptedImporter:
   generateWrapperCode: 1
   wrapperCodePath: Assets/RobotAction/Scripts/GamePlay/PlayerInputActions.cs
   wrapperClassName: PlayerInputActions
-  wrapperCodeNamespace: RobotAction
+  wrapperCodeNamespace: RobotAction.Gameplay.Player

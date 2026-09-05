@@ -11,7 +11,6 @@ namespace RobotAction.Gameplay.Scriptables
 
         public string Name => _name;
         public float MaxHealth => _maxHealth;
-
         public float BaseAttackPower => _baseAttackPower;
     }
 }

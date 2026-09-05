@@ -12,6 +12,7 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _boostSpeed;
+        [SerializeField] private float _health;
 
         private void Awake()
         {
@@ -47,8 +48,8 @@ namespace RobotAction.Gameplay.Player
         }
 
         public void GetDamage(float damage)
-        {
-        
+        {      
+            _health -= damage;
         }
 
         private void Boost()

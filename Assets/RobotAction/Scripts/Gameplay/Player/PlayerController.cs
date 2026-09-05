@@ -1,8 +1,9 @@
+using RobotAction.Gameplay.Interfaces;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour,IDamageable
     {
         private const float BoostDeadZoneSqr = 0.01f;
 
@@ -43,6 +44,11 @@ namespace RobotAction.Gameplay.Player
         {
             _inputReader.OnBoost -= Boost;
             _inputReader.Dispose();
+        }
+
+        public void GetDamage(float damage)
+        {
+        
         }
 
         private void Boost()

@@ -1,8 +1,9 @@
+using RobotAction.Gameplay.Interfaces;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour,IDamageable
     {
         private const float BoostDeadZoneSqr = 0.01f;
 
@@ -11,6 +12,7 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _boostSpeed;
+        [SerializeField] private float _health;
 
         private void Awake()
         {
@@ -43,6 +45,11 @@ namespace RobotAction.Gameplay.Player
         {
             _inputReader.OnBoost -= Boost;
             _inputReader.Dispose();
+        }
+
+        public void GetDamage(float damage)
+        {      
+            _health -= damage;
         }
 
         private void Boost()

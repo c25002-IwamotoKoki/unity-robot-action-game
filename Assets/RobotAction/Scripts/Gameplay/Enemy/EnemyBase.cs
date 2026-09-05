@@ -6,7 +6,7 @@ namespace RobotAction.Gameplay.Enemy
 {
     public abstract class EnemyBase : MonoBehaviour,IDamageable
     {
-        [SerializeField] private EnemyData _data;
+        [SerializeField] protected EnemyData _data;
         private float _currentHealth;
 
         protected virtual void Awake()
@@ -16,7 +16,7 @@ namespace RobotAction.Gameplay.Enemy
 
         public void GetDamage(float damage)
         {
-            
+            _currentHealth -= damage;
         }
     }
 }

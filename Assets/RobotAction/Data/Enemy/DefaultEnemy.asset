@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.EnemyData
   _name: DefaultEnemy
   _maxHealth: 10000
+  _baseAttackPower: 1000

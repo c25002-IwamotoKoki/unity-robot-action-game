@@ -16,7 +16,7 @@ namespace RobotAction.Gameplay.Enemy
 
         public void GetDamage(float damage)
         {
-           
+            _currentHealth -= damage;
         }
     }
 }

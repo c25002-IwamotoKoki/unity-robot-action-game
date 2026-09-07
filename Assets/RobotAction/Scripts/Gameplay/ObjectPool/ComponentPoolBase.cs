@@ -80,7 +80,7 @@ namespace RobotAction.Gameplay.ObjectPool
             _maxCapacity = maxCapacity;
         }
 
-        protected virtual void InitializePoolFlow()
+        protected virtual void PrewarmPoolFlow()
         {
             //必要な分Instantiateして生成した分を非アクティブにして待機させておく処理
 

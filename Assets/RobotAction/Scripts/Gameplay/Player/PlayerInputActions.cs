@@ -225,7 +225,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""fbc81b24-000b-464e-937e-67a5280a6527"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

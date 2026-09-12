@@ -33,7 +33,7 @@ namespace RobotAction.Gameplay.Weapons.Guns
             if (collision.transform.TryGetComponent(out IDamageable damageable))
             {
                 damageable.GetDamage(_baseAttackPower);
-                _lifeTime = 0;
+                _lifeTimer = 0;
                 OwnerPool.Release(this);
             }
         }

@@ -22,10 +22,12 @@ namespace RobotAction.Gameplay.Weapons.Guns
             if(_magazine == null)
             {
                 Debug.LogError("Magazine‚ªnull‚Å‚·");
-            }
+            }       
+        }
 
-            _magazine.SetDefaultCapacity(_data);
-            _magazine.BulletPool.PrewarmPool();
+        private void Start()
+        {
+            _magazine.Setup(_data);
         }
 
         public override void Shoot()

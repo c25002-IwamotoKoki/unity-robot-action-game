@@ -6,9 +6,10 @@ namespace RobotAction.Gameplay.Weapons.Guns
 {
     public class KineticMagazine : MagazineBase
     {
-        public void SetDefaultCapacity(KineticGunData gunData)
+        public void Setup(KineticGunData gunData)
         {
-            BulletPool.SetCalculateCapacity(gunData.BulletLifeTime,gunData.FireRate);
+            BulletPool.SetCalculateCapacity(gunData.BulletLifeTime, gunData.FireRate);
+            BulletPool.PrewarmPool();
         }
 
         public void SpawnBullet(in BulletContext context, Vector3 position,Quaternion rotation)

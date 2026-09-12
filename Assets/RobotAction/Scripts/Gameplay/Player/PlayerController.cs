@@ -1,4 +1,5 @@
 using RobotAction.Gameplay.Interfaces;
+using RobotAction.Gameplay.Weapons.Guns;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
@@ -7,12 +8,13 @@ namespace RobotAction.Gameplay.Player
     {
         private const float BoostDeadZoneSqr = 0.01f;
 
-        private PlayerInputReader _inputReader;
-
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private GunBase _gun;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _health;
+
+        private PlayerInputReader _inputReader;
 
         private void Awake()
         {
@@ -22,6 +24,7 @@ namespace RobotAction.Gameplay.Player
         private void OnEnable()
         {
             _inputReader.OnBoost += Boost;
+            _inputReader.OnAttack += ShootGun;
         }
 
         private void FixedUpdate()
@@ -44,6 +47,7 @@ namespace RobotAction.Gameplay.Player
         private void OnDisable()
         {
             _inputReader.OnBoost -= Boost;
+            _inputReader.OnAttack -= ShootGun;
             _inputReader.Dispose();
         }
 
@@ -59,6 +63,11 @@ namespace RobotAction.Gameplay.Player
 
             _rigidbody.AddForce(_boostSpeed * new Vector3(input.x, 0, input.y),
                                 ForceMode.Impulse);
+        }
+
+        private void ShootGun(bool isShoot)
+        {
+            _gun.Shoot();
         }
     }
 }

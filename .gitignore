@@ -105,6 +105,7 @@ InitTestScene*.unity*
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
-# TestScene
-/[Aa]ssets/[Rr]obotAction/[Ss]cenes/[Ss]andbox.unity
-/[Aa]ssets/[Rr]obotAction/[Ss]cenes/[Ss]andbox.unity.meta
+# TestFolder
+/[Aa]ssets/[Rr]obotAction/[Ss]andbox.meta
+/[Aa]ssets/[Rr]obotAction/[Ss]andbox/
+/[Aa]ssets/[Rr]obotAction/[Ss]andbox/[Ss]andbox.unity.meta

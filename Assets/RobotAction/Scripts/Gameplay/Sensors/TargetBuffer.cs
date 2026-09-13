@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace RobotAction.Gameplay.Sensor
+namespace RobotAction.Gameplay.Sensors
 {
     public class TargetBuffer
     {

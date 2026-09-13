@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Sensor
+namespace RobotAction.Gameplay.Sensors
 {
     [CreateAssetMenu(fileName = "AutoLockSensorData", menuName = "Scriptable Objects/AutoLockSensorData")]
     public class AutoLockSensorData : ScriptableObject

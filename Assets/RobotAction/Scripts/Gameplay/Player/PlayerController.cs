@@ -1,5 +1,5 @@
 using RobotAction.Gameplay.Interfaces;
-using RobotAction.Gameplay.Sensor;
+using RobotAction.Gameplay.Sensors;
 using RobotAction.Gameplay.Weapons.Guns;
 using UnityEngine;
 

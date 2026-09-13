@@ -2,7 +2,7 @@ using RobotAction.Gameplay.Enemy;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Sensor
+namespace RobotAction.Gameplay.Sensors
 {
     public class AutoLockSensor
     {

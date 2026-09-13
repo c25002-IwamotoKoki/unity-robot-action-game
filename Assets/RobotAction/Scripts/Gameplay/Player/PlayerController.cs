@@ -1,4 +1,5 @@
 using RobotAction.Gameplay.Interfaces;
+using RobotAction.Gameplay.Sensor;
 using RobotAction.Gameplay.Weapons.Guns;
 using UnityEngine;
 
@@ -10,15 +11,20 @@ namespace RobotAction.Gameplay.Player
 
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private GunBase _gun;
+        [SerializeField] private AutoLockSensorData _autoLockSensorData;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _health;
 
         private PlayerInputReader _inputReader;
+        private TargetBuffer _targetBuffer;
+        private AutoLockSensor _autoLockSensor;
 
         private void Awake()
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
+            _targetBuffer = new TargetBuffer();
+            _autoLockSensor = new(_autoLockSensorData,_targetBuffer);
         }
 
         private void OnEnable()
@@ -44,6 +50,11 @@ namespace RobotAction.Gameplay.Player
             }
         }
 
+        private void Update()
+        {
+            _autoLockSensor?.Tick(Time.deltaTime,transform.position);
+        }
+
         private void OnDisable()
         {
             _inputReader.OnBoost -= Boost;
@@ -67,6 +78,13 @@ namespace RobotAction.Gameplay.Player
 
         private void ShootGun(bool isShoot)
         {
+            Transform target = _targetBuffer?.DetectedTargets[0];
+
+            if (target)
+            {
+                _gun.SetShootTarget(target.position);
+            }
+
             _gun.Shoot();
         }
     }

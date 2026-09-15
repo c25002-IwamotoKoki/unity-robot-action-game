@@ -50,27 +50,27 @@ namespace RobotAction.Gameplay.Player
             _inputActions.Dispose();
         }
 
-        public void BoostStarted(InputAction.CallbackContext context)
+        private void BoostStarted(InputAction.CallbackContext context)
         {
             OnBoost?.Invoke();
         }
 
-        public void MovePerformed(InputAction.CallbackContext context)
+        private void MovePerformed(InputAction.CallbackContext context)
         {
             MoveDirection = context.ReadValue<Vector2>();
         }
 
-        public void MoveCanceled(InputAction.CallbackContext context)
+        private void MoveCanceled(InputAction.CallbackContext context)
         {
             MoveDirection = Vector2.zero;
         }
 
-        public void OnAttackInputStateChanged(InputAction.CallbackContext context)
+        private void OnAttackInputStateChanged(InputAction.CallbackContext context)
         {
              OnAttack?.Invoke(context.ReadValueAsButton());
         }
 
-        public void OnHoverInputStateChanged(InputAction.CallbackContext context)
+        private void OnHoverInputStateChanged(InputAction.CallbackContext context)
         {
             OnHover?.Invoke(context.ReadValueAsButton());
         }

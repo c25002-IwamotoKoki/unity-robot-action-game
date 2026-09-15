@@ -13,6 +13,7 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private GunBase _gun;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
         [SerializeField] private float _moveSpeed;
+        [SerializeField] private float _hoverSpeed;
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _health;
 
@@ -20,6 +21,7 @@ namespace RobotAction.Gameplay.Player
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
         private bool _isShooting;
+        private bool _isHovering;
 
         private void Awake()
         {
@@ -30,8 +32,9 @@ namespace RobotAction.Gameplay.Player
 
         private void OnEnable()
         {
-            _inputReader.OnBoost += Boost;
+            _inputReader.OnBoost += OnBoost;
             _inputReader.OnAttack += ShootGun;
+            _inputReader.OnHover += OnHover;
         }
 
         private void FixedUpdate()
@@ -49,6 +52,13 @@ namespace RobotAction.Gameplay.Player
                 _rigidbody.AddForce(input.y * _moveSpeed * transform.forward,
                                     ForceMode.Force);
             }
+
+            if(_isHovering)
+            {
+                _rigidbody.AddForce(transform.up * _hoverSpeed,
+                                    ForceMode.Force);
+            }
+
         }
 
         private void Update()
@@ -57,11 +67,9 @@ namespace RobotAction.Gameplay.Player
 
             if(_isShooting)
             {
-                Transform target = _targetBuffer?.DetectedTargets[0];//TODO:後々ターゲット変更を実装する
-
-                if (target)
+                if (_targetBuffer.HasTarget)//TODO:後々ターゲット変更を実装する
                 {
-                    _gun.SetShootTarget(target.position);
+                    _gun.SetShootTarget(_targetBuffer.DetectedTargets[0].position);
                 }
 
                 _gun.Shoot();
@@ -70,14 +78,20 @@ namespace RobotAction.Gameplay.Player
 
         private void OnDisable()
         {
-            _inputReader.OnBoost -= Boost;
+            _inputReader.OnBoost -= OnBoost;
             _inputReader.OnAttack -= ShootGun;
+            _inputReader.OnHover -= OnHover;
             _inputReader.Dispose();
         }
 
         public void GetDamage(float damage)
         {      
             _health -= damage;
+        }
+
+        private void OnBoost()
+        {
+            Boost();
         }
 
         private void Boost()
@@ -92,6 +106,11 @@ namespace RobotAction.Gameplay.Player
         private void ShootGun(bool isShootActive)
         {
             _isShooting = isShootActive;          
+        }
+
+        private void OnHover(bool isHovering)
+        {
+            _isHovering = isHovering;
         }
     }
 }

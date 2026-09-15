@@ -37,7 +37,7 @@ namespace RobotAction.Gameplay.Weapons.Guns
 
         public override void Shoot()
         {
-            if(!_canShoot)
+            if(!_isShot)
             {
                 return;
             }
@@ -50,7 +50,7 @@ namespace RobotAction.Gameplay.Weapons.Guns
                                  _muzzleTransform.position,
                                  _muzzleTransform.rotation);
 
-            _canShoot = false;
+            _isShot = false;
         }
     }
 }

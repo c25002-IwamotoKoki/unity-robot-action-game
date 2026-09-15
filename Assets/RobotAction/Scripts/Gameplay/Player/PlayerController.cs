@@ -19,6 +19,7 @@ namespace RobotAction.Gameplay.Player
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
+        private bool _isShooting;
 
         private void Awake()
         {
@@ -53,6 +54,18 @@ namespace RobotAction.Gameplay.Player
         private void Update()
         {
             _autoLockSensor?.Tick(Time.deltaTime,transform.position);
+
+            if(_isShooting)
+            {
+                Transform target = _targetBuffer?.DetectedTargets[0];//TODO:後々ターゲット変更を実装する
+
+                if (target)
+                {
+                    _gun.SetShootTarget(target.position);
+                }
+
+                _gun.Shoot();
+            }
         }
 
         private void OnDisable()
@@ -76,16 +89,9 @@ namespace RobotAction.Gameplay.Player
                                 ForceMode.Impulse);
         }
 
-        private void ShootGun(bool isShoot)
+        private void ShootGun(bool isShootActive)
         {
-            Transform target = _targetBuffer?.DetectedTargets[0];
-
-            if (target)
-            {
-                _gun.SetShootTarget(target.position);
-            }
-
-            _gun.Shoot();
+            _isShooting = isShootActive;          
         }
     }
 }

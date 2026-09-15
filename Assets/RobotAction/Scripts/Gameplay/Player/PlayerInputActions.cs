@@ -120,6 +120,15 @@ namespace RobotAction.Gameplay.Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hover"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e402289-17ad-4720-bb48-f0c0e15b51f0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,28 @@ namespace RobotAction.Gameplay.Player
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb6db921-62e6-45d7-a478-8707da22e227"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hover"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a840e6a-d0c0-4265-ade8-1e2253e85243"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hover"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -243,6 +274,7 @@ namespace RobotAction.Gameplay.Player
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+            m_Player_Hover = m_Player.FindAction("Hover", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -326,6 +358,7 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Boost;
         private readonly InputAction m_Player_Attack;
+        private readonly InputAction m_Player_Hover;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -349,6 +382,10 @@ namespace RobotAction.Gameplay.Player
             /// Provides access to the underlying input action "Player/Attack".
             /// </summary>
             public InputAction @Attack => m_Wrapper.m_Player_Attack;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Hover".
+            /// </summary>
+            public InputAction @Hover => m_Wrapper.m_Player_Hover;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -384,6 +421,9 @@ namespace RobotAction.Gameplay.Player
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Hover.started += instance.OnHover;
+                @Hover.performed += instance.OnHover;
+                @Hover.canceled += instance.OnHover;
             }
 
             /// <summary>
@@ -404,6 +444,9 @@ namespace RobotAction.Gameplay.Player
                 @Attack.started -= instance.OnAttack;
                 @Attack.performed -= instance.OnAttack;
                 @Attack.canceled -= instance.OnAttack;
+                @Hover.started -= instance.OnHover;
+                @Hover.performed -= instance.OnHover;
+                @Hover.canceled -= instance.OnHover;
             }
 
             /// <summary>
@@ -465,6 +508,13 @@ namespace RobotAction.Gameplay.Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAttack(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Hover" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnHover(InputAction.CallbackContext context);
         }
     }
 }

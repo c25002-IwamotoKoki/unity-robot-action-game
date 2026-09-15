@@ -8,6 +8,13 @@ namespace RobotAction.Gameplay.Sensors
         public List<Transform> DetectedTargets { get; private set; } = new();
         private bool _isCapacitySet;
 
+        public bool HasTarget => DetectedTargets.Count > 0;
+
+        public TargetBuffer()
+        {
+            DetectedTargets = new();
+        }
+
         public void SetCapacity(int capacity)
         {
             DetectedTargets = new List<Transform>(capacity);

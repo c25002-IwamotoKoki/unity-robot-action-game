@@ -10,11 +10,13 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _moveAction;
         private readonly InputAction _boostAction;
         private readonly InputAction _attackAction;
+        private readonly InputAction _hoverAction;
 
         public Vector2 MoveDirection { get; private set; }
 
         public event Action OnBoost;
         public event Action<bool> OnAttack;
+        public event Action<bool> OnHover;
 
         public PlayerInputReader(PlayerInputActions inputActions)
         {
@@ -24,12 +26,15 @@ namespace RobotAction.Gameplay.Player
             _moveAction = _inputActions.Player.Move;
             _boostAction = _inputActions.Player.Boost;
             _attackAction = _inputActions.Player.Attack;
+            _hoverAction = _inputActions.Player.Hover;
 
             _moveAction.performed += MovePerformed;
             _moveAction.canceled += MoveCanceled;
             _boostAction.started += BoostStarted;
             _attackAction.started += OnAttackInputStateChanged;
             _attackAction.canceled += OnAttackInputStateChanged;
+            _hoverAction.started += OnHoverInputStateChanged;
+            _hoverAction.canceled += OnHoverInputStateChanged;
         }
 
         public void Dispose()
@@ -39,28 +44,36 @@ namespace RobotAction.Gameplay.Player
             _boostAction.started -= BoostStarted;
             _attackAction.started -= OnAttackInputStateChanged;
             _attackAction.canceled -= OnAttackInputStateChanged;
+            _hoverAction.started -= OnHoverInputStateChanged;
+            _hoverAction.canceled -= OnHoverInputStateChanged;
             _inputActions.Disable();
             _inputActions.Dispose();
         }
 
-        public void BoostStarted(InputAction.CallbackContext context)
+        private void BoostStarted(InputAction.CallbackContext context)
         {
             OnBoost?.Invoke();
         }
 
-        public void MovePerformed(InputAction.CallbackContext context)
+        private void MovePerformed(InputAction.CallbackContext context)
         {
             MoveDirection = context.ReadValue<Vector2>();
         }
 
-        public void MoveCanceled(InputAction.CallbackContext context)
+        private void MoveCanceled(InputAction.CallbackContext context)
         {
             MoveDirection = Vector2.zero;
         }
 
-        public void OnAttackInputStateChanged(InputAction.CallbackContext context)
+        private void OnAttackInputStateChanged(InputAction.CallbackContext context)
         {
              OnAttack?.Invoke(context.ReadValueAsButton());
         }
+
+        private void OnHoverInputStateChanged(InputAction.CallbackContext context)
+        {
+            OnHover?.Invoke(context.ReadValueAsButton());
+        }
+
     }
 }

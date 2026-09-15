@@ -7,17 +7,17 @@ namespace RobotAction.Gameplay.Weapons.Guns
         protected abstract float FireRate { get; }
 
         protected float _fireRateTimer;
-        protected bool _canShoot;
+        protected bool _isShot;
 
         protected virtual void Update()
         {
-            if (!_canShoot)
+            if (!_isShot)
             {
                 _fireRateTimer += Time.deltaTime;
 
                 if (_fireRateTimer >= FireRate)
                 {
-                    _canShoot = true;
+                    _isShot = true;
                     _fireRateTimer = 0;
                 }
             }
@@ -26,7 +26,7 @@ namespace RobotAction.Gameplay.Weapons.Guns
         protected void ResetCollDown()
         {
             _fireRateTimer = 0;
-            _canShoot = true;
+            _isShot = true;
         }
 
         public abstract void Shoot();

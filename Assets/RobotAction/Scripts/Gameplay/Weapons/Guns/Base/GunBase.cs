@@ -1,9 +1,11 @@
+using RobotAction.Gameplay.Parts;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Weapons.Guns
 {
-    public abstract class GunBase : MonoBehaviour
+    public abstract class GunBase : MonoBehaviour,IWeaponPart
     {
+        public Transform Owner { get; private set; }
         protected abstract float FireRate { get; }
 
         protected float _fireRateTimer;
@@ -21,6 +23,20 @@ namespace RobotAction.Gameplay.Weapons.Guns
                     _fireRateTimer = 0;
                 }
             }
+        }
+
+        public void Attack() => Shoot();
+
+        public void Equip(Transform owner)
+        {
+            Owner = owner;
+            transform.SetParent(Owner);
+        }
+
+        public void Unequip()
+        {
+            Owner = null;
+            transform.SetParent(null);
         }
 
         protected void ResetCollDown()

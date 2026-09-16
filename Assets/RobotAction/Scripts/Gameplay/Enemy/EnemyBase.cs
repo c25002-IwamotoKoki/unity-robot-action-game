@@ -1,4 +1,4 @@
-using RobotAction.Gameplay.Interfaces;
+using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Scriptables;
 using UnityEngine;
 

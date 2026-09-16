@@ -1,6 +1,4 @@
-using RobotAction.Gameplay.Enemy;
-
-namespace RobotAction.Gameplay.Interfaces
+namespace RobotAction.Gameplay.Enemy
 {
     public interface IEnemyAttack
     {

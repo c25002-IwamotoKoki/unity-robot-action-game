@@ -1,6 +1,6 @@
-using RobotAction.Gameplay.Interfaces;
 using UnityEngine;
 using UnityEngine.Pool;
+using RobotAction.Gameplay.ObjectPool;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {

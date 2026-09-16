@@ -1,7 +1,8 @@
-using RobotAction.Gameplay.Interfaces;
+using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Sensors;
-using RobotAction.Gameplay.Weapons.Guns;
+using RobotAction.Gameplay.Parts.Weapons.Guns;
 using UnityEngine;
+using RobotAction.Gameplay.Parts.Weapons;
 
 namespace RobotAction.Gameplay.Player
 {
@@ -10,8 +11,8 @@ namespace RobotAction.Gameplay.Player
         private const float BoostDeadZoneSqr = 0.01f;
 
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private GunBase _gun;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
+        [SerializeField] private WeaponPartsHandler _weaponPartsHandler;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _hoverSpeed;
         [SerializeField] private float _boostSpeed;
@@ -20,7 +21,7 @@ namespace RobotAction.Gameplay.Player
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
-        private bool _isShooting;
+        private bool _isAttacking;
         private bool _isHovering;
 
         private void Awake()
@@ -35,6 +36,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnBoost += OnBoost;
             _inputReader.OnAttack += ShootGun;
             _inputReader.OnHover += OnHover;
+            _inputReader.OnEquip += OnEquip;
+            _inputReader.OnUnequip += OnUnequip;
         }
 
         private void FixedUpdate()
@@ -65,14 +68,9 @@ namespace RobotAction.Gameplay.Player
         {
             _autoLockSensor?.Tick(Time.deltaTime,transform.position);
 
-            if(_isShooting)
+            if(_isAttacking)
             {
-                if (_targetBuffer.HasTarget)//TODO:後々ターゲット変更を実装する
-                {
-                    _gun.SetShootTarget(_targetBuffer.DetectedTargets[0].position);
-                }
-
-                _gun.Shoot();
+                _weaponPartsHandler.Attack();
             }
         }
 
@@ -81,6 +79,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnBoost -= OnBoost;
             _inputReader.OnAttack -= ShootGun;
             _inputReader.OnHover -= OnHover;
+            _inputReader.OnEquip -= OnEquip;
+            _inputReader.OnUnequip -= OnUnequip;
             _inputReader.Dispose();
         }
 
@@ -105,12 +105,22 @@ namespace RobotAction.Gameplay.Player
 
         private void ShootGun(bool isShootActive)
         {
-            _isShooting = isShootActive;          
+            _isAttacking = isShootActive;          
         }
 
         private void OnHover(bool isHovering)
         {
             _isHovering = isHovering;
+        }
+
+        private void OnEquip()
+        {
+            _weaponPartsHandler.TryPickUpNearlyWeapon();
+        }
+
+        private void OnUnequip()
+        {
+            _weaponPartsHandler.Unequip();
         }
     }
 }

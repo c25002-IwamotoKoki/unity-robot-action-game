@@ -1,8 +1,8 @@
-using RobotAction.Gameplay.Interfaces;
 using UnityEngine;
 using UnityEngine.Pool;
+using RobotAction.Gameplay.ObjectPool;
 
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     public abstract class BulletBase : MonoBehaviour,IPoolable<BulletBase>
     {

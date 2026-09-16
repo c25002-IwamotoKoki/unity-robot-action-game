@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Interfaces
+namespace RobotAction.Gameplay.Combat
 {
     public interface IDamageable
     {

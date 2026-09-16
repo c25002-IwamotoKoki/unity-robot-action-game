@@ -59,10 +59,5 @@ namespace RobotAction.Gameplay.Parts.Weapons
         {
             CurrentPart?.Attack();
         }
-
-        public void Purge()
-        {
-            Unequip();
-        }
     }
 }

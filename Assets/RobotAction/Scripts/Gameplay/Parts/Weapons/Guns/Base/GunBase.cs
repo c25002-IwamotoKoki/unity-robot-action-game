@@ -20,6 +20,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             TryGetComponent(out _rigidbody);
             TryGetComponent(out _collider);
+
+            OnAwake();
         }
 
         protected virtual void Update()
@@ -34,6 +36,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                     _fireRateTimer = 0;
                 }
             }
+        }
+
+        protected virtual void OnAwake()
+        {
+
         }
 
         public void Attack() => Shoot();

@@ -1,7 +1,7 @@
 using RobotAction.Gameplay.Parts;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     public abstract class GunBase : MonoBehaviour,IWeaponPart
     {

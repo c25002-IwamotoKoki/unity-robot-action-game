@@ -1,7 +1,7 @@
 using RobotAction.Gameplay.Scriptables;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     [RequireComponent(typeof(KineticMagazine))]
     public abstract class KineticGunBase : GunBase

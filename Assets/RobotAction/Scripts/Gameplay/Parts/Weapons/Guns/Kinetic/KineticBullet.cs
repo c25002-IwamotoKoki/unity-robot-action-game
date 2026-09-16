@@ -2,7 +2,7 @@ using RobotAction.Gameplay.Interfaces;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     [RequireComponent(typeof(Rigidbody))]
     public class KineticBullet : BulletBase

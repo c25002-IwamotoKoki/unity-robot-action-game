@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace RobotAction.Gameplay.Interfaces
+namespace RobotAction.Gameplay.ObjectPool
 {
     public interface IPoolable<T> where T : Component
     {

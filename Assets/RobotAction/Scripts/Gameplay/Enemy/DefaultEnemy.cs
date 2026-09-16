@@ -1,4 +1,3 @@
-using RobotAction.Gameplay.Interfaces;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy

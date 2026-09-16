@@ -120,7 +120,7 @@ namespace RobotAction.Gameplay.Player
 
         private void OnUnequip()
         {
-            _weaponPartsHandler.Purge();
+            _weaponPartsHandler.Unequip();
         }
     }
 }

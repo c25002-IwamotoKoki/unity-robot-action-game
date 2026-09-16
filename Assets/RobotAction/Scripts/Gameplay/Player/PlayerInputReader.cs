@@ -11,12 +11,16 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _boostAction;
         private readonly InputAction _attackAction;
         private readonly InputAction _hoverAction;
+        private readonly InputAction _equipAction;
+        private readonly InputAction _unequipAction;
 
         public Vector2 MoveDirection { get; private set; }
 
         public event Action OnBoost;
         public event Action<bool> OnAttack;
         public event Action<bool> OnHover;
+        public event Action OnEquip;
+        public event Action OnUnequip;
 
         public PlayerInputReader(PlayerInputActions inputActions)
         {
@@ -27,6 +31,8 @@ namespace RobotAction.Gameplay.Player
             _boostAction = _inputActions.Player.Boost;
             _attackAction = _inputActions.Player.Attack;
             _hoverAction = _inputActions.Player.Hover;
+            _equipAction = _inputActions.Player.Equip;
+            _unequipAction = _inputActions.Player.Unequip;
 
             _moveAction.performed += MovePerformed;
             _moveAction.canceled += MoveCanceled;
@@ -35,6 +41,8 @@ namespace RobotAction.Gameplay.Player
             _attackAction.canceled += OnAttackInputStateChanged;
             _hoverAction.started += OnHoverInputStateChanged;
             _hoverAction.canceled += OnHoverInputStateChanged;
+            _equipAction.performed += OnEquipPerformed;
+            _unequipAction.performed += OnUnEquipPerformed;
         }
 
         public void Dispose()
@@ -46,6 +54,8 @@ namespace RobotAction.Gameplay.Player
             _attackAction.canceled -= OnAttackInputStateChanged;
             _hoverAction.started -= OnHoverInputStateChanged;
             _hoverAction.canceled -= OnHoverInputStateChanged;
+            _equipAction.performed -= OnEquipPerformed;
+            _unequipAction.performed -= OnUnEquipPerformed;
             _inputActions.Disable();
             _inputActions.Dispose();
         }
@@ -73,6 +83,16 @@ namespace RobotAction.Gameplay.Player
         private void OnHoverInputStateChanged(InputAction.CallbackContext context)
         {
             OnHover?.Invoke(context.ReadValueAsButton());
+        }
+
+        private void OnEquipPerformed(InputAction.CallbackContext context)
+        {
+            OnEquip?.Invoke();
+        }
+
+        private void OnUnEquipPerformed(InputAction.CallbackContext context)
+        {
+            OnUnequip?.Invoke();
         }
 
     }

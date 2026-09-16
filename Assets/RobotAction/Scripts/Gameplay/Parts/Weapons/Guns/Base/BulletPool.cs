@@ -2,7 +2,7 @@ using RobotAction.Gameplay.ObjectPool;
 using RobotAction.Gameplay.Scriptables;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     public class BulletPool : ComponentPoolBase<BulletBase>
     {

@@ -1,6 +1,6 @@
 using RobotAction.Gameplay.Interfaces;
 using RobotAction.Gameplay.Sensors;
-using RobotAction.Gameplay.Weapons.Guns;
+using RobotAction.Gameplay.Parts.Weapons.Guns;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player

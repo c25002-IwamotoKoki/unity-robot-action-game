@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     [RequireComponent(typeof(BulletPool))]
     public abstract class MagazineBase : MonoBehaviour

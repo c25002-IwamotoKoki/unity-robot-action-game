@@ -1,4 +1,4 @@
-namespace RobotAction.Gameplay.Weapons.Guns
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     public readonly struct BulletContext
     {

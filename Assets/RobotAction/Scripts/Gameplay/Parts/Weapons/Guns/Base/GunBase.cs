@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Collider))]
     public abstract class GunBase : MonoBehaviour,IWeaponPart
     {
         public Transform Owner { get; private set; }
@@ -10,6 +12,15 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected float _fireRateTimer;
         protected bool _isShot;
+
+        private Rigidbody _rigidbody;
+        private Collider _collider;
+
+        private void Awake()
+        {
+            TryGetComponent(out _rigidbody);
+            TryGetComponent(out _collider);
+        }
 
         protected virtual void Update()
         {
@@ -30,12 +41,18 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public void Equip(Transform owner)
         {
             Owner = owner;
+            _rigidbody.isKinematic = true;
+            _collider.enabled = false;
             transform.SetParent(Owner);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
         }
 
         public void Unequip()
         {
             Owner = null;
+            _rigidbody.isKinematic = false;
+            _collider.enabled = true;
             transform.SetParent(null);
         }
 

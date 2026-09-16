@@ -129,6 +129,24 @@ namespace RobotAction.Gameplay.Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip"",
+                    ""type"": ""Button"",
+                    ""id"": ""463fab05-0709-4262-ae39-6fd99358f1b3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Unequip"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff23ddd1-ac08-430e-9f0c-d90a82238f27"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -263,6 +281,50 @@ namespace RobotAction.Gameplay.Player
                     ""action"": ""Hover"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19f809e8-a9eb-47e1-8a31-d7eff188196e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e299b98-5355-4e17-92a4-31b4c81f3587"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20d9a20b-808e-4535-ad72-648a52d3a7ff"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unequip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2c0a95f-cb0e-4263-b951-13dfd7379a71"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unequip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -275,6 +337,8 @@ namespace RobotAction.Gameplay.Player
             m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
             m_Player_Hover = m_Player.FindAction("Hover", throwIfNotFound: true);
+            m_Player_Equip = m_Player.FindAction("Equip", throwIfNotFound: true);
+            m_Player_Unequip = m_Player.FindAction("Unequip", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -359,6 +423,8 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction m_Player_Boost;
         private readonly InputAction m_Player_Attack;
         private readonly InputAction m_Player_Hover;
+        private readonly InputAction m_Player_Equip;
+        private readonly InputAction m_Player_Unequip;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -386,6 +452,14 @@ namespace RobotAction.Gameplay.Player
             /// Provides access to the underlying input action "Player/Hover".
             /// </summary>
             public InputAction @Hover => m_Wrapper.m_Player_Hover;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Equip".
+            /// </summary>
+            public InputAction @Equip => m_Wrapper.m_Player_Equip;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Unequip".
+            /// </summary>
+            public InputAction @Unequip => m_Wrapper.m_Player_Unequip;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -424,6 +498,12 @@ namespace RobotAction.Gameplay.Player
                 @Hover.started += instance.OnHover;
                 @Hover.performed += instance.OnHover;
                 @Hover.canceled += instance.OnHover;
+                @Equip.started += instance.OnEquip;
+                @Equip.performed += instance.OnEquip;
+                @Equip.canceled += instance.OnEquip;
+                @Unequip.started += instance.OnUnequip;
+                @Unequip.performed += instance.OnUnequip;
+                @Unequip.canceled += instance.OnUnequip;
             }
 
             /// <summary>
@@ -447,6 +527,12 @@ namespace RobotAction.Gameplay.Player
                 @Hover.started -= instance.OnHover;
                 @Hover.performed -= instance.OnHover;
                 @Hover.canceled -= instance.OnHover;
+                @Equip.started -= instance.OnEquip;
+                @Equip.performed -= instance.OnEquip;
+                @Equip.canceled -= instance.OnEquip;
+                @Unequip.started -= instance.OnUnequip;
+                @Unequip.performed -= instance.OnUnequip;
+                @Unequip.canceled -= instance.OnUnequip;
             }
 
             /// <summary>
@@ -515,6 +601,20 @@ namespace RobotAction.Gameplay.Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnHover(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Equip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnEquip(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Unequip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnUnequip(InputAction.CallbackContext context);
         }
     }
 }

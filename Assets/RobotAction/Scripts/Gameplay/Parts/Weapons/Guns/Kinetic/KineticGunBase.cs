@@ -12,17 +12,17 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected override float FireRate => _data.FireRate;
 
-        protected virtual void Awake()
+        protected override void OnAwake()
         {
-            if(!TryGetComponent(out _magazine))
+            if (!TryGetComponent(out _magazine))
             {
                 Debug.LogError("KineticMagazine‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B");
             }
 
-            if(_magazine == null)
+            if (_magazine == null)
             {
                 Debug.LogError("Magazine‚ªnull‚Å‚·");
-            }       
+            }
         }
 
         private void Start()

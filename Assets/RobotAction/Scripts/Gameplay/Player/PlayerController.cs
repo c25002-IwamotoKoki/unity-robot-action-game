@@ -100,9 +100,17 @@ namespace RobotAction.Gameplay.Player
         private void Boost()
         {
             Vector2 input = _inputReader.MoveDirection;
+
+            if (input == Vector2.zero)
+            {
+                return;
+            }
+
             input = input.sqrMagnitude > BoostDeadZoneSqr ? input.normalized : input;
 
-            _rigidbody.AddForce(_boostSpeed * new Vector3(input.x, 0, input.y),
+            Vector3 boostVector = transform.forward * input.y + transform.right * input.x;
+
+            _rigidbody.AddForce(_boostSpeed * boostVector,
                                 ForceMode.Impulse);
         }
 

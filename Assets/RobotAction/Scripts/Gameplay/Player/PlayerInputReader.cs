@@ -9,7 +9,8 @@ namespace RobotAction.Gameplay.Player
         private readonly PlayerInputActions _inputActions;
         private readonly InputAction _moveAction;
         private readonly InputAction _boostAction;
-        private readonly InputAction _attackAction;
+        private readonly InputAction _rightAttackAction;
+        private readonly InputAction _leftAttackAction;
         private readonly InputAction _hoverAction;
         private readonly InputAction _rightEquipAction;
         private readonly InputAction _rightUnequipAction;
@@ -19,7 +20,8 @@ namespace RobotAction.Gameplay.Player
         public Vector2 MoveDirection { get; private set; }
 
         public event Action OnBoost;
-        public event Action<bool> OnAttack;
+        public event Action<bool> OnRightAttack;
+        public event Action<bool> OnLeftAttack;
         public event Action<bool> OnHover;
         public event Action OnRightEquip;
         public event Action OnRightUnequip;
@@ -33,84 +35,101 @@ namespace RobotAction.Gameplay.Player
 
             _moveAction = _inputActions.Player.Move;
             _boostAction = _inputActions.Player.Boost;
-            _attackAction = _inputActions.Player.Attack;
             _hoverAction = _inputActions.Player.Hover;
+
+            _rightAttackAction = _inputActions.Player.RightAttack;
+            _leftAttackAction = _inputActions.Player.LeftAttack;
+
             _rightEquipAction = _inputActions.Player.RightEquip;
             _rightUnequipAction = _inputActions.Player.RightUnequip;
             _leftEquipAction = _inputActions.Player.LeftEquip;
             _leftUnequipAction = _inputActions.Player.LeftUnequip;
 
-            _moveAction.performed += MovePerformed;
-            _moveAction.canceled += MoveCanceled;
-            _boostAction.started += BoostStarted;
-            _attackAction.started += OnAttackInputStateChanged;
-            _attackAction.canceled += OnAttackInputStateChanged;
-            _hoverAction.started += OnHoverInputStateChanged;
-            _hoverAction.canceled += OnHoverInputStateChanged;
-            _rightEquipAction.performed += OnRightEquipPerformed;
-            _rightUnequipAction.performed += OnRightUnEquipPerformed;
-            _leftEquipAction.performed += OnLeftEquipPerformed;
-            _leftUnequipAction.performed += OnLeftUnequipPerformed;
+            _moveAction.performed += HandleMovePerformed;
+            _moveAction.canceled += HandleMoveCanceled;
+            _boostAction.started += HandleBoostStarted;
+            _hoverAction.started += HandleHoverInputStateChanged;
+            _hoverAction.canceled += HandleHoverInputStateChanged;
+
+            _rightAttackAction.started += HandleRightAttackInputStateChanged;
+            _rightAttackAction.canceled += HandleRightAttackInputStateChanged;
+            _leftAttackAction.started += HandleLeftAttackInputStateChange;
+            _leftAttackAction.canceled += HandleLeftAttackInputStateChange;
+           
+            _rightEquipAction.performed += HandleRightEquipPerformed;
+            _rightUnequipAction.performed += HandleRightUnEquipPerformed;
+            _leftEquipAction.performed += HandleLeftEquipPerformed;
+            _leftUnequipAction.performed += HandleLeftUnequipPerformed;       
         }
 
         public void Dispose()
         {
-            _moveAction.performed -= MovePerformed;
-            _moveAction.canceled -= MoveCanceled;
-            _boostAction.started -= BoostStarted;
-            _attackAction.started -= OnAttackInputStateChanged;
-            _attackAction.canceled -= OnAttackInputStateChanged;
-            _hoverAction.started -= OnHoverInputStateChanged;
-            _hoverAction.canceled -= OnHoverInputStateChanged;
-            _rightEquipAction.performed -= OnRightEquipPerformed;
-            _leftUnequipAction.performed -= OnRightUnEquipPerformed;
-            _leftEquipAction.performed -= OnLeftEquipPerformed;
-            _leftUnequipAction.performed -= OnLeftUnequipPerformed;
+            _moveAction.performed -= HandleMovePerformed;
+            _moveAction.canceled -= HandleMoveCanceled;
+            _boostAction.started -= HandleBoostStarted;
+            _hoverAction.started -= HandleHoverInputStateChanged;
+            _hoverAction.canceled -= HandleHoverInputStateChanged;
+
+            _rightAttackAction.started -= HandleRightAttackInputStateChanged;
+            _rightAttackAction.canceled -= HandleRightAttackInputStateChanged;
+            _leftAttackAction.started -= HandleLeftAttackInputStateChange;
+            _leftAttackAction.canceled -= HandleLeftAttackInputStateChange;
+          
+            _rightEquipAction.performed -= HandleRightEquipPerformed;
+            _rightUnequipAction.performed -= HandleRightUnEquipPerformed;
+            _leftEquipAction.performed -= HandleLeftEquipPerformed;
+            _leftUnequipAction.performed -= HandleLeftUnequipPerformed;
+
             _inputActions.Disable();
             _inputActions.Dispose();
         }
 
-        private void BoostStarted(InputAction.CallbackContext context)
+        private void HandleBoostStarted(InputAction.CallbackContext context)
         {
             OnBoost?.Invoke();
         }
 
-        private void MovePerformed(InputAction.CallbackContext context)
+        private void HandleMovePerformed(InputAction.CallbackContext context)
         {
             MoveDirection = context.ReadValue<Vector2>();
         }
 
-        private void MoveCanceled(InputAction.CallbackContext context)
+        private void HandleMoveCanceled(InputAction.CallbackContext context)
         {
             MoveDirection = Vector2.zero;
         }
 
-        private void OnAttackInputStateChanged(InputAction.CallbackContext context)
+        private void HandleRightAttackInputStateChanged(InputAction.CallbackContext context)
         {
-             OnAttack?.Invoke(context.ReadValueAsButton());
+             OnRightAttack?.Invoke(context.ReadValueAsButton());
         }
 
-        private void OnHoverInputStateChanged(InputAction.CallbackContext context)
+        public void HandleLeftAttackInputStateChange(InputAction.CallbackContext context)
+        {
+            OnLeftAttack?.Invoke(context.ReadValueAsButton());
+        }
+
+        private void HandleHoverInputStateChanged(InputAction.CallbackContext context)
         {
             OnHover?.Invoke(context.ReadValueAsButton());
         }
 
-        private void OnRightEquipPerformed(InputAction.CallbackContext context)
+        private void HandleRightEquipPerformed(InputAction.CallbackContext context)
         {
             OnRightEquip?.Invoke();
         }
 
-        private void OnRightUnEquipPerformed(InputAction.CallbackContext context)
+        private void HandleRightUnEquipPerformed(InputAction.CallbackContext context)
         {
             OnRightUnequip?.Invoke();
         }
 
-        private void OnLeftEquipPerformed(InputAction.CallbackContext context)
+        private void HandleLeftEquipPerformed(InputAction.CallbackContext context)
         {
             OnLeftEquip?.Invoke();
         }
 
-        private void OnLeftUnequipPerformed(InputAction.CallbackContext context)
+        private void HandleLeftUnequipPerformed(InputAction.CallbackContext context)
         {
             OnLeftUnequip?.Invoke();
         }

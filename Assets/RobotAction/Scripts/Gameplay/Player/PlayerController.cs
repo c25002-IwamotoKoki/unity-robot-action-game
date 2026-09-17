@@ -19,13 +19,13 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _boostMaxSpeed;
         [SerializeField] private float _maxSpeedDeceleration;
-        [SerializeField] private float _speedBoostDuration;
         [SerializeField] private float _health;
 
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
         private bool _isRightAttacking;
+        private bool _isLeftAttacking;
         private bool _isHovering;
         private bool _isBoosting;
 
@@ -41,8 +41,11 @@ namespace RobotAction.Gameplay.Player
         private void OnEnable()
         {
             _inputReader.OnBoost += HandleBoost;
-            _inputReader.OnRightAttack += HandleRightAttack;
             _inputReader.OnHover += HandleHover;
+
+            _inputReader.OnRightAttack += HandleRightAttack;
+            _inputReader.OnLeftAttack += HandleLeftAttack;
+
             _inputReader.OnRightEquip += HandleRightEquip;
             _inputReader.OnRightUnequip += HandleRightUnequip;
             _inputReader.OnLeftEquip += HandleLeftEquip;
@@ -92,17 +95,26 @@ namespace RobotAction.Gameplay.Player
             {
                 _rightWeaponHandler.Attack();
             }
+
+            if(_isLeftAttacking)
+            {
+                _leftWeaponHandler.Attack();
+            }
         }
 
         private void OnDisable()
         {
             _inputReader.OnBoost -= HandleBoost;
-            _inputReader.OnRightAttack -= HandleRightAttack;
             _inputReader.OnHover -= HandleHover;
+
+            _inputReader.OnRightAttack -= HandleRightAttack;
+            _inputReader.OnLeftAttack -= HandleLeftAttack;
+
             _inputReader.OnRightEquip -= HandleRightEquip;
             _inputReader.OnRightUnequip -= HandleRightUnequip;
             _inputReader.OnLeftEquip -= HandleLeftEquip;
             _inputReader.OnLeftUnequip -= HandleLeftUnequip;
+
             _inputReader.Dispose();
         }
 
@@ -137,9 +149,14 @@ namespace RobotAction.Gameplay.Player
             _isBoosting = true;
         }
 
-        private void HandleRightAttack(bool isShootActive)
+        private void HandleRightAttack(bool isAttacking)
         {
-            _isRightAttacking = isShootActive;          
+            _isRightAttacking = isAttacking;          
+        }
+
+        private void HandleLeftAttack(bool isAttacking)
+        {
+            _isLeftAttacking = isAttacking;
         }
 
         private void HandleHover(bool isHovering)

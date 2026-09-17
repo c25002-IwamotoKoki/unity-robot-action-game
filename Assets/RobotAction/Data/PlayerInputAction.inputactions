@@ -25,9 +25,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "RightAttack",
                     "type": "Button",
                     "id": "4ba399de-db32-48b5-816b-84f9430a60ea",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftAttack",
+                    "type": "Button",
+                    "id": "a13c027c-cb78-47c2-bc99-90da3334d49b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -43,7 +52,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Equip",
+                    "name": "RightEquip",
                     "type": "Button",
                     "id": "463fab05-0709-4262-ae39-6fd99358f1b3",
                     "expectedControlType": "",
@@ -52,9 +61,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Unequip",
+                    "name": "RightUnequip",
                     "type": "Button",
                     "id": "ff23ddd1-ac08-430e-9f0c-d90a82238f27",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftEquip",
+                    "type": "Button",
+                    "id": "e0358049-66b4-4f6a-8e39-a9a31e6f176a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftUnequip",
+                    "type": "Button",
+                    "id": "a4615589-b545-4f18-85cf-a7fc8b53297e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -157,7 +184,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "RightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -168,7 +195,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "RightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -197,11 +224,11 @@
                 {
                     "name": "",
                     "id": "19f809e8-a9eb-47e1-8a31-d7eff188196e",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "Equip",
+                    "action": "RightEquip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -212,18 +239,18 @@
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "Equip",
+                    "action": "RightEquip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "20d9a20b-808e-4535-ad72-648a52d3a7ff",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "Unequip",
+                    "action": "RightUnequip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -234,7 +261,73 @@
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "Unequip",
+                    "action": "RightUnequip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2aec8fea-af68-4137-a9e5-d74af39d8828",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftEquip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c9d9b05-aa0e-4138-bb7d-86837d6721d7",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftEquip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a96d3e4b-4b9a-4e1e-80ba-165ffab3dcdc",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftUnequip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33f5c1f3-67a0-483a-952d-a778a6c5017b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftUnequip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32acec54-b5e9-40aa-99a7-57da15006098",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35349a8b-beae-4bac-bb4c-5fb87f7f760e",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

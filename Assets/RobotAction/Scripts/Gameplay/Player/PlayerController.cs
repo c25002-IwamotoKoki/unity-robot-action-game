@@ -1,6 +1,5 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Sensors;
-using RobotAction.Gameplay.Parts.Weapons.Guns;
 using UnityEngine;
 using RobotAction.Gameplay.Parts.Weapons;
 
@@ -12,7 +11,8 @@ namespace RobotAction.Gameplay.Player
 
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
-        [SerializeField] private WeaponPartsHandler _rightWeaponPartsHandler;
+        [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
+        [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _hoverSpeed;
         [SerializeField] private float _defaultMaxSpeed;
@@ -45,6 +45,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnHover += OnHover;
             _inputReader.OnRightEquip += OnRightEquip;
             _inputReader.OnRightUnequip += OnRightUnequip;
+            _inputReader.OnLeftEquip += OnLeftEquip;
+            _inputReader.OnLeftUnequip += OnLeftUnequip;
         }
 
         private void FixedUpdate()
@@ -80,7 +82,6 @@ namespace RobotAction.Gameplay.Player
                     _isBoosting = false;
                 }
             }
-
         }
 
         private void Update()
@@ -89,7 +90,7 @@ namespace RobotAction.Gameplay.Player
 
             if(_isAttacking)
             {
-                _rightWeaponPartsHandler.Attack();
+                _rightWeaponHandler.Attack();
             }
         }
 
@@ -100,6 +101,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnHover -= OnHover;
             _inputReader.OnRightEquip -= OnRightEquip;
             _inputReader.OnRightUnequip -= OnRightUnequip;
+            _inputReader.OnLeftEquip -= OnLeftEquip;
+            _inputReader.OnLeftUnequip -= OnLeftUnequip;
             _inputReader.Dispose();
         }
 
@@ -146,12 +149,22 @@ namespace RobotAction.Gameplay.Player
 
         private void OnRightEquip()
         {
-            _rightWeaponPartsHandler.TryPickUpNearlyWeapon();
+            _rightWeaponHandler.TryPickUpNearlyWeapon();
         }
 
         private void OnRightUnequip()
         {
-            _rightWeaponPartsHandler.Unequip();
+            _rightWeaponHandler.Unequip();
+        }
+
+        public void OnLeftEquip()
+        {
+            _leftWeaponHandler.TryPickUpNearlyWeapon();
+        }
+
+        public void OnLeftUnequip()
+        {
+            _leftWeaponHandler.Unequip();
         }
     }
 }

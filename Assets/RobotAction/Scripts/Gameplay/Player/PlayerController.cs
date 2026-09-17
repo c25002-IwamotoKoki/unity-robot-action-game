@@ -15,6 +15,7 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private WeaponPartsHandler _weaponPartsHandler;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _hoverSpeed;
+        [SerializeField] private float _maxLinearSpeed;
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _health;
 
@@ -29,6 +30,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader = new PlayerInputReader(new PlayerInputActions());
             _targetBuffer = new TargetBuffer();
             _autoLockSensor = new(_autoLockSensorData,_targetBuffer);
+
+            _rigidbody.maxLinearVelocity = _maxLinearSpeed;
         }
 
         private void OnEnable()

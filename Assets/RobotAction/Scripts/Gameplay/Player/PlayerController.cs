@@ -12,7 +12,7 @@ namespace RobotAction.Gameplay.Player
 
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
-        [SerializeField] private WeaponPartsHandler _weaponPartsHandler;
+        [SerializeField] private WeaponPartsHandler _rightWeaponPartsHandler;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _hoverSpeed;
         [SerializeField] private float _defaultMaxSpeed;
@@ -43,8 +43,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnBoost += OnBoost;
             _inputReader.OnAttack += ShootGun;
             _inputReader.OnHover += OnHover;
-            _inputReader.OnEquip += OnEquip;
-            _inputReader.OnUnequip += OnUnequip;
+            _inputReader.OnEquip += OnRightEquip;
+            _inputReader.OnUnequip += OnRightUnequip;
         }
 
         private void FixedUpdate()
@@ -89,7 +89,7 @@ namespace RobotAction.Gameplay.Player
 
             if(_isAttacking)
             {
-                _weaponPartsHandler.Attack();
+                _rightWeaponPartsHandler.Attack();
             }
         }
 
@@ -98,8 +98,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnBoost -= OnBoost;
             _inputReader.OnAttack -= ShootGun;
             _inputReader.OnHover -= OnHover;
-            _inputReader.OnEquip -= OnEquip;
-            _inputReader.OnUnequip -= OnUnequip;
+            _inputReader.OnEquip -= OnRightEquip;
+            _inputReader.OnUnequip -= OnRightUnequip;
             _inputReader.Dispose();
         }
 
@@ -144,14 +144,14 @@ namespace RobotAction.Gameplay.Player
             _isHovering = isHovering;
         }
 
-        private void OnEquip()
+        private void OnRightEquip()
         {
-            _weaponPartsHandler.TryPickUpNearlyWeapon();
+            _rightWeaponPartsHandler.TryPickUpNearlyWeapon();
         }
 
-        private void OnUnequip()
+        private void OnRightUnequip()
         {
-            _weaponPartsHandler.Unequip();
+            _rightWeaponPartsHandler.Unequip();
         }
     }
 }

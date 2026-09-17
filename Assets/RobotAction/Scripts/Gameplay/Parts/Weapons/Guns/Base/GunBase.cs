@@ -21,6 +21,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             TryGetComponent(out _rigidbody);
             TryGetComponent(out _collider);
 
+            if(transform.root != transform)
+            {
+                Owner = transform.root;
+            }
+
             OnAwake();
         }
 

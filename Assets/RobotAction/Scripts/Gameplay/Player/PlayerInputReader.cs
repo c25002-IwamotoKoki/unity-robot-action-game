@@ -31,8 +31,8 @@ namespace RobotAction.Gameplay.Player
             _boostAction = _inputActions.Player.Boost;
             _attackAction = _inputActions.Player.Attack;
             _hoverAction = _inputActions.Player.Hover;
-            _equipAction = _inputActions.Player.Equip;
-            _unequipAction = _inputActions.Player.Unequip;
+            _equipAction = _inputActions.Player.RightEquip;
+            _unequipAction = _inputActions.Player.RightUnequip;
 
             _moveAction.performed += MovePerformed;
             _moveAction.canceled += MoveCanceled;

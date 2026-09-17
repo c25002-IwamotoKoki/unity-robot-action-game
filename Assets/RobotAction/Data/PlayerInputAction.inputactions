@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Equip",
+                    "name": "RightEquip",
                     "type": "Button",
                     "id": "463fab05-0709-4262-ae39-6fd99358f1b3",
                     "expectedControlType": "",
@@ -52,7 +52,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Unequip",
+                    "name": "RightUnequip",
                     "type": "Button",
                     "id": "ff23ddd1-ac08-430e-9f0c-d90a82238f27",
                     "expectedControlType": "",
@@ -197,11 +197,11 @@
                 {
                     "name": "",
                     "id": "19f809e8-a9eb-47e1-8a31-d7eff188196e",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "Equip",
+                    "action": "RightEquip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -212,18 +212,18 @@
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "Equip",
+                    "action": "RightEquip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "20d9a20b-808e-4535-ad72-648a52d3a7ff",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "Unequip",
+                    "action": "RightUnequip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -234,7 +234,7 @@
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "Unequip",
+                    "action": "RightUnequip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

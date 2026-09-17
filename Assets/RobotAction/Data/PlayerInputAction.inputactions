@@ -25,9 +25,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "RightAttack",
                     "type": "Button",
                     "id": "4ba399de-db32-48b5-816b-84f9430a60ea",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftAttack",
+                    "type": "Button",
+                    "id": "a13c027c-cb78-47c2-bc99-90da3334d49b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -175,7 +184,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "RightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -186,7 +195,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "RightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -297,6 +306,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftUnequip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32acec54-b5e9-40aa-99a7-57da15006098",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35349a8b-beae-4bac-bb4c-5fb87f7f760e",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

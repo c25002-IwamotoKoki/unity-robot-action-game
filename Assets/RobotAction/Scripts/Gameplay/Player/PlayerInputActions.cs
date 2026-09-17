@@ -113,9 +113,18 @@ namespace RobotAction.Gameplay.Player
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""RightAttack"",
                     ""type"": ""Button"",
                     ""id"": ""4ba399de-db32-48b5-816b-84f9430a60ea"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a13c027c-cb78-47c2-bc99-90da3334d49b"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -263,7 +272,7 @@ namespace RobotAction.Gameplay.Player
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""RightAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -274,7 +283,7 @@ namespace RobotAction.Gameplay.Player
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""RightAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -387,6 +396,28 @@ namespace RobotAction.Gameplay.Player
                     ""action"": ""LeftUnequip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32acec54-b5e9-40aa-99a7-57da15006098"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35349a8b-beae-4bac-bb4c-5fb87f7f760e"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -397,7 +428,8 @@ namespace RobotAction.Gameplay.Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
-            m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+            m_Player_RightAttack = m_Player.FindAction("RightAttack", throwIfNotFound: true);
+            m_Player_LeftAttack = m_Player.FindAction("LeftAttack", throwIfNotFound: true);
             m_Player_Hover = m_Player.FindAction("Hover", throwIfNotFound: true);
             m_Player_RightEquip = m_Player.FindAction("RightEquip", throwIfNotFound: true);
             m_Player_RightUnequip = m_Player.FindAction("RightUnequip", throwIfNotFound: true);
@@ -485,7 +517,8 @@ namespace RobotAction.Gameplay.Player
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Boost;
-        private readonly InputAction m_Player_Attack;
+        private readonly InputAction m_Player_RightAttack;
+        private readonly InputAction m_Player_LeftAttack;
         private readonly InputAction m_Player_Hover;
         private readonly InputAction m_Player_RightEquip;
         private readonly InputAction m_Player_RightUnequip;
@@ -511,9 +544,13 @@ namespace RobotAction.Gameplay.Player
             /// </summary>
             public InputAction @Boost => m_Wrapper.m_Player_Boost;
             /// <summary>
-            /// Provides access to the underlying input action "Player/Attack".
+            /// Provides access to the underlying input action "Player/RightAttack".
             /// </summary>
-            public InputAction @Attack => m_Wrapper.m_Player_Attack;
+            public InputAction @RightAttack => m_Wrapper.m_Player_RightAttack;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/LeftAttack".
+            /// </summary>
+            public InputAction @LeftAttack => m_Wrapper.m_Player_LeftAttack;
             /// <summary>
             /// Provides access to the underlying input action "Player/Hover".
             /// </summary>
@@ -566,9 +603,12 @@ namespace RobotAction.Gameplay.Player
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
+                @RightAttack.started += instance.OnRightAttack;
+                @RightAttack.performed += instance.OnRightAttack;
+                @RightAttack.canceled += instance.OnRightAttack;
+                @LeftAttack.started += instance.OnLeftAttack;
+                @LeftAttack.performed += instance.OnLeftAttack;
+                @LeftAttack.canceled += instance.OnLeftAttack;
                 @Hover.started += instance.OnHover;
                 @Hover.performed += instance.OnHover;
                 @Hover.canceled += instance.OnHover;
@@ -601,9 +641,12 @@ namespace RobotAction.Gameplay.Player
                 @Boost.started -= instance.OnBoost;
                 @Boost.performed -= instance.OnBoost;
                 @Boost.canceled -= instance.OnBoost;
-                @Attack.started -= instance.OnAttack;
-                @Attack.performed -= instance.OnAttack;
-                @Attack.canceled -= instance.OnAttack;
+                @RightAttack.started -= instance.OnRightAttack;
+                @RightAttack.performed -= instance.OnRightAttack;
+                @RightAttack.canceled -= instance.OnRightAttack;
+                @LeftAttack.started -= instance.OnLeftAttack;
+                @LeftAttack.performed -= instance.OnLeftAttack;
+                @LeftAttack.canceled -= instance.OnLeftAttack;
                 @Hover.started -= instance.OnHover;
                 @Hover.performed -= instance.OnHover;
                 @Hover.canceled -= instance.OnHover;
@@ -674,12 +717,19 @@ namespace RobotAction.Gameplay.Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnBoost(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "RightAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnAttack(InputAction.CallbackContext context);
+            void OnRightAttack(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "LeftAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnLeftAttack(InputAction.CallbackContext context);
             /// <summary>
             /// Method invoked when associated input action "Hover" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>

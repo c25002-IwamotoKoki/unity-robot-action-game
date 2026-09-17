@@ -41,7 +41,7 @@ namespace RobotAction.Gameplay.Player
         private void OnEnable()
         {
             _inputReader.OnBoost += HandleBoost;
-            _inputReader.OnAttack += HandleRightAttack;
+            _inputReader.OnRightAttack += HandleRightAttack;
             _inputReader.OnHover += HandleHover;
             _inputReader.OnRightEquip += HandleRightEquip;
             _inputReader.OnRightUnequip += HandleRightUnequip;
@@ -97,7 +97,7 @@ namespace RobotAction.Gameplay.Player
         private void OnDisable()
         {
             _inputReader.OnBoost -= HandleBoost;
-            _inputReader.OnAttack -= HandleRightAttack;
+            _inputReader.OnRightAttack -= HandleRightAttack;
             _inputReader.OnHover -= HandleHover;
             _inputReader.OnRightEquip -= HandleRightEquip;
             _inputReader.OnRightUnequip -= HandleRightUnequip;

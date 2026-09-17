@@ -1,7 +1,7 @@
 using RobotAction.Gameplay.Combat;
+using RobotAction.Gameplay.Parts.Weapons;
 using RobotAction.Gameplay.Sensors;
 using UnityEngine;
-using RobotAction.Gameplay.Parts.Weapons;
 
 namespace RobotAction.Gameplay.Player
 {
@@ -25,7 +25,7 @@ namespace RobotAction.Gameplay.Player
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
-        private bool _isAttacking;
+        private bool _isRightAttacking;
         private bool _isHovering;
         private bool _isBoosting;
 
@@ -40,13 +40,13 @@ namespace RobotAction.Gameplay.Player
 
         private void OnEnable()
         {
-            _inputReader.OnBoost += OnBoost;
-            _inputReader.OnAttack += ShootGun;
-            _inputReader.OnHover += OnHover;
-            _inputReader.OnRightEquip += OnRightEquip;
-            _inputReader.OnRightUnequip += OnRightUnequip;
-            _inputReader.OnLeftEquip += OnLeftEquip;
-            _inputReader.OnLeftUnequip += OnLeftUnequip;
+            _inputReader.OnBoost += HandleBoost;
+            _inputReader.OnAttack += HandleRightAttack;
+            _inputReader.OnHover += HandleHover;
+            _inputReader.OnRightEquip += HandleRightEquip;
+            _inputReader.OnRightUnequip += HandleRightUnequip;
+            _inputReader.OnLeftEquip += HandleLeftEquip;
+            _inputReader.OnLeftUnequip += HandleLeftUnequip;
         }
 
         private void FixedUpdate()
@@ -88,7 +88,7 @@ namespace RobotAction.Gameplay.Player
         {
             _autoLockSensor?.Tick(Time.deltaTime,transform.position);
 
-            if(_isAttacking)
+            if(_isRightAttacking)
             {
                 _rightWeaponHandler.Attack();
             }
@@ -96,13 +96,13 @@ namespace RobotAction.Gameplay.Player
 
         private void OnDisable()
         {
-            _inputReader.OnBoost -= OnBoost;
-            _inputReader.OnAttack -= ShootGun;
-            _inputReader.OnHover -= OnHover;
-            _inputReader.OnRightEquip -= OnRightEquip;
-            _inputReader.OnRightUnequip -= OnRightUnequip;
-            _inputReader.OnLeftEquip -= OnLeftEquip;
-            _inputReader.OnLeftUnequip -= OnLeftUnequip;
+            _inputReader.OnBoost -= HandleBoost;
+            _inputReader.OnAttack -= HandleRightAttack;
+            _inputReader.OnHover -= HandleHover;
+            _inputReader.OnRightEquip -= HandleRightEquip;
+            _inputReader.OnRightUnequip -= HandleRightUnequip;
+            _inputReader.OnLeftEquip -= HandleLeftEquip;
+            _inputReader.OnLeftUnequip -= HandleLeftUnequip;
             _inputReader.Dispose();
         }
 
@@ -111,7 +111,7 @@ namespace RobotAction.Gameplay.Player
             _health -= damage;
         }
 
-        private void OnBoost()
+        private void HandleBoost()
         {
             Boost();
         }
@@ -137,32 +137,32 @@ namespace RobotAction.Gameplay.Player
             _isBoosting = true;
         }
 
-        private void ShootGun(bool isShootActive)
+        private void HandleRightAttack(bool isShootActive)
         {
-            _isAttacking = isShootActive;          
+            _isRightAttacking = isShootActive;          
         }
 
-        private void OnHover(bool isHovering)
+        private void HandleHover(bool isHovering)
         {
             _isHovering = isHovering;
         }
 
-        private void OnRightEquip()
+        private void HandleRightEquip()
         {
             _rightWeaponHandler.TryPickUpNearlyWeapon();
         }
 
-        private void OnRightUnequip()
+        private void HandleRightUnequip()
         {
             _rightWeaponHandler.Unequip();
         }
 
-        public void OnLeftEquip()
+        public void HandleLeftEquip()
         {
             _leftWeaponHandler.TryPickUpNearlyWeapon();
         }
 
-        public void OnLeftUnequip()
+        public void HandleLeftUnequip()
         {
             _leftWeaponHandler.Unequip();
         }

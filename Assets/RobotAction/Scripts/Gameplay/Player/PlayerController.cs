@@ -15,8 +15,11 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private WeaponPartsHandler _weaponPartsHandler;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _hoverSpeed;
-        [SerializeField] private float _maxLinearSpeed;
+        [SerializeField] private float _defaultMaxSpeed;
         [SerializeField] private float _boostSpeed;
+        [SerializeField] private float _boostMaxSpeed;
+        [SerializeField] private float _maxSpeedDeceleration;
+        [SerializeField] private float _speedBoostDuration;
         [SerializeField] private float _health;
 
         private PlayerInputReader _inputReader;
@@ -24,6 +27,7 @@ namespace RobotAction.Gameplay.Player
         private AutoLockSensor _autoLockSensor;
         private bool _isAttacking;
         private bool _isHovering;
+        private bool _isBoosting;
 
         private void Awake()
         {
@@ -31,7 +35,7 @@ namespace RobotAction.Gameplay.Player
             _targetBuffer = new TargetBuffer();
             _autoLockSensor = new(_autoLockSensorData,_targetBuffer);
 
-            _rigidbody.maxLinearVelocity = _maxLinearSpeed;
+            _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
         }
 
         private void OnEnable()
@@ -63,6 +67,18 @@ namespace RobotAction.Gameplay.Player
             {
                 _rigidbody.AddForce(transform.up * _hoverSpeed,
                                     ForceMode.Force);
+            }
+
+            if (_isBoosting)
+            {
+                _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
+                                                                 _defaultMaxSpeed,
+                                                                 _maxSpeedDeceleration * Time.fixedDeltaTime);
+
+                if (_rigidbody.maxLinearVelocity == _defaultMaxSpeed)
+                {
+                    _isBoosting = false;
+                }
             }
 
         }
@@ -106,12 +122,16 @@ namespace RobotAction.Gameplay.Player
                 return;
             }
 
+            _rigidbody.maxLinearVelocity = _boostMaxSpeed;
+
             input = input.sqrMagnitude > BoostDeadZoneSqr ? input.normalized : input;
 
             Vector3 boostVector = transform.forward * input.y + transform.right * input.x;
 
             _rigidbody.AddForce(_boostSpeed * boostVector,
                                 ForceMode.Impulse);
+
+            _isBoosting = true;
         }
 
         private void ShootGun(bool isShootActive)

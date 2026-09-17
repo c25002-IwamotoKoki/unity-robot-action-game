@@ -11,16 +11,20 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _boostAction;
         private readonly InputAction _attackAction;
         private readonly InputAction _hoverAction;
-        private readonly InputAction _equipAction;
-        private readonly InputAction _unequipAction;
+        private readonly InputAction _rightEquipAction;
+        private readonly InputAction _rightUnequipAction;
+        private readonly InputAction _leftEquipAction;
+        private readonly InputAction _leftUnequipAction;
 
         public Vector2 MoveDirection { get; private set; }
 
         public event Action OnBoost;
         public event Action<bool> OnAttack;
         public event Action<bool> OnHover;
-        public event Action OnEquip;
-        public event Action OnUnequip;
+        public event Action OnRightEquip;
+        public event Action OnRightUnequip;
+        public event Action OnLeftEquip;
+        public event Action OnLeftUnequip;
 
         public PlayerInputReader(PlayerInputActions inputActions)
         {
@@ -31,8 +35,10 @@ namespace RobotAction.Gameplay.Player
             _boostAction = _inputActions.Player.Boost;
             _attackAction = _inputActions.Player.Attack;
             _hoverAction = _inputActions.Player.Hover;
-            _equipAction = _inputActions.Player.RightEquip;
-            _unequipAction = _inputActions.Player.RightUnequip;
+            _rightEquipAction = _inputActions.Player.RightEquip;
+            _rightUnequipAction = _inputActions.Player.RightUnequip;
+            _leftEquipAction = _inputActions.Player.LeftEquip;
+            _leftUnequipAction = _inputActions.Player.LeftUnequip;
 
             _moveAction.performed += MovePerformed;
             _moveAction.canceled += MoveCanceled;
@@ -41,8 +47,10 @@ namespace RobotAction.Gameplay.Player
             _attackAction.canceled += OnAttackInputStateChanged;
             _hoverAction.started += OnHoverInputStateChanged;
             _hoverAction.canceled += OnHoverInputStateChanged;
-            _equipAction.performed += OnEquipPerformed;
-            _unequipAction.performed += OnUnEquipPerformed;
+            _rightEquipAction.performed += OnRightEquipPerformed;
+            _rightUnequipAction.performed += OnRightUnEquipPerformed;
+            _leftEquipAction.performed += OnLeftEquipPerformed;
+            _leftUnequipAction.performed += OnLeftUnequipPerformed;
         }
 
         public void Dispose()
@@ -54,8 +62,10 @@ namespace RobotAction.Gameplay.Player
             _attackAction.canceled -= OnAttackInputStateChanged;
             _hoverAction.started -= OnHoverInputStateChanged;
             _hoverAction.canceled -= OnHoverInputStateChanged;
-            _equipAction.performed -= OnEquipPerformed;
-            _unequipAction.performed -= OnUnEquipPerformed;
+            _rightEquipAction.performed -= OnRightEquipPerformed;
+            _leftUnequipAction.performed -= OnRightUnEquipPerformed;
+            _leftEquipAction.performed -= OnLeftEquipPerformed;
+            _leftUnequipAction.performed -= OnLeftUnequipPerformed;
             _inputActions.Disable();
             _inputActions.Dispose();
         }
@@ -85,15 +95,24 @@ namespace RobotAction.Gameplay.Player
             OnHover?.Invoke(context.ReadValueAsButton());
         }
 
-        private void OnEquipPerformed(InputAction.CallbackContext context)
+        private void OnRightEquipPerformed(InputAction.CallbackContext context)
         {
-            OnEquip?.Invoke();
+            OnRightEquip?.Invoke();
         }
 
-        private void OnUnEquipPerformed(InputAction.CallbackContext context)
+        private void OnRightUnEquipPerformed(InputAction.CallbackContext context)
         {
-            OnUnequip?.Invoke();
+            OnRightUnequip?.Invoke();
         }
 
+        private void OnLeftEquipPerformed(InputAction.CallbackContext context)
+        {
+            OnLeftEquip?.Invoke();
+        }
+
+        private void OnLeftUnequipPerformed(InputAction.CallbackContext context)
+        {
+            OnLeftUnequip?.Invoke();
+        }
     }
 }

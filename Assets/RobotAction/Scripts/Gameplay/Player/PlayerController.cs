@@ -43,8 +43,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnBoost += OnBoost;
             _inputReader.OnAttack += ShootGun;
             _inputReader.OnHover += OnHover;
-            _inputReader.OnEquip += OnRightEquip;
-            _inputReader.OnUnequip += OnRightUnequip;
+            _inputReader.OnRightEquip += OnRightEquip;
+            _inputReader.OnRightUnequip += OnRightUnequip;
         }
 
         private void FixedUpdate()
@@ -98,8 +98,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnBoost -= OnBoost;
             _inputReader.OnAttack -= ShootGun;
             _inputReader.OnHover -= OnHover;
-            _inputReader.OnEquip -= OnRightEquip;
-            _inputReader.OnUnequip -= OnRightUnequip;
+            _inputReader.OnRightEquip -= OnRightEquip;
+            _inputReader.OnRightUnequip -= OnRightUnequip;
             _inputReader.Dispose();
         }
 

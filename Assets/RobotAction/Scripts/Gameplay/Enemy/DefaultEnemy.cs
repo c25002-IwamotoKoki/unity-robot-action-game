@@ -13,7 +13,7 @@ namespace RobotAction.Gameplay.Enemy
             base.Awake();
         }
 
-        private void Update()
+        protected override void Update()
         {
             var attackContext = new EnemyAttackContext(_targetTransform, 
                                                        _data.BaseAttackPower);

@@ -15,7 +15,17 @@ namespace RobotAction.Gameplay.Parts.Weapons
         private void Awake()
         {
             _detectedColliders = new Collider[_maxWeaponSarch];
-            _detectedWeaponParts = new(_maxWeaponSarch);
+            _detectedWeaponParts = new(_maxWeaponSarch);      
+        }
+
+        private void Start()
+        {
+            IWeaponPart weapon = GetComponentInChildren<IWeaponPart>();
+
+            if(weapon != null)
+            {
+                Equip(weapon);
+            }
         }
 
         public bool TryPickUpNearlyWeapon()

@@ -13,11 +13,11 @@ namespace RobotAction.Gameplay.Enemy
             base.Awake();
         }
 
-        protected override void Update()
+        public override void Attack()
         {
-            var attackContext = new EnemyAttackContext(_targetTransform, 
+            var attackContext = new EnemyAttackContext(_targetTransform,
                                                        _data.BaseAttackPower);
-            _attackModule.Attack(attackContext);
+            _attackModule?.Attack(attackContext);
         }
 
     }

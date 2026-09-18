@@ -15,7 +15,8 @@ namespace RobotAction.Gameplay.Enemy
 
         public override void Attack()
         {
-
+            _rightWeaponHandler.Attack();
+            _leftWeaponHandler.Attack();
         }
 
     }

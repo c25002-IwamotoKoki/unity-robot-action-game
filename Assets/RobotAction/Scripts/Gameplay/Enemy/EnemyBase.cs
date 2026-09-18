@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Player;
 using RobotAction.Gameplay.Scriptables;
@@ -9,16 +8,31 @@ namespace RobotAction.Gameplay.Enemy
     public abstract class EnemyBase : MonoBehaviour, IDamageable
     {
         [SerializeField] protected EnemyData _data;
-        [SerializeField] private Blackboard _blackboard;
-        private float _currentHealth;
+
         [SerializeField] private EnemySearchData _searchData;
+
+        private float _currentHealth;
+        private StateMachine _stateMachine;
+        private Blackboard _blackboard;
+        private PatrolState _patrolState;
         private Collider[] _detectedColliders;
+
+        public PatrolState PatrolState => _patrolState;
+
 
         protected virtual void Awake()
         {
             _currentHealth = _data.MaxHealth;
             _detectedColliders = new Collider[_searchData.MaxSearchCount];
             _blackboard = new Blackboard();
+            _stateMachine = new StateMachine(this, _blackboard);
+            _patrolState = new PatrolState(_stateMachine, this, _blackboard);
+            _stateMachine.Initialize(_patrolState);
+        }
+
+        protected virtual void Update()
+        {
+            _stateMachine.Tick();
         }
 
         public void GetDamage(float damage)

@@ -19,6 +19,7 @@ namespace RobotAction.Gameplay.Enemy
         private Collider[] _detectedColliders;
 
         public PatrolState PatrolState => _patrolState;
+        public AttackState AttackState => _attackState;
 
 
         protected virtual void Awake()

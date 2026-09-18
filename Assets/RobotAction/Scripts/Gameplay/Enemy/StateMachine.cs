@@ -6,15 +6,15 @@ namespace RobotAction.Gameplay.Enemy
     public class StateMachine
     {
         private readonly EnemyBase _owner;
-        private readonly BlackBoard _blackBoard;
+        private readonly Blackboard _blackboard;
         private StateBase _currentState;
         private WaitForSeconds _thinkIntetrvalWait;
 
-        public StateMachine(EnemyBase owner,BlackBoard blackBoard)
+        public StateMachine(EnemyBase owner,Blackboard blackBoard)
         {
             _owner = owner;
-            _blackBoard = blackBoard;
-            _thinkIntetrvalWait = new WaitForSeconds(_blackBoard.ThinkInterval);
+            _blackboard = blackBoard;
+            _thinkIntetrvalWait = new WaitForSeconds(_blackboard.ThinkInterval);
         }
 
         public void Initialize(StateBase initialState)
@@ -22,7 +22,7 @@ namespace RobotAction.Gameplay.Enemy
             _currentState = initialState;
             _currentState?.Enter();
 
-            _blackBoard.IsThinking = true;
+            _blackboard.IsThinking = true;
             _owner.StartCoroutine(ThinkFlow());
         }
 
@@ -40,7 +40,7 @@ namespace RobotAction.Gameplay.Enemy
 
         private IEnumerator ThinkFlow()
         {
-            while(_blackBoard.IsThinking)
+            while(_blackboard.IsThinking)
             {
                 _currentState?.Think();
                 yield return _thinkIntetrvalWait;

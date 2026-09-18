@@ -4,15 +4,15 @@ namespace RobotAction.Gameplay.Enemy
     {
         protected readonly StateMachine _ownerMachine;
         protected readonly EnemyBase _ownerEnemy;
-        protected readonly BlackBoard _blackBoard;
+        protected readonly Blackboard _blackboard;
 
         protected StateBase(StateMachine ownerMachine,
                             EnemyBase ownerEnemy,
-                            BlackBoard blackBoard)
+                            Blackboard blackBoard)
         {
             _ownerMachine = ownerMachine;
             _ownerEnemy = ownerEnemy;
-            _blackBoard = blackBoard;
+            _blackboard = blackBoard;
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace RobotAction.Gameplay.Enemy
             }
         }
 
-        public override void Think()
+        public override void OnPeriodicTick()
         {
             if (_blackboard.Target == null)
             {

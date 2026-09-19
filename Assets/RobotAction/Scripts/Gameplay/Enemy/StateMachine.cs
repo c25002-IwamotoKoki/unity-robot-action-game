@@ -8,13 +8,13 @@ namespace RobotAction.Gameplay.Enemy
         private readonly EnemyBase _owner;
         private readonly Blackboard _blackboard;
         private StateBase _currentState;
-        private WaitForSeconds _thinkIntetrvalWait;
+        private WaitForSeconds _periodicTickWait;
 
         public StateMachine(EnemyBase owner,Blackboard blackBoard)
         {
             _owner = owner;
             _blackboard = blackBoard;
-            _thinkIntetrvalWait = new WaitForSeconds(_blackboard.ThinkInterval);
+            _periodicTickWait = new WaitForSeconds(_blackboard.ThinkInterval);
         }
 
         public void Initialize(StateBase initialState)
@@ -22,8 +22,8 @@ namespace RobotAction.Gameplay.Enemy
             _currentState = initialState;
             _currentState?.Enter();
 
-            _blackboard.IsThinking = true;
-            _owner.StartCoroutine(ThinkFlow());
+            _blackboard.IsPeriodicTickActive = true;
+            _owner.StartCoroutine(PeriodicTickRoutine());
         }
 
         public void ChangeState(StateBase newState)
@@ -38,12 +38,12 @@ namespace RobotAction.Gameplay.Enemy
             _currentState?.OnTick();
         }
 
-        private IEnumerator ThinkFlow()
+        private IEnumerator PeriodicTickRoutine()
         {
-            while(_blackboard.IsThinking)
+            while(_blackboard.IsPeriodicTickActive)
             {
-                _currentState?.Think();
-                yield return _thinkIntetrvalWait;
+                _currentState?.OnPeriodicTick();
+                yield return _periodicTickWait;
             }
 
             yield break;

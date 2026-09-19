@@ -16,10 +16,12 @@ namespace RobotAction.Gameplay.Enemy
         }
 
         /// <summary>
-        /// 状態遷移の判定ロジック
-        /// <br/>各Stateで適した処理を実装する
+        /// 毎フレーム実行すると重い処理を書くための場所
         /// </summary>
-        public abstract void Think();
+        public virtual void OnPeriodicTick()
+        {
+
+        }
 
         public virtual void Enter()
         {

@@ -17,7 +17,7 @@ namespace RobotAction.Gameplay.Enemy
 
         }
 
-        public override void Think()
+        public override void OnPeriodicTick()
         {
             _toTargetDirection = (_blackboard.Target.position- 
                               _ownerEnemy.transform.position).normalized;

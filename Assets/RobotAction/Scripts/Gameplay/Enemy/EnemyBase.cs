@@ -16,10 +16,12 @@ namespace RobotAction.Gameplay.Enemy
         private Blackboard _blackboard;
         private PatrolState _patrolState;
         private AttackState _attackState;
+        private ChaseState _moveState;
         private Collider[] _detectedColliders;
 
         public PatrolState PatrolState => _patrolState;
         public AttackState AttackState => _attackState;
+        public ChaseState MoveState => _moveState;
 
 
         protected virtual void Awake()
@@ -30,6 +32,7 @@ namespace RobotAction.Gameplay.Enemy
             _stateMachine = new StateMachine(this, _blackboard);
             _patrolState = new PatrolState(_stateMachine, this, _blackboard);
             _attackState = new AttackState(_stateMachine,this,_blackboard);
+            _moveState = new ChaseState(_stateMachine,this,_blackboard);
 
             _stateMachine.Initialize(_patrolState);
         }
@@ -61,5 +64,24 @@ namespace RobotAction.Gameplay.Enemy
         }
 
         public abstract void Attack();
+
+        public void RotateTowards(Vector3 direction)
+        {
+            if(direction == Vector3.zero)
+            {
+                return;
+            }
+
+            Quaternion lookRotate = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                  lookRotate,
+                                                  _data.RotateSpeed * Time.deltaTime);
+        }
+
+        public void Move(Vector3 direction)
+        {
+            transform.position += direction * _data.MoveSpeed * Time.deltaTime;
+        }
     }
 }

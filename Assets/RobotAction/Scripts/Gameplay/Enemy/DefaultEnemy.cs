@@ -1,23 +1,40 @@
+using RobotAction.Gameplay.Parts;
+using RobotAction.Gameplay.Parts.Weapons;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy
 {
     public class DefaultEnemy : EnemyBase
     {
-        private IEnemyAttack _attackModule;
-        [SerializeField] private Transform _targetTransform;
+        [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
+        [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
 
         protected override void Awake()
-        {
-            TryGetComponent(out _attackModule);
+        {      
             base.Awake();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            var attackContext = new EnemyAttackContext(_targetTransform, 
-                                                       _data.BaseAttackPower);
-            _attackModule.Attack(attackContext);
+            _rightWeaponHandler.OnWeaponEquipped += HandleWeaponEquipped;
+            _leftWeaponHandler.OnWeaponEquipped += HandleWeaponEquipped;
+        }
+
+        public override void Attack()
+        {
+            _rightWeaponHandler.Attack();
+            _leftWeaponHandler.Attack();
+        }
+
+        private void OnDisable()
+        {
+            _rightWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
+            _leftWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
+        }
+
+        private void HandleWeaponEquipped(IWeaponPart weapon)
+        {
+            _blackboard.AttackRange = weapon.AttackRange;
         }
 
     }

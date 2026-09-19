@@ -8,9 +8,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     public abstract class GunBase : MonoBehaviour,IWeaponPart
     {
         public Transform Owner { get; private set; }
+
+        public float AttackRange { get; protected set; }
+
         protected abstract float FireRate { get; }
 
-        protected float _fireRateTimer;
+        private float _fireRateTimer;
         protected bool _isShot;
 
         private Rigidbody _rigidbody;
@@ -20,11 +23,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             TryGetComponent(out _rigidbody);
             TryGetComponent(out _collider);
-
-            if(transform.root != transform)
-            {
-                Owner = transform.root;
-            }
 
             OnAwake();
         }
@@ -50,7 +48,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public void Attack() => Shoot();
 
-        public void Equip(Transform owner)
+        public virtual void Equip(Transform owner)
         {
             Owner = owner;
             _rigidbody.isKinematic = true;

@@ -20,7 +20,10 @@ namespace RobotAction.Gameplay.Enemy
 
         public override void OnTick()
         {
-
+            if (_blackboard.Target != null)
+            {
+                _ownerMachine.ChangeState(_ownerEnemy.ChaseState);
+            }
         }
     }
 }

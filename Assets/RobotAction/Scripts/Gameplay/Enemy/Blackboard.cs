@@ -6,7 +6,10 @@ namespace RobotAction.Gameplay.Enemy
     {
         public bool IsThinking { get; set; }
         public float ThinkInterval { get; set; } = 0.5f;
+        public float AttackRange { get; set; }
+        public float AttackRangeSqr => AttackRange * AttackRange;
 
         public Transform Target { get; set; }
+
     }
 }

@@ -11,9 +11,10 @@ namespace RobotAction.Gameplay.Enemy
 
         [SerializeField] private EnemySearchData _searchData;
 
+        protected Blackboard _blackboard;
+
         private float _currentHealth;
         private StateMachine _stateMachine;
-        private Blackboard _blackboard;
         private PatrolState _patrolState;
         private AttackState _attackState;
         private ChaseState _chaseState;
@@ -22,7 +23,6 @@ namespace RobotAction.Gameplay.Enemy
         public PatrolState PatrolState => _patrolState;
         public AttackState AttackState => _attackState;
         public ChaseState ChaseState => _chaseState;
-
 
         protected virtual void Awake()
         {

@@ -18,11 +18,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             {
                 Debug.LogError("KineticMagazine‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B");
             }
-
-            if (_magazine == null)
-            {
-                Debug.LogError("Magazine‚ªnull‚Å‚·");
-            }
         }
 
         private void Start()
@@ -51,6 +46,20 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                                  _muzzleTransform.rotation);
 
             _isShot = false;
+        }
+
+        public override void Equip(Transform owner)
+        {
+            AttackRange = CalculateAttackRange();
+            base.Equip(owner);
+        }
+
+        public float CalculateAttackRange()
+        {
+            //…•½“ŠË‚Ì”ò‹——£ = ‰‘¬ * sqrt(2 * ‚‚³ / d—Í‰Á‘¬“x)
+            float gravity = Mathf.Abs(Physics.gravity.y);
+            float bulletFlightTime = Mathf.Sqrt(2 * _muzzleTransform.position.y / gravity) * _data.BulletLifeTime;
+            return _data.BulletSpeed * bulletFlightTime;
         }
     }
 }

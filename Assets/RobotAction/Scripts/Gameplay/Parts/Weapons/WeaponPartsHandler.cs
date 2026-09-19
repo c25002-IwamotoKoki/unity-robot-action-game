@@ -1,10 +1,13 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons
 {
     public class WeaponPartsHandler : PartsHandlerBase<IWeaponPart>
     {
+        public event Action<IWeaponPart> OnWeaponEquipped;
+
         [SerializeField] private float _weaponSarchRange;
         [SerializeField,Min(1)] private int _maxWeaponSarch;
         [SerializeField] private LayerMask _sarchLayer;
@@ -15,7 +18,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
         private void Awake()
         {
             _detectedColliders = new Collider[_maxWeaponSarch];
-            _detectedWeaponParts = new(_maxWeaponSarch);      
+            _detectedWeaponParts = new(_maxWeaponSarch);
         }
 
         private void Start()
@@ -25,6 +28,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
             if(weapon != null)
             {
                 Equip(weapon);
+                OnWeaponEquipped?.Invoke(weapon);
             }
         }
 
@@ -33,6 +37,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
             if(TrySearchWeapon())
             {
                 Equip(_detectedWeaponParts[0]);
+                OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
                 return true;
             }
 

@@ -13,7 +13,7 @@ namespace RobotAction.Gameplay.Enemy
 
         }
 
-        public override void Think()
+        public override void OnPeriodicTick()
         {
             _ownerEnemy.SearchNearlyTarget();
         }

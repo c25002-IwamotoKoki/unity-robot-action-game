@@ -16,12 +16,12 @@ namespace RobotAction.Gameplay.Enemy
         private Blackboard _blackboard;
         private PatrolState _patrolState;
         private AttackState _attackState;
-        private ChaseState _moveState;
+        private ChaseState _chaseState;
         private Collider[] _detectedColliders;
 
         public PatrolState PatrolState => _patrolState;
         public AttackState AttackState => _attackState;
-        public ChaseState MoveState => _moveState;
+        public ChaseState ChaseState => _chaseState;
 
 
         protected virtual void Awake()
@@ -32,7 +32,7 @@ namespace RobotAction.Gameplay.Enemy
             _stateMachine = new StateMachine(this, _blackboard);
             _patrolState = new PatrolState(_stateMachine, this, _blackboard);
             _attackState = new AttackState(_stateMachine,this,_blackboard);
-            _moveState = new ChaseState(_stateMachine,this,_blackboard);
+            _chaseState = new ChaseState(_stateMachine,this,_blackboard);
 
             _stateMachine.Initialize(_patrolState);
         }

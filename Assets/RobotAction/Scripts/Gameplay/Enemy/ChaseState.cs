@@ -4,7 +4,7 @@ namespace RobotAction.Gameplay.Enemy
 {
     public class ChaseState : StateBase
     {
-        Vector3 _toTargetDirection;
+        private Vector3 _toTargetDirection;
 
         public ChaseState(StateMachine ownerMachine,
                          EnemyBase ownerEnemy,
@@ -19,8 +19,11 @@ namespace RobotAction.Gameplay.Enemy
 
         public override void OnPeriodicTick()
         {
-            _toTargetDirection = (_blackboard.Target.position- 
-                              _ownerEnemy.transform.position).normalized;
+            if (_blackboard.Target != null)
+            {
+                _toTargetDirection = (_blackboard.Target.position -
+                                      _ownerEnemy.transform.position).normalized;
+            }
         }
 
         public override void Enter()

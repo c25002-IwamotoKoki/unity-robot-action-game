@@ -27,9 +27,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.transform.TryGetComponent(out IDamageable damageable))
+            if (other.transform.TryGetComponent(out IDamageable damageable))
             {
                 damageable.GetDamage(_baseAttackPower);
                 _lifeTimer = 0;

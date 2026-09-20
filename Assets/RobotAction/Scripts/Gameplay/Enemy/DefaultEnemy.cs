@@ -22,6 +22,12 @@ namespace RobotAction.Gameplay.Enemy
 
         public override void Attack()
         {
+            if(_blackboard.Target != null)
+            {
+                _rightWeaponHandler.SetTarget(_blackboard.Target.position);
+                _leftWeaponHandler.SetTarget(_blackboard.Target.position);
+            }
+            
             _rightWeaponHandler.Attack();
             _leftWeaponHandler.Attack();
         }

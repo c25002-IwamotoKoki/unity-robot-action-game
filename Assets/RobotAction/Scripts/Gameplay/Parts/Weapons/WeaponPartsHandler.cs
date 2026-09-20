@@ -70,6 +70,11 @@ namespace RobotAction.Gameplay.Parts.Weapons
             return _detectedWeaponParts.Count > 0;
         }
 
+        public void SetTarget(Vector3 position)
+        {
+            CurrentPart?.SetTarget(position);
+        }
+
         public void Attack()
         {
             CurrentPart?.Attack();

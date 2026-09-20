@@ -74,6 +74,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public abstract void Shoot();
 
-        public abstract void SetShootTarget(Vector3 position);
+        public abstract void SetTarget(Vector3 position);
     }
 }

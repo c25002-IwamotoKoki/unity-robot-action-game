@@ -37,8 +37,6 @@ namespace RobotAction.Gameplay.Enemy
                 _ownerMachine.ChangeState(_ownerEnemy.ChaseState);
             }
 
-            Debug.Log($"{_moveDirection}‚ÖˆÚ“®’†...");
-
             _ownerEnemy.RotateTowards(_moveDirection);
             _ownerEnemy.Move(_moveDirection);
         }

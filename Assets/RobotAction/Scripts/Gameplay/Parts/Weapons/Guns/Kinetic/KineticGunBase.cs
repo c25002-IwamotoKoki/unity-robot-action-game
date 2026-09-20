@@ -25,7 +25,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _magazine.Setup(_data);
         }
 
-        public override void SetShootTarget(Vector3 position)
+        public override void SetTarget(Vector3 position)
         {
             _muzzleTransform.LookAt(position);
         }

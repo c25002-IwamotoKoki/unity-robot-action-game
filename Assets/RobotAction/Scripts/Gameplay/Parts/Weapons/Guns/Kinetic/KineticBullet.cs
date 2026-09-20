@@ -37,6 +37,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             }
         }
 
+        public override void OnGet()
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            base.OnGet();
+        }
+
         public override void Shoot(in BulletContext context)
         {
             _baseAttackPower = context.BaseAttackPower;

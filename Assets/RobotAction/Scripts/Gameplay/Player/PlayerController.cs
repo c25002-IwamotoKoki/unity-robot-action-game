@@ -93,11 +93,22 @@ namespace RobotAction.Gameplay.Player
 
             if(_isRightAttacking)
             {
+
+                if(_targetBuffer.HasTarget)
+                {
+                    _rightWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[0].position);
+                }
+
                 _rightWeaponHandler.Attack();
             }
 
             if(_isLeftAttacking)
             {
+                if (_targetBuffer.HasTarget)
+                {
+                    _leftWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[0].position);
+                }
+
                 _leftWeaponHandler.Attack();
             }
         }

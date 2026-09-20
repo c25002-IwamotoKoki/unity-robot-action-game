@@ -1,6 +1,5 @@
 using RobotAction.Gameplay.Combat;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
@@ -28,14 +27,20 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.transform.TryGetComponent(out IDamageable damageable))
+            if (other.transform.TryGetComponent(out IDamageable damageable))
             {
                 damageable.GetDamage(_baseAttackPower);
                 _lifeTimer = 0;
                 OwnerPool.Release(this);
             }
+        }
+
+        public override void OnGet()
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            base.OnGet();
         }
 
         public override void Shoot(in BulletContext context)

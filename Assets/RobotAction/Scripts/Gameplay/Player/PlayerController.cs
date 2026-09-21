@@ -32,6 +32,7 @@ namespace RobotAction.Gameplay.Player
         private bool _isHovering;
         private bool _isBoosting;
         private bool _isTracking;
+        private bool _isLockOn;
 
         private void Awake()
         {
@@ -57,6 +58,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnRightUnequip += HandleRightUnequip;
             _inputReader.OnLeftEquip += HandleLeftEquip;
             _inputReader.OnLeftUnequip += HandleLeftUnequip;
+
+            _inputReader.OnLockOn += HandleLockOn;
         }
 
         private void FixedUpdate()
@@ -132,6 +135,8 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnLeftEquip -= HandleLeftEquip;
             _inputReader.OnLeftUnequip -= HandleLeftUnequip;
 
+            _inputReader.OnLockOn -= HandleLockOn;
+
             _inputReader.Dispose();
         }
 
@@ -170,10 +175,11 @@ namespace RobotAction.Gameplay.Player
         {
             while (_isTracking)
             {
-                if (_targetBuffer.HasTarget)
+                if (_targetBuffer.HasTarget && _isLockOn)
                 {
                     transform.LookAt(_targetBuffer.DetectedTargets[0]);
                 }
+
                 yield return _trackTargetWait;
             }
             yield break;
@@ -213,6 +219,11 @@ namespace RobotAction.Gameplay.Player
         public void HandleLeftUnequip()
         {
             _leftWeaponHandler.Unequip();
+        }
+
+        private void HandleLockOn()
+        {
+            _isLockOn = !_isLockOn;
         }
     }
 }

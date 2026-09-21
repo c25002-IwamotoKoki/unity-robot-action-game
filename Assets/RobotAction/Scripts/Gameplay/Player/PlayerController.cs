@@ -1,11 +1,12 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Parts.Weapons;
 using RobotAction.Gameplay.Sensors;
+using System.Collections;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
 {
-    public class PlayerController : MonoBehaviour,IDamageable
+    public class PlayerController : MonoBehaviour, IDamageable
     {
         private const float BoostDeadZoneSqr = 0.01f;
 
@@ -20,22 +21,28 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _boostMaxSpeed;
         [SerializeField] private float _maxSpeedDeceleration;
         [SerializeField] private float _health;
+        [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
 
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
+        private WaitForSeconds _trackTargetWait;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
         private bool _isHovering;
         private bool _isBoosting;
+        private bool _isTracking;
 
         private void Awake()
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
             _targetBuffer = new TargetBuffer();
-            _autoLockSensor = new(_autoLockSensorData,_targetBuffer);
+            _autoLockSensor = new(_autoLockSensorData, _targetBuffer);
 
+            _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
             _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
+            _isTracking = true;
+            StartCoroutine(TrackingTargetRoutine());
         }
 
         private void OnEnable()
@@ -68,7 +75,7 @@ namespace RobotAction.Gameplay.Player
                                     ForceMode.Force);
             }
 
-            if(_isHovering)
+            if (_isHovering)
             {
                 _rigidbody.AddForce(transform.up * _hoverSpeed,
                                     ForceMode.Force);
@@ -89,12 +96,11 @@ namespace RobotAction.Gameplay.Player
 
         private void Update()
         {
-            _autoLockSensor?.Tick(Time.deltaTime,transform.position);
+            _autoLockSensor?.Tick(Time.deltaTime, transform.position);
 
-            if(_isRightAttacking)
+            if (_isRightAttacking)
             {
-
-                if(_targetBuffer.HasTarget)
+                if (_targetBuffer.HasTarget)
                 {
                     _rightWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[0].position);
                 }
@@ -102,7 +108,7 @@ namespace RobotAction.Gameplay.Player
                 _rightWeaponHandler.Attack();
             }
 
-            if(_isLeftAttacking)
+            if (_isLeftAttacking)
             {
                 if (_targetBuffer.HasTarget)
                 {
@@ -130,7 +136,7 @@ namespace RobotAction.Gameplay.Player
         }
 
         public void GetDamage(float damage)
-        {      
+        {
             _health -= damage;
         }
 
@@ -160,9 +166,23 @@ namespace RobotAction.Gameplay.Player
             _isBoosting = true;
         }
 
+        private IEnumerator TrackingTargetRoutine()
+        {
+            while (_isTracking)
+            {
+                if (_targetBuffer.HasTarget)
+                {
+                    transform.LookAt(_targetBuffer.DetectedTargets[0]);
+                }
+                yield return _trackTargetWait;
+            }
+            yield break;
+        }
+
+
         private void HandleRightAttack(bool isAttacking)
         {
-            _isRightAttacking = isAttacking;          
+            _isRightAttacking = isAttacking;
         }
 
         private void HandleLeftAttack(bool isAttacking)

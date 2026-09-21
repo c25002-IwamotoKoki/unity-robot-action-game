@@ -174,6 +174,15 @@ namespace RobotAction.Gameplay.Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a18f153-5ebc-4e52-8624-cdb3114e7a1b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -418,6 +427,28 @@ namespace RobotAction.Gameplay.Player
                     ""action"": ""LeftAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b392a057-a07d-4bb5-9db4-6549751c482a"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b646b6a8-8fa0-4c3e-9dd7-653bacb6a4e2"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -435,6 +466,7 @@ namespace RobotAction.Gameplay.Player
             m_Player_RightUnequip = m_Player.FindAction("RightUnequip", throwIfNotFound: true);
             m_Player_LeftEquip = m_Player.FindAction("LeftEquip", throwIfNotFound: true);
             m_Player_LeftUnequip = m_Player.FindAction("LeftUnequip", throwIfNotFound: true);
+            m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -524,6 +556,7 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction m_Player_RightUnequip;
         private readonly InputAction m_Player_LeftEquip;
         private readonly InputAction m_Player_LeftUnequip;
+        private readonly InputAction m_Player_LockOn;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -571,6 +604,10 @@ namespace RobotAction.Gameplay.Player
             /// Provides access to the underlying input action "Player/LeftUnequip".
             /// </summary>
             public InputAction @LeftUnequip => m_Wrapper.m_Player_LeftUnequip;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/LockOn".
+            /// </summary>
+            public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -624,6 +661,9 @@ namespace RobotAction.Gameplay.Player
                 @LeftUnequip.started += instance.OnLeftUnequip;
                 @LeftUnequip.performed += instance.OnLeftUnequip;
                 @LeftUnequip.canceled += instance.OnLeftUnequip;
+                @LockOn.started += instance.OnLockOn;
+                @LockOn.performed += instance.OnLockOn;
+                @LockOn.canceled += instance.OnLockOn;
             }
 
             /// <summary>
@@ -662,6 +702,9 @@ namespace RobotAction.Gameplay.Player
                 @LeftUnequip.started -= instance.OnLeftUnequip;
                 @LeftUnequip.performed -= instance.OnLeftUnequip;
                 @LeftUnequip.canceled -= instance.OnLeftUnequip;
+                @LockOn.started -= instance.OnLockOn;
+                @LockOn.performed -= instance.OnLockOn;
+                @LockOn.canceled -= instance.OnLockOn;
             }
 
             /// <summary>
@@ -765,6 +808,13 @@ namespace RobotAction.Gameplay.Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnLeftUnequip(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "LockOn" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnLockOn(InputAction.CallbackContext context);
         }
     }
 }

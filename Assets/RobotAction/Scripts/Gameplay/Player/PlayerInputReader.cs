@@ -16,6 +16,7 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _rightUnequipAction;
         private readonly InputAction _leftEquipAction;
         private readonly InputAction _leftUnequipAction;
+        private readonly InputAction _lockOnAction;
 
         public Vector2 MoveDirection { get; private set; }
 
@@ -27,6 +28,7 @@ namespace RobotAction.Gameplay.Player
         public event Action OnRightUnequip;
         public event Action OnLeftEquip;
         public event Action OnLeftUnequip;
+        public event Action OnLockOn;
 
         public PlayerInputReader(PlayerInputActions inputActions)
         {
@@ -45,6 +47,8 @@ namespace RobotAction.Gameplay.Player
             _leftEquipAction = _inputActions.Player.LeftEquip;
             _leftUnequipAction = _inputActions.Player.LeftUnequip;
 
+            _lockOnAction = _inputActions.Player.LockOn;
+
             _moveAction.performed += HandleMovePerformed;
             _moveAction.canceled += HandleMoveCanceled;
             _boostAction.started += HandleBoostStarted;
@@ -59,7 +63,9 @@ namespace RobotAction.Gameplay.Player
             _rightEquipAction.performed += HandleRightEquipPerformed;
             _rightUnequipAction.performed += HandleRightUnEquipPerformed;
             _leftEquipAction.performed += HandleLeftEquipPerformed;
-            _leftUnequipAction.performed += HandleLeftUnequipPerformed;       
+            _leftUnequipAction.performed += HandleLeftUnequipPerformed;
+
+            _lockOnAction.started += HandleLockOnStarted;
         }
 
         public void Dispose()
@@ -79,6 +85,8 @@ namespace RobotAction.Gameplay.Player
             _rightUnequipAction.performed -= HandleRightUnEquipPerformed;
             _leftEquipAction.performed -= HandleLeftEquipPerformed;
             _leftUnequipAction.performed -= HandleLeftUnequipPerformed;
+
+            _lockOnAction.started -= HandleLockOnStarted;
 
             _inputActions.Disable();
             _inputActions.Dispose();
@@ -132,6 +140,11 @@ namespace RobotAction.Gameplay.Player
         private void HandleLeftUnequipPerformed(InputAction.CallbackContext context)
         {
             OnLeftUnequip?.Invoke();
+        }
+
+        private void HandleLockOnStarted(InputAction.CallbackContext context)
+        {
+            OnLockOn?.Invoke();
         }
     }
 }

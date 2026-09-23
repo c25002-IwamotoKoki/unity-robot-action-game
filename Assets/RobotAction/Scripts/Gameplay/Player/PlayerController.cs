@@ -20,6 +20,9 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _boostMaxSpeed;
         [SerializeField] private float _maxSpeedDeceleration;
+        [SerializeField] private float _mouseLookSensitivity;
+        [SerializeField] private float _gamePadLookSensitivity;
+        [SerializeField] private float _targetLookSpeed;
         [SerializeField] private float _health;
         [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
 
@@ -27,6 +30,7 @@ namespace RobotAction.Gameplay.Player
         private TargetBuffer _targetBuffer;
         private AutoLockSensor _autoLockSensor;
         private WaitForSeconds _trackTargetWait;
+        private int _selectTargetNum;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
         private bool _isHovering;
@@ -43,6 +47,10 @@ namespace RobotAction.Gameplay.Player
             _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
             _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
             _isTracking = true;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             StartCoroutine(TrackingTargetRoutine());
         }
 
@@ -60,6 +68,9 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnLeftUnequip += HandleLeftUnequip;
 
             _inputReader.OnLockOn += HandleLockOn;
+
+            _inputReader.OnSwitchFartherTarget += HandleSwitchRightTarget;
+            _inputReader.OnSwitchCloserTarget += HandleSwitchLeftTarget;
         }
 
         private void FixedUpdate()
@@ -120,6 +131,8 @@ namespace RobotAction.Gameplay.Player
 
                 _leftWeaponHandler.Attack();
             }
+
+            UpdateLookRotation();
         }
 
         private void OnDisable()
@@ -136,6 +149,9 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnLeftUnequip -= HandleLeftUnequip;
 
             _inputReader.OnLockOn -= HandleLockOn;
+
+            _inputReader.OnSwitchFartherTarget -= HandleSwitchRightTarget;
+            _inputReader.OnSwitchCloserTarget -= HandleSwitchLeftTarget;
 
             _inputReader.Dispose();
         }
@@ -177,7 +193,11 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget && _isLockOn)
                 {
-                    transform.LookAt(_targetBuffer.DetectedTargets[0]);
+                    _selectTargetNum = Mathf.Clamp(_selectTargetNum,
+                                                   0,
+                                                   _targetBuffer.DetectedTargets.Count - 1);
+
+                    RotateTowardsToTarget(_targetBuffer.DetectedTargets[_selectTargetNum]);
                 }
 
                 yield return _trackTargetWait;
@@ -185,6 +205,44 @@ namespace RobotAction.Gameplay.Player
             yield break;
         }
 
+
+        private void RotateTowardsToTarget(Transform target)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                  rotation,
+                                                  _targetLookSpeed * Time.deltaTime);
+        }
+
+
+        private void UpdateLookRotation()
+        {
+            if (_isLockOn) return;
+
+            Vector2 rawInput = _inputReader.LookValue;
+
+            if (rawInput.x == 0) return;
+
+            if(_inputReader.IsMouseLook)
+            {
+                Vector3 angle = transform.localEulerAngles;
+
+                angle.y += rawInput.x * _mouseLookSensitivity;
+
+                transform.eulerAngles = angle;
+            }
+            else
+            {
+                Vector3 angle = transform.localEulerAngles;
+
+                angle.y += rawInput.x * _gamePadLookSensitivity * Time.deltaTime;
+
+                transform.eulerAngles = angle;
+            }
+        }
 
         private void HandleRightAttack(bool isAttacking)
         {
@@ -224,6 +282,28 @@ namespace RobotAction.Gameplay.Player
         private void HandleLockOn()
         {
             _isLockOn = !_isLockOn;
+        }
+
+        private void HandleSwitchRightTarget()
+        {
+            if(_isLockOn && _targetBuffer.HasTarget)
+            {
+                _selectTargetNum++;
+                _selectTargetNum = Mathf.Clamp(_selectTargetNum,
+                                         0,
+                                         _targetBuffer.DetectedTargets.Count - 1);
+            }
+        }
+
+        private void HandleSwitchLeftTarget()
+        {
+            if(_isLockOn && _targetBuffer.HasTarget)
+            {
+                _selectTargetNum--;
+                _selectTargetNum = Mathf.Clamp(_selectTargetNum,
+                                         0,
+                                         _targetBuffer.DetectedTargets.Count-1);
+            }
         }
     }
 }

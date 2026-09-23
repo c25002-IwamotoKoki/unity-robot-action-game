@@ -20,6 +20,8 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _boostSpeed;
         [SerializeField] private float _boostMaxSpeed;
         [SerializeField] private float _maxSpeedDeceleration;
+        [SerializeField] private float _mouseLookSensitivity;
+        [SerializeField] private float _gamePadLookSensitivity;
         [SerializeField] private float _health;
         [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
 
@@ -43,6 +45,10 @@ namespace RobotAction.Gameplay.Player
             _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
             _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
             _isTracking = true;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             StartCoroutine(TrackingTargetRoutine());
         }
 
@@ -120,6 +126,8 @@ namespace RobotAction.Gameplay.Player
 
                 _leftWeaponHandler.Attack();
             }
+
+            UpdateLookRotation();
         }
 
         private void OnDisable()
@@ -185,6 +193,31 @@ namespace RobotAction.Gameplay.Player
             yield break;
         }
 
+        private void UpdateLookRotation()
+        {
+            if (_isLockOn) return;
+
+            Vector2 rawInput = _inputReader.LookValue;
+
+            if (rawInput.x == 0) return;
+
+            if(_inputReader.IsMouseLook)
+            {
+                Vector3 angle = transform.localEulerAngles;
+
+                angle.y += rawInput.x * _mouseLookSensitivity;
+
+                transform.eulerAngles = angle;
+            }
+            else
+            {
+                Vector3 angle = transform.localEulerAngles;
+
+                angle.y += rawInput.x * _gamePadLookSensitivity * Time.deltaTime;
+
+                transform.eulerAngles = angle;
+            }
+        }
 
         private void HandleRightAttack(bool isAttacking)
         {

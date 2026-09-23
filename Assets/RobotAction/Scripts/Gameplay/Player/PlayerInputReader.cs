@@ -18,6 +18,7 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _leftUnequipAction;
         private readonly InputAction _lockOnAction;
         private readonly InputAction _lookAction;
+        private readonly InputAction _switchTargetAction;
 
         public Vector2 MoveDirection { get; private set; }
         public Vector2 LookValue => _lookAction?.ReadValue<Vector2>() ?? Vector2.zero;
@@ -33,11 +34,12 @@ namespace RobotAction.Gameplay.Player
         public event Action OnLeftEquip;
         public event Action OnLeftUnequip;
         public event Action OnLockOn;
+        public event Action OnSwitchFartherTarget;
+        public event Action OnSwitchCloserTarget;
 
         public PlayerInputReader(PlayerInputActions inputActions)
         {
             _inputActions = inputActions;
-            _inputActions.Enable();
 
             _moveAction = _inputActions.Player.Move;
             _boostAction = _inputActions.Player.Boost;
@@ -53,6 +55,8 @@ namespace RobotAction.Gameplay.Player
 
             _lockOnAction = _inputActions.Player.LockOn;
             _lookAction = _inputActions.Player.Look;
+
+            _switchTargetAction = _inputActions.Player.SwitchTarget;
 
             _moveAction.performed += HandleMovePerformed;
             _moveAction.canceled += HandleMoveCanceled;
@@ -71,11 +75,16 @@ namespace RobotAction.Gameplay.Player
             _leftUnequipAction.performed += HandleLeftUnequipPerformed;
 
             _lockOnAction.started += HandleLockOnStarted;
-       
+
+            _switchTargetAction.performed += HandleSwitchTarget;
+
+            _inputActions.Enable();
         }
 
         public void Dispose()
         {
+            _inputActions.Disable();
+
             _moveAction.performed -= HandleMovePerformed;
             _moveAction.canceled -= HandleMoveCanceled;
             _boostAction.started -= HandleBoostStarted;
@@ -94,7 +103,8 @@ namespace RobotAction.Gameplay.Player
 
             _lockOnAction.started -= HandleLockOnStarted;
 
-            _inputActions.Disable();
+            _switchTargetAction.performed -= HandleSwitchTarget;
+
             _inputActions.Dispose();
         }
 
@@ -151,6 +161,20 @@ namespace RobotAction.Gameplay.Player
         private void HandleLockOnStarted(InputAction.CallbackContext context)
         {
             OnLockOn?.Invoke();
+        }
+
+        private void HandleSwitchTarget(InputAction.CallbackContext context)
+        {
+            float switchValue = context.ReadValue<float>();
+
+            if(switchValue > 0)
+            {
+                OnSwitchFartherTarget?.Invoke();
+            }
+            else
+            {
+                OnSwitchCloserTarget?.Invoke();
+            }
         }
     }
 }

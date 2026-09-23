@@ -17,8 +17,12 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _leftEquipAction;
         private readonly InputAction _leftUnequipAction;
         private readonly InputAction _lockOnAction;
+        private readonly InputAction _lookAction;
 
         public Vector2 MoveDirection { get; private set; }
+        public Vector2 LookValue => _lookAction?.ReadValue<Vector2>() ?? Vector2.zero;
+
+        public bool IsMouseLook => _lookAction.activeControl?.device is Mouse;
 
         public event Action OnBoost;
         public event Action<bool> OnRightAttack;
@@ -48,6 +52,7 @@ namespace RobotAction.Gameplay.Player
             _leftUnequipAction = _inputActions.Player.LeftUnequip;
 
             _lockOnAction = _inputActions.Player.LockOn;
+            _lookAction = _inputActions.Player.Look;
 
             _moveAction.performed += HandleMovePerformed;
             _moveAction.canceled += HandleMoveCanceled;
@@ -59,13 +64,14 @@ namespace RobotAction.Gameplay.Player
             _rightAttackAction.canceled += HandleRightAttackInputStateChanged;
             _leftAttackAction.started += HandleLeftAttackInputStateChange;
             _leftAttackAction.canceled += HandleLeftAttackInputStateChange;
-           
+
             _rightEquipAction.performed += HandleRightEquipPerformed;
             _rightUnequipAction.performed += HandleRightUnEquipPerformed;
             _leftEquipAction.performed += HandleLeftEquipPerformed;
             _leftUnequipAction.performed += HandleLeftUnequipPerformed;
 
             _lockOnAction.started += HandleLockOnStarted;
+       
         }
 
         public void Dispose()
@@ -80,7 +86,7 @@ namespace RobotAction.Gameplay.Player
             _rightAttackAction.canceled -= HandleRightAttackInputStateChanged;
             _leftAttackAction.started -= HandleLeftAttackInputStateChange;
             _leftAttackAction.canceled -= HandleLeftAttackInputStateChange;
-          
+
             _rightEquipAction.performed -= HandleRightEquipPerformed;
             _rightUnequipAction.performed -= HandleRightUnEquipPerformed;
             _leftEquipAction.performed -= HandleLeftEquipPerformed;
@@ -109,7 +115,7 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleRightAttackInputStateChanged(InputAction.CallbackContext context)
         {
-             OnRightAttack?.Invoke(context.ReadValueAsButton());
+            OnRightAttack?.Invoke(context.ReadValueAsButton());
         }
 
         public void HandleLeftAttackInputStateChange(InputAction.CallbackContext context)

@@ -8,19 +8,10 @@ namespace RobotAction.Gameplay.Player
 {
     public class PlayerController : MonoBehaviour, IDamageable
     {
-        private const float BoostDeadZoneSqr = 0.01f;
-
-        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private PlayerMover _playerMover;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
         [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
         [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _hoverSpeed;
-        [SerializeField] private float _defaultMaxSpeed;
-        [SerializeField] private float _boostImpulseSpeed;
-        [SerializeField] private float _boostForceSpeed;
-        [SerializeField] private float _boostMaxSpeed;
-        [SerializeField] private float _maxSpeedDeceleration;
         [SerializeField] private float _mouseLookSensitivity;
         [SerializeField] private float _gamePadLookSensitivity;
         [SerializeField] private float _targetLookSpeed;
@@ -34,8 +25,6 @@ namespace RobotAction.Gameplay.Player
         private int _selectTargetNum;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
-        private bool _isHovering;
-        private bool _isBoosting;
         private bool _isTracking;
         private bool _isLockOn;
 
@@ -46,7 +35,6 @@ namespace RobotAction.Gameplay.Player
             _autoLockSensor = new(transform,_autoLockSensorData, _targetBuffer);
 
             _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
-            _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
             _isTracking = true;
 
             Cursor.lockState = CursorLockMode.Locked;
@@ -74,45 +62,14 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnSwitchCloserTarget += HandleSwitchLeftTarget;
         }
 
-        private void FixedUpdate()
-        {
-            Vector2 input = _inputReader.MoveDirection;
-
-            if (input.x != 0)
-            {
-                _rigidbody.AddForce(input.x * _moveSpeed * transform.right,
-                                    ForceMode.Force);
-            }
-
-            if (input.y != 0)
-            {
-                _rigidbody.AddForce(input.y * _moveSpeed * transform.forward,
-                                    ForceMode.Force);
-            }
-
-            if (_isHovering)
-            {
-                _rigidbody.AddForce(transform.up * _hoverSpeed,
-                                    ForceMode.Force);
-            }
-
-            if (_isBoosting)
-            {
-                _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
-                                                                _boostMaxSpeed,
-                                                                _maxSpeedDeceleration * Time.fixedDeltaTime);
-            }
-            else if (_rigidbody.maxLinearVelocity != _defaultMaxSpeed)
-            {
-                _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
-                                                                 _defaultMaxSpeed,
-                                                                 _maxSpeedDeceleration * Time.fixedDeltaTime);
-            }
-        }
-
         private void Update()
         {
             _autoLockSensor?.Tick(Time.deltaTime, transform.position);
+
+            Vector2 rawInput = _inputReader.MoveDirection;
+            Vector3 moveDirection = transform.forward * rawInput.y + transform.right * rawInput.x;
+
+            _playerMover.SetMoveDirection(moveDirection);
 
             if (_isRightAttacking)
             {
@@ -161,48 +118,6 @@ namespace RobotAction.Gameplay.Player
         public void GetDamage(float damage)
         {
             _health -= damage;
-        }
-
-        private void BoostImpulse()
-        {
-            Vector2 input = _inputReader.MoveDirection;
-
-            if (input == Vector2.zero)
-            {
-                return;
-            }
-
-            _rigidbody.maxLinearVelocity = _boostMaxSpeed;
-
-            input = input.sqrMagnitude > BoostDeadZoneSqr ? input.normalized : input;
-
-            Vector3 boostVector = transform.forward * input.y + transform.right * input.x;
-
-            _rigidbody.AddForce(_boostImpulseSpeed * boostVector,
-                                ForceMode.Impulse);
-
-            _isBoosting = true;
-        }
-
-        private void BoostForce()
-        {
-            Vector2 input = _inputReader.MoveDirection;
-
-            if (input == Vector2.zero)
-            {
-                return;
-            }
-
-            _rigidbody.maxLinearVelocity = _boostMaxSpeed;
-
-            input = input.sqrMagnitude > BoostDeadZoneSqr ? input.normalized : input;
-
-            Vector3 boostVector = transform.forward * input.y + transform.right * input.x;
-
-            _rigidbody.AddForce(_boostForceSpeed * boostVector,
-                                ForceMode.Force);
-
-            _isBoosting = true;
         }
 
         private IEnumerator TrackingTargetRoutine()
@@ -264,12 +179,12 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleBoost(bool isBoosting)
         {
-            _isBoosting = isBoosting;
-
-            if (_isBoosting)
+            if(isBoosting)
             {
-                BoostImpulse();
+                _playerMover.BoostImpulse();
             }
+
+            _playerMover.SetBoostState(isBoosting);
         }
 
         private void HandleRightAttack(bool isAttacking)
@@ -284,7 +199,7 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleHover(bool isHovering)
         {
-            _isHovering = isHovering;
+            _playerMover.SetHoverState(isHovering);
         }
 
         private void HandleRightEquip()

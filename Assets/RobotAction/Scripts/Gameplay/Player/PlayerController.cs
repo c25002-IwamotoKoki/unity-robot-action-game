@@ -161,7 +161,7 @@ namespace RobotAction.Gameplay.Player
             _health -= damage;
         }
 
-        private void HandleBoost()
+        private void HandleBoost(bool isBoosting)
         {
             Boost();
         }

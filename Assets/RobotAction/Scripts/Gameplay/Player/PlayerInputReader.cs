@@ -25,7 +25,7 @@ namespace RobotAction.Gameplay.Player
 
         public bool IsMouseLook => _lookAction.activeControl?.device is Mouse;
 
-        public event Action OnBoost;
+        public event Action<bool> OnBoost;
         public event Action<bool> OnRightAttack;
         public event Action<bool> OnLeftAttack;
         public event Action<bool> OnHover;
@@ -58,7 +58,8 @@ namespace RobotAction.Gameplay.Player
 
             _switchTargetAction = _inputActions.Player.SwitchTarget;
 
-            _boostAction.started += HandleBoostStarted;
+            _boostAction.started += HandleBoostInputStateChange;
+            _boostAction.canceled += HandleBoostInputStateChange;
             _hoverAction.started += HandleHoverInputStateChanged;
             _hoverAction.canceled += HandleHoverInputStateChanged;
 
@@ -83,7 +84,8 @@ namespace RobotAction.Gameplay.Player
         {
             _inputActions.Disable();
 
-            _boostAction.started -= HandleBoostStarted;
+            _boostAction.started -= HandleBoostInputStateChange;
+            _boostAction.canceled -= HandleBoostInputStateChange;
             _hoverAction.started -= HandleHoverInputStateChanged;
             _hoverAction.canceled -= HandleHoverInputStateChanged;
 
@@ -104,9 +106,9 @@ namespace RobotAction.Gameplay.Player
             _inputActions.Dispose();
         }
 
-        private void HandleBoostStarted(InputAction.CallbackContext context)
+        private void HandleBoostInputStateChange(InputAction.CallbackContext context)
         {
-            OnBoost?.Invoke();
+            OnBoost?.Invoke(context.ReadValueAsButton());
         }
 
         private void HandleRightAttackInputStateChanged(InputAction.CallbackContext context)

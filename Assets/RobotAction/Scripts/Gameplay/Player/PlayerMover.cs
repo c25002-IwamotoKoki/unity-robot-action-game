@@ -35,11 +35,17 @@ namespace RobotAction.Gameplay.Player
                 return;
             }
 
+            if(_currentMoveDirection != Vector3.zero)
+            {
+                _rigidbody.AddForce(_currentMoveDirection * _moveSpeed,ForceMode.Force);
+            }
+
             if(_isBoosting)
             {
-                _rigidbody.AddForce(_moveSpeed * _currentMoveDirection, ForceMode.Force);
+                _rigidbody.AddForce(_boostForceSpeed * _currentMoveDirection, ForceMode.Force);
             }
-            else if(_rigidbody.maxLinearVelocity != _defaultMaxSpeed)
+            
+            if(!_isBoosting && _rigidbody.maxLinearVelocity != _defaultMaxSpeed)
             {
                 _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
                                                                 _boostMaxSpeed,

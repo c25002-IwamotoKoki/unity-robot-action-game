@@ -269,12 +269,12 @@ namespace RobotAction.Gameplay.Player
             _rightWeaponHandler.Unequip();
         }
 
-        public void HandleLeftEquip()
+        private void HandleLeftEquip()
         {
             _leftWeaponHandler.TryPickUpNearlyWeapon();
         }
 
-        public void HandleLeftUnequip()
+        private void HandleLeftUnequip()
         {
             _leftWeaponHandler.Unequip();
         }

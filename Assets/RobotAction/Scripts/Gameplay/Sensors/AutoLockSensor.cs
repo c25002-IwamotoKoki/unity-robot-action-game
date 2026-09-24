@@ -6,14 +6,16 @@ namespace RobotAction.Gameplay.Sensors
 {
     public class AutoLockSensor
     {
+        private readonly Transform _owner;
         private readonly AutoLockSensorData _data;
         private readonly TargetBuffer _targetBuffer;
         private readonly Collider[] _detectedColliders;
         private readonly List<Transform> _detectedTargets;
         private float _sarchCoolTimer;
 
-        public AutoLockSensor(AutoLockSensorData data, TargetBuffer buffer)
+        public AutoLockSensor(Transform owner,AutoLockSensorData data, TargetBuffer buffer)
         {
+            _owner = owner;
             _data = data;
             _targetBuffer = buffer;
             _targetBuffer.SetCapacity(_data.MaxSearch);
@@ -49,6 +51,24 @@ namespace RobotAction.Gameplay.Sensors
                     {
                         _detectedTargets.Add(enemy.transform);
                     }
+                }
+            }
+
+            for(int i = 0; i < _detectedTargets.Count-1; i++)
+            {
+                for(int j = i + 1; j < _detectedTargets.Count; j++)
+                {
+                    float sqrDistanceI = (_detectedTargets[i].position - _owner.position).sqrMagnitude;
+                    float sqrDistanceJ = (_detectedTargets[j].position - _owner.position).sqrMagnitude;
+
+                    //後ろ側の敵jが前側の敵iよりも近い位置にいるならスワップ
+                    if(sqrDistanceJ < sqrDistanceI)
+                    {
+                        Transform temp = _detectedTargets[i];
+                        _detectedTargets[i] = _detectedTargets[j];
+                        _detectedTargets[j] =temp;
+                    }
+
                 }
             }
 

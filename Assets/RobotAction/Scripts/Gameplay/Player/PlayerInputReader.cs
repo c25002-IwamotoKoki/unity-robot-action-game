@@ -20,7 +20,7 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction _lookAction;
         private readonly InputAction _switchTargetAction;
 
-        public Vector2 MoveDirection { get; private set; }
+        public Vector2 MoveDirection => _moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
         public Vector2 LookValue => _lookAction?.ReadValue<Vector2>() ?? Vector2.zero;
 
         public bool IsMouseLook => _lookAction.activeControl?.device is Mouse;
@@ -58,8 +58,6 @@ namespace RobotAction.Gameplay.Player
 
             _switchTargetAction = _inputActions.Player.SwitchTarget;
 
-            _moveAction.performed += HandleMovePerformed;
-            _moveAction.canceled += HandleMoveCanceled;
             _boostAction.started += HandleBoostStarted;
             _hoverAction.started += HandleHoverInputStateChanged;
             _hoverAction.canceled += HandleHoverInputStateChanged;
@@ -85,8 +83,6 @@ namespace RobotAction.Gameplay.Player
         {
             _inputActions.Disable();
 
-            _moveAction.performed -= HandleMovePerformed;
-            _moveAction.canceled -= HandleMoveCanceled;
             _boostAction.started -= HandleBoostStarted;
             _hoverAction.started -= HandleHoverInputStateChanged;
             _hoverAction.canceled -= HandleHoverInputStateChanged;
@@ -111,16 +107,6 @@ namespace RobotAction.Gameplay.Player
         private void HandleBoostStarted(InputAction.CallbackContext context)
         {
             OnBoost?.Invoke();
-        }
-
-        private void HandleMovePerformed(InputAction.CallbackContext context)
-        {
-            MoveDirection = context.ReadValue<Vector2>();
-        }
-
-        private void HandleMoveCanceled(InputAction.CallbackContext context)
-        {
-            MoveDirection = Vector2.zero;
         }
 
         private void HandleRightAttackInputStateChanged(InputAction.CallbackContext context)

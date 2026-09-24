@@ -17,7 +17,8 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _hoverSpeed;
         [SerializeField] private float _defaultMaxSpeed;
-        [SerializeField] private float _boostSpeed;
+        [SerializeField] private float _boostImpulseSpeed;
+        [SerializeField] private float _boostForceSpeed;
         [SerializeField] private float _boostMaxSpeed;
         [SerializeField] private float _maxSpeedDeceleration;
         [SerializeField] private float _mouseLookSensitivity;
@@ -98,13 +99,14 @@ namespace RobotAction.Gameplay.Player
             if (_isBoosting)
             {
                 _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
+                                                                _boostMaxSpeed,
+                                                                _maxSpeedDeceleration * Time.fixedDeltaTime);
+            }
+            else if (_rigidbody.maxLinearVelocity != _defaultMaxSpeed)
+            {
+                _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
                                                                  _defaultMaxSpeed,
                                                                  _maxSpeedDeceleration * Time.fixedDeltaTime);
-
-                if (_rigidbody.maxLinearVelocity == _defaultMaxSpeed)
-                {
-                    _isBoosting = false;
-                }
             }
         }
 
@@ -161,12 +163,7 @@ namespace RobotAction.Gameplay.Player
             _health -= damage;
         }
 
-        private void HandleBoost(bool isBoosting)
-        {
-            Boost();
-        }
-
-        private void Boost()
+        private void BoostImpulse()
         {
             Vector2 input = _inputReader.MoveDirection;
 
@@ -181,8 +178,29 @@ namespace RobotAction.Gameplay.Player
 
             Vector3 boostVector = transform.forward * input.y + transform.right * input.x;
 
-            _rigidbody.AddForce(_boostSpeed * boostVector,
+            _rigidbody.AddForce(_boostImpulseSpeed * boostVector,
                                 ForceMode.Impulse);
+
+            _isBoosting = true;
+        }
+
+        private void BoostForce()
+        {
+            Vector2 input = _inputReader.MoveDirection;
+
+            if (input == Vector2.zero)
+            {
+                return;
+            }
+
+            _rigidbody.maxLinearVelocity = _boostMaxSpeed;
+
+            input = input.sqrMagnitude > BoostDeadZoneSqr ? input.normalized : input;
+
+            Vector3 boostVector = transform.forward * input.y + transform.right * input.x;
+
+            _rigidbody.AddForce(_boostForceSpeed * boostVector,
+                                ForceMode.Force);
 
             _isBoosting = true;
         }
@@ -241,6 +259,16 @@ namespace RobotAction.Gameplay.Player
                 angle.y += rawInput.x * _gamePadLookSensitivity * Time.deltaTime;
 
                 transform.eulerAngles = angle;
+            }
+        }
+
+        private void HandleBoost(bool isBoosting)
+        {
+            _isBoosting = isBoosting;
+
+            if (_isBoosting)
+            {
+                BoostImpulse();
             }
         }
 

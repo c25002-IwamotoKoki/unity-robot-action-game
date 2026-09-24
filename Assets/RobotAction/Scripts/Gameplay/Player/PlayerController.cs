@@ -42,7 +42,7 @@ namespace RobotAction.Gameplay.Player
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
             _targetBuffer = new TargetBuffer();
-            _autoLockSensor = new(_autoLockSensorData, _targetBuffer);
+            _autoLockSensor = new(transform,_autoLockSensorData, _targetBuffer);
 
             _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
             _rigidbody.maxLinearVelocity = _defaultMaxSpeed;

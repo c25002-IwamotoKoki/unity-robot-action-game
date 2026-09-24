@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cef185d91a29084091ebfe1b2a3e279, type: 3}
-  m_Name: SO_subMachineGun_Kknetic
+  m_Name: SO_machineGun
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
-  _name: SubMachineGun
-  _fireRate: 0.16
-  _bulletLifeTime: 1
-  _bulletSpeed: 125
-  _bulletBaseAttackPower: 80
+  _name: MachineGun
+  _fireRate: 0.2
+  _bulletLifeTime: 2
+  _bulletSpeed: 50
+  _bulletBaseAttackPower: 100

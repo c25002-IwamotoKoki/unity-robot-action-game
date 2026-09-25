@@ -37,7 +37,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 return;
             }
 
-            var bulletContext = new BulletContext(_data.BulletLifeTime,
+            var bulletContext = new BulletContext(owner:transform.root,
+                                                  _data.BulletLifeTime,
                                                   _data.BulletSpeed,
                                                   _data.BulletBaseAttackPower);
 

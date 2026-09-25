@@ -43,7 +43,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             base.OnGet();
         }
 
-        public override void Shoot(in BulletContext context)
+        public override void Fire(in BulletContext context)
         {
             _baseAttackPower = context.BaseAttackPower;
             _lifeTime = context.LifeTime;

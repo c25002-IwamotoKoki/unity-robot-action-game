@@ -31,6 +31,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _isReturned = true;
         }
 
-        public abstract void Shoot(in BulletContext context);
+        public abstract void Fire(in BulletContext context);
     }
 }

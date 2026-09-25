@@ -14,7 +14,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         protected abstract float FireRate { get; }
 
         private float _fireRateTimer;
-        protected bool _isShot;
+        protected bool _isFired;
 
         private Rigidbody _rigidbody;
         private Collider _collider;
@@ -29,13 +29,13 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected virtual void Update()
         {
-            if (_isShot)
+            if (_isFired)
             {
                 _fireRateTimer += Time.deltaTime;
 
                 if (_fireRateTimer >= FireRate)
                 {
-                    _isShot = false;
+                    _isFired = false;
                     _fireRateTimer = 0;
                 }
             }
@@ -46,7 +46,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         }
 
-        public void Attack() => Shoot();
+        public void Attack() => Fire();
 
         public virtual void Equip(Transform owner)
         {
@@ -69,10 +69,10 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         protected void ResetCollDown()
         {
             _fireRateTimer = 0;
-            _isShot = true;
+            _isFired = true;
         }
 
-        public abstract void Shoot();
+        public abstract void Fire();
 
         public abstract void SetTarget(Vector3 position);
     }

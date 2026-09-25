@@ -19,7 +19,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             if(bullet != null)
             {
                 bullet.transform.SetPositionAndRotation(position,rotation);
-                bullet.Shoot(context);
+                bullet.Fire(context);
             }
         }
     }

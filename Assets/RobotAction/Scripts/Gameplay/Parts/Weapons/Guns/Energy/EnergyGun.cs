@@ -22,9 +22,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected override void OnAwake()
         {
+            TryGetComponent(out _beamRenderer);
             _beamRenderer.enabled = false;
             AttackRange = _data.MaxRange;
-            TryGetComponent(out _beamRenderer);
             base.OnAwake();
         }
 

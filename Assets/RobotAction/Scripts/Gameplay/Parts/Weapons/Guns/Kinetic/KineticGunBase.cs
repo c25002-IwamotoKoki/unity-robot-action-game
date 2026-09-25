@@ -30,9 +30,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _muzzleTransform.LookAt(position);
         }
 
-        public override void Shoot()
+        public override void Fire()
         {
-            if(_isShot)
+            if(_isFired)
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                                  _muzzleTransform.position,
                                  _muzzleTransform.rotation);
 
-            _isShot = true;
+            _isFired = true;
         }
 
         public override void Equip(Transform owner)

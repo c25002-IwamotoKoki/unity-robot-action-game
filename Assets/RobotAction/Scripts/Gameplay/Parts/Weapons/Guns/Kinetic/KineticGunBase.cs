@@ -32,7 +32,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public override void Shoot()
         {
-            if(!_isShot)
+            if(_isShot)
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                                  _muzzleTransform.position,
                                  _muzzleTransform.rotation);
 
-            _isShot = false;
+            _isShot = true;
         }
 
         public override void Equip(Transform owner)

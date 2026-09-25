@@ -1,4 +1,5 @@
 using RobotAction.Gameplay.Combat;
+using RobotAction.Gameplay.Scriptables;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
@@ -7,14 +8,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     public class EnergyGun : GunBase
     {
         [SerializeField] private Transform _muzzlePoint;
-        [SerializeField] private float _fireRate;
-        [SerializeField] private float _damage;
-        [SerializeField] private float _maxRange;
-        [SerializeField] private float _extendSpeed;
-        [SerializeField] private float _attackRange;
-        [SerializeField] private LayerMask _hitLayer;
+        [SerializeField] private EnergyGunData _data;
 
-        protected override float FireRate => _fireRate;
+        protected override float FireRate => _data.FireRate;
 
         private LineRenderer _beamRenderer;
         private bool _isfiring;
@@ -27,7 +23,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         protected override void OnAwake()
         {
             _beamRenderer.enabled = false;
-            AttackRange = _maxRange;
+            AttackRange = _data.MaxRange;
             TryGetComponent(out _beamRenderer);
             base.OnAwake();
         }
@@ -38,22 +34,21 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             if (!_isfiring) return;
 
-            float toTargetDistance = Vector3.Distance(_muzzlePoint.position,_targetPosition);
-            _currentLength += _extendSpeed * Time.deltaTime;
+            _currentLength += _data.BeamExtendSpeed * Time.deltaTime;
 
-            if(_currentLength >= _maxRange)
+            if (_currentLength >= _data.MaxRange)
             {
                 _currentLength = 0;
                 _targetPosition = Vector3.zero;
-                _hitTarget?.GetDamage(_damage);     
+                _hitTarget?.GetDamage(_data.Damage);
                 _isfiring = false;
                 _beamRenderer.enabled = false;
             }
 
             _endBeamWorldPosition = _startBeamWorldPosition + transform.forward * _currentLength;
 
-            _beamRenderer.SetPosition(0,_startBeamWorldPosition);
-            _beamRenderer.SetPosition(1,_endBeamWorldPosition);
+            _beamRenderer.SetPosition(0, _startBeamWorldPosition);
+            _beamRenderer.SetPosition(1, _endBeamWorldPosition);
         }
 
         public override void SetTarget(Vector3 position)
@@ -65,18 +60,18 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             if (_isFired) return;
 
-            if(Physics.Raycast(_muzzlePoint.position,
+            if (Physics.Raycast(_muzzlePoint.position,
                                _muzzlePoint.forward,
                                out RaycastHit hit,
-                               _maxRange,
-                               _hitLayer))
+                               _data.MaxRange,
+                               _data.HitLayer))
             {
                 hit.collider.TryGetComponent(out _hitTarget);
                 _targetPosition = hit.transform.position;
             }
             else
             {
-                _targetPosition.z = _maxRange;
+                _targetPosition.z = _data.MaxRange;
             }
 
             _startBeamWorldPosition = _muzzlePoint.position;

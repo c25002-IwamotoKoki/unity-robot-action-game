@@ -29,13 +29,13 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected virtual void Update()
         {
-            if (!_isShot)
+            if (_isShot)
             {
                 _fireRateTimer += Time.deltaTime;
 
                 if (_fireRateTimer >= FireRate)
                 {
-                    _isShot = true;
+                    _isShot = false;
                     _fireRateTimer = 0;
                 }
             }

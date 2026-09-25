@@ -30,7 +30,12 @@ namespace RobotAction.Gameplay.Player
 
         private void FixedUpdate()
         {
-            if(_currentMoveDirection.sqrMagnitude < DeadZoneSqr)
+            if (_isHovering)
+            {
+                _rigidbody.AddForce(_hoverSpeed * transform.up, ForceMode.Force);
+            }
+
+            if (_currentMoveDirection.sqrMagnitude < DeadZoneSqr)
             {
                 return;
             }
@@ -50,11 +55,6 @@ namespace RobotAction.Gameplay.Player
                 _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
                                                                 _boostMaxSpeed,
                                                                 _maxSpeedDeceleration * Time.fixedDeltaTime);
-            }
-
-            if (_isHovering)
-            {
-                _rigidbody.AddForce(_hoverSpeed * transform.up, ForceMode.Force);
             }
         }
 

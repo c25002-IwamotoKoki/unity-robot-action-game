@@ -1,10 +1,12 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Player;
+using RobotAction.Gameplay.ObjectPool;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RobotAction.Gameplay.Enemy
 {
-    public abstract class EnemyBase : MonoBehaviour, IDamageable
+    public abstract class EnemyBase : MonoBehaviour, IDamageable,IPoolable<EnemyBase>
     {
         [SerializeField] protected EnemyData _data;
 
@@ -12,6 +14,7 @@ namespace RobotAction.Gameplay.Enemy
 
         protected Blackboard _blackboard;
 
+        private IObjectPool<EnemyBase> _ownerPool;
         private float _currentHealth;
         private StateMachine _stateMachine;
         private PatrolState _patrolState;
@@ -60,6 +63,21 @@ namespace RobotAction.Gameplay.Enemy
                 _detectedColliders[i].TryGetComponent(out PlayerController player);
                 _blackboard.Target = player.transform;
             }
+        }
+
+        public virtual void OnCreated(IObjectPool<EnemyBase> ownerPool)
+        {
+            _ownerPool = ownerPool;
+        }
+
+        public virtual void OnGet()
+        {
+            
+        }
+
+        public virtual void OnReturn()
+        {
+
         }
 
         public abstract void Attack();

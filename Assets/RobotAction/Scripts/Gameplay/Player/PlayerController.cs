@@ -7,9 +7,10 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour, IDamageable
     {
-        [SerializeField] private PlayerMover _playerMover;
+        [SerializeField] private PlayerMoverData _playerMoverData;
         [SerializeField] private EnergyCoreData _energyCoreData;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
         [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
@@ -22,6 +23,7 @@ namespace RobotAction.Gameplay.Player
 
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
+        private PlayerMover _mover;
         private EnergyCore _energyCore;
         private AutoLockSensor _autoLockSensor;
         private WaitForSeconds _trackTargetWait;
@@ -34,11 +36,13 @@ namespace RobotAction.Gameplay.Player
         private void Awake()
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
-            _targetBuffer = new TargetBuffer();
             _energyCore = new EnergyCore(_energyCoreData);
-            _playerMover.SetEnergyCore(_energyCore);
-            _autoLockSensor = new(transform,_autoLockSensorData, _targetBuffer);
 
+            TryGetComponent(out Rigidbody rigidbody);
+            _mover = new PlayerMover(owner: transform,_playerMoverData ,rigidbody, _energyCore);
+
+            _targetBuffer = new TargetBuffer();
+            _autoLockSensor = new(transform, _autoLockSensorData, _targetBuffer);
             _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
             _isTracking = true;
 
@@ -67,6 +71,11 @@ namespace RobotAction.Gameplay.Player
             _inputReader.OnSwitchCloserTarget += HandleSwitchLeftTarget;
         }
 
+        private void FixedUpdate()
+        {
+            _mover?.OnFixedUpdate(Time.fixedDeltaTime);
+        }
+
         private void Update()
         {
             _autoLockSensor?.Tick(Time.deltaTime, transform.position);
@@ -75,7 +84,7 @@ namespace RobotAction.Gameplay.Player
             Vector2 rawInput = _inputReader.MoveDirection;
             Vector3 moveDirection = transform.forward * rawInput.y + transform.right * rawInput.x;
 
-            _playerMover.SetMoveDirection(moveDirection);
+            _mover.SetMoveDirection(moveDirection);
 
             if (_isRightAttacking)
             {
@@ -148,7 +157,6 @@ namespace RobotAction.Gameplay.Player
         private void RotateTowardsToTarget(Transform target)
         {
             Vector3 direction = (target.position - transform.position).normalized;
-
             Quaternion rotation = Quaternion.LookRotation(direction);
 
             transform.rotation = Quaternion.Slerp(transform.rotation,
@@ -165,10 +173,9 @@ namespace RobotAction.Gameplay.Player
 
             if (rawInput.x == 0) return;
 
-            if(_inputReader.IsMouseLook)
+            if (_inputReader.IsMouseLook)
             {
                 Vector3 angle = transform.localEulerAngles;
-
                 angle.y += rawInput.x * _mouseLookSensitivity;
 
                 transform.eulerAngles = angle;
@@ -176,7 +183,6 @@ namespace RobotAction.Gameplay.Player
             else
             {
                 Vector3 angle = transform.localEulerAngles;
-
                 angle.y += rawInput.x * _gamePadLookSensitivity * Time.deltaTime;
 
                 transform.eulerAngles = angle;
@@ -185,12 +191,12 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleBoost(bool isBoosting)
         {
-            if(isBoosting)
+            if (isBoosting)
             {
-                _playerMover.BoostImpulse();
+                _mover.BoostImpulse();
             }
 
-            _playerMover.SetBoostState(isBoosting);
+            _mover.SetBoostState(isBoosting);
         }
 
         private void HandleRightAttack(bool isAttacking)
@@ -205,7 +211,7 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleHover(bool isHovering)
         {
-            _playerMover.SetHoverState(isHovering);
+            _mover.SetHoverState(isHovering);
         }
 
         private void HandleRightEquip()
@@ -235,7 +241,7 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleSwitchRightTarget()
         {
-            if(_isLockOn && _targetBuffer.HasTarget)
+            if (_isLockOn && _targetBuffer.HasTarget)
             {
                 _selectTargetNum++;
                 _selectTargetNum = Mathf.Clamp(_selectTargetNum,
@@ -246,12 +252,12 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleSwitchLeftTarget()
         {
-            if(_isLockOn && _targetBuffer.HasTarget)
+            if (_isLockOn && _targetBuffer.HasTarget)
             {
                 _selectTargetNum--;
                 _selectTargetNum = Mathf.Clamp(_selectTargetNum,
                                          0,
-                                         _targetBuffer.DetectedTargets.Count-1);
+                                         _targetBuffer.DetectedTargets.Count - 1);
             }
         }
     }

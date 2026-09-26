@@ -1,36 +1,38 @@
 using RobotAction.Gameplay.Energy;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace RobotAction.Gameplay.Player
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public class PlayerMover : MonoBehaviour
+    public class PlayerMover
     {
         private const float DeadZoneSqr = 0.01f;
 
-        [SerializeField] private PlayerMoverData _data;
+        private readonly Transform _owner;
+        private readonly IPlayerMoverData _data;
+        private readonly EnergyCore _energyCore;
+        private readonly Rigidbody _rigidbody;
 
-        private EnergyCore _energyCore;
-        private Rigidbody _rigidbody;
         private Vector3 _currentMoveDirection;
         private bool _isBoosting;
         private bool _isHovering;
 
-        private void Awake()
+        public PlayerMover(Transform owner,
+                           IPlayerMoverData data,
+                           Rigidbody rigidbody,
+                           EnergyCore energyCore)
         {
-            TryGetComponent(out _rigidbody);
-
+            _owner = owner;
+            _data = data;
+            _rigidbody = rigidbody;
             _rigidbody.maxLinearVelocity = _data.DefaultMaxSpeed;
+            _energyCore = energyCore;
         }
 
-        private void FixedUpdate()
+        public void OnFixedUpdate(float fixedDeltaTime)
         {
-            float fixedDeltaTime = Time.fixedDeltaTime;
-
             if (_isHovering && _energyCore.TryCosume(_data.MoveEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_data.MoveSpeed * transform.up, ForceMode.Force);
+                _rigidbody.AddForce(_data.MoveSpeed * _owner.up, ForceMode.Force);
             }
 
             if (_currentMoveDirection.sqrMagnitude < DeadZoneSqr)
@@ -54,11 +56,6 @@ namespace RobotAction.Gameplay.Player
                                                                  _data.BoostMaxSpeed,
                                                                  _data.MaxSpeedDeceleration * fixedDeltaTime);
             }
-        }
-
-        public void SetEnergyCore(EnergyCore energyCore)
-        {
-            _energyCore = energyCore;
         }
 
         public void SetBoostState(bool isBoosting)

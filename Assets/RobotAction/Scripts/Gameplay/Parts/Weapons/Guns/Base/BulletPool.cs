@@ -1,5 +1,4 @@
 using RobotAction.Gameplay.ObjectPool;
-using RobotAction.Gameplay.Scriptables;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns

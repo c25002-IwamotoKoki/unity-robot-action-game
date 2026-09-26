@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Scriptables
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     [CreateAssetMenu(fileName = "GunData", menuName = "Scriptable Objects/EnergyGunData")]
     public class EnergyGunData : GunData

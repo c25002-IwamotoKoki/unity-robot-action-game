@@ -24,20 +24,25 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             if (_lifeTimer >= _lifeTime)
             {
                 _lifeTimer = 0;
-                OwnerPool.Release(this);
+
+                if(!_isReleased)
+                {
+                    OwnerPool.Release(this);
+                    _isReleased = true;
+                }
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (_owner == null) return;
+            if (_owner == null || _isReleased) return;
 
             if (other.transform.TryGetComponent(out IDamageable damageable) &&
                 other.transform != _owner)
             {
                 damageable.GetDamage(_baseAttackPower);
-                _lifeTimer = 0;
                 OwnerPool.Release(this);
+                _isReleased = true;
             }
         }
 

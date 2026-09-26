@@ -1,44 +1,38 @@
 using RobotAction.Gameplay.Energy;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace RobotAction.Gameplay.Player
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public class PlayerMover : MonoBehaviour
+    public class PlayerMover
     {
         private const float DeadZoneSqr = 0.01f;
 
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _useMoveEnergy;
-        [SerializeField] private float _hoverSpeed;
-        [SerializeField] private float _useHoverEnergy;
-        [SerializeField] private float _defaultMaxSpeed;
-        [SerializeField] private float _boostImpulseSpeed;
-        [SerializeField] private float _useBoostImpulseEnergy;
-        [SerializeField] private float _boostForceSpeed;
-        [SerializeField] private float _useBoostForceEnergy;
-        [SerializeField] private float _boostMaxSpeed;
-        [SerializeField] private float _maxSpeedDeceleration;
+        private readonly Transform _owner;
+        private readonly IPlayerMoverData _data;
+        private readonly EnergyCore _energyCore;
+        private readonly Rigidbody _rigidbody;
 
-        private EnergyCore _energyCore;
-        private Rigidbody _rigidbody;
         private Vector3 _currentMoveDirection;
         private bool _isBoosting;
         private bool _isHovering;
 
-        private void Awake()
+        public PlayerMover(Transform owner,
+                           IPlayerMoverData data,
+                           Rigidbody rigidbody,
+                           EnergyCore energyCore)
         {
-            TryGetComponent(out _rigidbody);
-
-            _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
+            _owner = owner;
+            _data = data;
+            _rigidbody = rigidbody;
+            _rigidbody.maxLinearVelocity = _data.DefaultMaxSpeed;
+            _energyCore = energyCore;
         }
 
-        private void FixedUpdate()
+        public void OnFixedUpdate(float fixedDeltaTime)
         {
-            if (_isHovering && _energyCore.TryCosume(_useHoverEnergy))
+            if (_isHovering && _energyCore.TryCosume(_data.MoveEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_hoverSpeed * transform.up, ForceMode.Force);
+                _rigidbody.AddForce(_data.MoveSpeed * _owner.up, ForceMode.Force);
             }
 
             if (_currentMoveDirection.sqrMagnitude < DeadZoneSqr)
@@ -46,27 +40,22 @@ namespace RobotAction.Gameplay.Player
                 return;
             }
 
-            if(_currentMoveDirection != Vector3.zero && _energyCore.TryCosume(_useMoveEnergy))
+            if (!_isBoosting && _energyCore.TryCosume(_data.MoveEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_currentMoveDirection * _moveSpeed,ForceMode.Force);
+                _rigidbody.AddForce(_currentMoveDirection * _data.MoveSpeed, ForceMode.Force);
             }
 
-            if(_isBoosting && _energyCore.TryCosume(_useBoostForceEnergy))
+            if (_isBoosting && _energyCore.TryCosume(_data.BoostEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_boostForceSpeed * _currentMoveDirection, ForceMode.Force);
+                _rigidbody.AddForce(_data.BoostSpeed * _currentMoveDirection, ForceMode.Force);
             }
-            
-            if(!_isBoosting && _rigidbody.maxLinearVelocity != _defaultMaxSpeed)
+
+            if (!_isBoosting && _rigidbody.maxLinearVelocity != _data.DefaultMaxSpeed)
             {
                 _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
-                                                                _boostMaxSpeed,
-                                                                _maxSpeedDeceleration * Time.fixedDeltaTime);
+                                                                 _data.BoostMaxSpeed,
+                                                                 _data.MaxSpeedDeceleration * fixedDeltaTime);
             }
-        }
-
-        public void SetEnergyCore(EnergyCore energyCore)
-        {
-            _energyCore = energyCore;
         }
 
         public void SetBoostState(bool isBoosting)
@@ -86,10 +75,13 @@ namespace RobotAction.Gameplay.Player
 
         public void BoostImpulse()
         {
-            _rigidbody.maxLinearVelocity = _boostMaxSpeed;
+            _rigidbody.maxLinearVelocity = _data.BoostMaxSpeed;
 
-            _rigidbody.AddForce(_boostImpulseSpeed * _currentMoveDirection,
-                                ForceMode.Impulse);
+            if (_energyCore.TryCosume(_data.BoostEnergyCost))
+            {
+                _rigidbody.AddForce(_data.BoostSpeed * _currentMoveDirection,
+                                    ForceMode.Impulse);
+            }
         }
     }
 }

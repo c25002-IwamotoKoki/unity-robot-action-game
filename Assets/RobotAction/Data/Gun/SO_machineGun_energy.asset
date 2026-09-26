@@ -17,6 +17,7 @@ MonoBehaviour:
   _damage: 20
   _maxRange: 20
   _beamExtendSpeed: 500
+  _maxHitCount: 5
   _hitLayer:
     serializedVersion: 2
     m_Bits: 1

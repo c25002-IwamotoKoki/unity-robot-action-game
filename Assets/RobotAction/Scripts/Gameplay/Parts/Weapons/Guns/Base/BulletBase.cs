@@ -8,7 +8,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     {
         protected IObjectPool<BulletBase> OwnerPool { get; private set; }
 
-        private bool _isReturned;
+        protected bool _isReleased;
 
         public virtual void OnCreated(IObjectPool<BulletBase> ownerPool)
         {
@@ -17,18 +17,18 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public virtual void OnGet()
         {
-            _isReturned = false;
+            _isReleased = false;
         }
 
         public virtual void OnReturn()
         {
             //2èdï‘ãpñhé~óp
-            if(_isReturned)
+            if(_isReleased)
             {
                 return;
             }
 
-            _isReturned = true;
+            _isReleased = true;
         }
 
         public abstract void Fire(in BulletContext context);

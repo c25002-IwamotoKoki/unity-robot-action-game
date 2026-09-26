@@ -1,6 +1,5 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Player;
-using RobotAction.Gameplay.Scriptables;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy

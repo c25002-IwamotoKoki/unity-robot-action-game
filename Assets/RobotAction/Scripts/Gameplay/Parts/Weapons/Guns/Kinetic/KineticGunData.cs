@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Scriptables
+namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     [CreateAssetMenu(fileName = "KineticGunData", menuName = "Scriptable Objects/KineticGunData")]
     public class KineticGunData : GunData

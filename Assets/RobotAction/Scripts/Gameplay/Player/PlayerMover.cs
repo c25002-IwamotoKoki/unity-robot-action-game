@@ -9,13 +9,7 @@ namespace RobotAction.Gameplay.Player
     {
         private const float DeadZoneSqr = 0.01f;
 
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _moveEnergyCost;
-        [SerializeField] private float _boostSpeed;
-        [SerializeField] private float _boostEnergyCost;
-        [SerializeField] private float _defaultMaxSpeed;
-        [SerializeField] private float _boostMaxSpeed;
-        [SerializeField] private float _maxSpeedDeceleration;
+        [SerializeField] private PlayerMoverData _data;
 
         private EnergyCore _energyCore;
         private Rigidbody _rigidbody;
@@ -27,16 +21,16 @@ namespace RobotAction.Gameplay.Player
         {
             TryGetComponent(out _rigidbody);
 
-            _rigidbody.maxLinearVelocity = _defaultMaxSpeed;
+            _rigidbody.maxLinearVelocity = _data.DefaultMaxSpeed;
         }
 
         private void FixedUpdate()
         {
             float fixedDeltaTime = Time.fixedDeltaTime;
 
-            if (_isHovering && _energyCore.TryCosume(_moveEnergyCost * fixedDeltaTime))
+            if (_isHovering && _energyCore.TryCosume(_data.MoveEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_moveSpeed * transform.up, ForceMode.Force);
+                _rigidbody.AddForce(_data.MoveSpeed * transform.up, ForceMode.Force);
             }
 
             if (_currentMoveDirection.sqrMagnitude < DeadZoneSqr)
@@ -44,21 +38,21 @@ namespace RobotAction.Gameplay.Player
                 return;
             }
 
-            if (!_isBoosting && _energyCore.TryCosume(_moveEnergyCost * fixedDeltaTime))
+            if (!_isBoosting && _energyCore.TryCosume(_data.MoveEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_currentMoveDirection * _moveSpeed, ForceMode.Force);
+                _rigidbody.AddForce(_currentMoveDirection * _data.MoveSpeed, ForceMode.Force);
             }
 
-            if (_isBoosting && _energyCore.TryCosume(_boostEnergyCost * fixedDeltaTime))
+            if (_isBoosting && _energyCore.TryCosume(_data.BoostEnergyCost * fixedDeltaTime))
             {
-                _rigidbody.AddForce(_boostSpeed * _currentMoveDirection, ForceMode.Force);
+                _rigidbody.AddForce(_data.BoostSpeed * _currentMoveDirection, ForceMode.Force);
             }
 
-            if (!_isBoosting && _rigidbody.maxLinearVelocity != _defaultMaxSpeed)
+            if (!_isBoosting && _rigidbody.maxLinearVelocity != _data.DefaultMaxSpeed)
             {
                 _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
-                                                                 _boostMaxSpeed,
-                                                                 _maxSpeedDeceleration * fixedDeltaTime);
+                                                                 _data.BoostMaxSpeed,
+                                                                 _data.MaxSpeedDeceleration * fixedDeltaTime);
             }
         }
 
@@ -84,11 +78,11 @@ namespace RobotAction.Gameplay.Player
 
         public void BoostImpulse()
         {
-            _rigidbody.maxLinearVelocity = _boostMaxSpeed;
+            _rigidbody.maxLinearVelocity = _data.BoostMaxSpeed;
 
-            if (_energyCore.TryCosume(_boostEnergyCost))
+            if (_energyCore.TryCosume(_data.BoostEnergyCost))
             {
-                _rigidbody.AddForce(_boostSpeed * _currentMoveDirection,
+                _rigidbody.AddForce(_data.BoostSpeed * _currentMoveDirection,
                                     ForceMode.Impulse);
             }
         }

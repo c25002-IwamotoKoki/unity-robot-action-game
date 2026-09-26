@@ -1,3 +1,4 @@
+using RobotAction.Gameplay.Energy;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -9,13 +10,18 @@ namespace RobotAction.Gameplay.Player
         private const float DeadZoneSqr = 0.01f;
 
         [SerializeField] private float _moveSpeed;
+        [SerializeField] private float _useMoveEnergy;
         [SerializeField] private float _hoverSpeed;
+        [SerializeField] private float _useHoverEnergy;
         [SerializeField] private float _defaultMaxSpeed;
         [SerializeField] private float _boostImpulseSpeed;
+        [SerializeField] private float _useBoostImpulseEnergy;
         [SerializeField] private float _boostForceSpeed;
+        [SerializeField] private float _useBoostForceEnergy;
         [SerializeField] private float _boostMaxSpeed;
         [SerializeField] private float _maxSpeedDeceleration;
 
+        private EnergyCore _energyCore;
         private Rigidbody _rigidbody;
         private Vector3 _currentMoveDirection;
         private bool _isBoosting;
@@ -30,7 +36,7 @@ namespace RobotAction.Gameplay.Player
 
         private void FixedUpdate()
         {
-            if (_isHovering)
+            if (_isHovering && _energyCore.TryCosume(_useHoverEnergy))
             {
                 _rigidbody.AddForce(_hoverSpeed * transform.up, ForceMode.Force);
             }
@@ -40,12 +46,12 @@ namespace RobotAction.Gameplay.Player
                 return;
             }
 
-            if(_currentMoveDirection != Vector3.zero)
+            if(_currentMoveDirection != Vector3.zero && _energyCore.TryCosume(_useMoveEnergy))
             {
                 _rigidbody.AddForce(_currentMoveDirection * _moveSpeed,ForceMode.Force);
             }
 
-            if(_isBoosting)
+            if(_isBoosting && _energyCore.TryCosume(_useBoostForceEnergy))
             {
                 _rigidbody.AddForce(_boostForceSpeed * _currentMoveDirection, ForceMode.Force);
             }
@@ -56,6 +62,11 @@ namespace RobotAction.Gameplay.Player
                                                                 _boostMaxSpeed,
                                                                 _maxSpeedDeceleration * Time.fixedDeltaTime);
             }
+        }
+
+        public void SetEnergyCore(EnergyCore energyCore)
+        {
+            _energyCore = energyCore;
         }
 
         public void SetBoostState(bool isBoosting)

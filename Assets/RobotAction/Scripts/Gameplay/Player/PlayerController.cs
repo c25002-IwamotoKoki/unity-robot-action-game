@@ -1,4 +1,5 @@
 using RobotAction.Gameplay.Combat;
+using RobotAction.Gameplay.Energy;
 using RobotAction.Gameplay.Parts.Weapons;
 using RobotAction.Gameplay.Sensors;
 using System.Collections;
@@ -9,6 +10,7 @@ namespace RobotAction.Gameplay.Player
     public class PlayerController : MonoBehaviour, IDamageable
     {
         [SerializeField] private PlayerMover _playerMover;
+        [SerializeField] private EnergyCoreData _energyCoreData;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
         [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
         [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
@@ -20,6 +22,7 @@ namespace RobotAction.Gameplay.Player
 
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;
+        private EnergyCore _energyCore;
         private AutoLockSensor _autoLockSensor;
         private WaitForSeconds _trackTargetWait;
         private int _selectTargetNum;
@@ -32,6 +35,8 @@ namespace RobotAction.Gameplay.Player
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
             _targetBuffer = new TargetBuffer();
+            _energyCore = new EnergyCore(_energyCoreData);
+            _playerMover.SetEnergyCore(_energyCore);
             _autoLockSensor = new(transform,_autoLockSensorData, _targetBuffer);
 
             _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
@@ -65,6 +70,7 @@ namespace RobotAction.Gameplay.Player
         private void Update()
         {
             _autoLockSensor?.Tick(Time.deltaTime, transform.position);
+            _energyCore?.Tick(Time.deltaTime);
 
             Vector2 rawInput = _inputReader.MoveDirection;
             Vector3 moveDirection = transform.forward * rawInput.y + transform.right * rawInput.x;

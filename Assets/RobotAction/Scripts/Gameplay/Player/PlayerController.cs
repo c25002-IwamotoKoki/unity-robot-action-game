@@ -1,15 +1,19 @@
+using RobotAction.Core;
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Energy;
 using RobotAction.Gameplay.Parts.Weapons;
 using RobotAction.Gameplay.Sensors;
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerController : MonoBehaviour, IDamageable
+    public sealed class PlayerController : MonoBehaviour, IDamageable,IPlayerStatus
     {
+        public event Action<PlayerHealthInfo> OnHealthChanged;
+
         [SerializeField] private PlayerMoverData _playerMoverData;
         [SerializeField] private EnergyCoreData _energyCoreData;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
@@ -18,7 +22,7 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _mouseLookSensitivity;
         [SerializeField] private float _gamePadLookSensitivity;
         [SerializeField] private float _targetLookSpeed;
-        [SerializeField] private float _health;
+        [SerializeField] private float _maxHealth;
         [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
 
         private PlayerInputReader _inputReader;
@@ -27,6 +31,10 @@ namespace RobotAction.Gameplay.Player
         private EnergyCore _energyCore;
         private AutoLockSensor _autoLockSensor;
         private WaitForSeconds _trackTargetWait;
+
+        public float MaxHealth => _maxHealth;
+        public float CurrentHealth { get; private set; }
+
         private int _selectTargetNum;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
@@ -36,6 +44,7 @@ namespace RobotAction.Gameplay.Player
         private void Awake()
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
+            CurrentHealth = _maxHealth;
             _energyCore = new EnergyCore(_energyCoreData);
 
             TryGetComponent(out Rigidbody rigidbody);
@@ -132,7 +141,12 @@ namespace RobotAction.Gameplay.Player
 
         public void GetDamage(float damage)
         {
-            _health -= damage;
+            CurrentHealth -= damage;
+            
+            var HealthInfo = new PlayerHealthInfo(MaxHealth,CurrentHealth);
+
+            OnHealthChanged?.Invoke(HealthInfo);
+
         }
 
         private IEnumerator TrackingTargetRoutine()

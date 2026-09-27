@@ -1,7 +1,9 @@
 {
     "name": "UI",
     "rootNamespace": "RobotAction",
-    "references": [],
+    "references": [
+        "GUID:a11f07668eb5a804b83fa861cd36bda1"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

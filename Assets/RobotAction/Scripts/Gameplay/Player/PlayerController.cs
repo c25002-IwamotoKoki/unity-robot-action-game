@@ -10,9 +10,14 @@ using UnityEngine;
 namespace RobotAction.Gameplay.Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public sealed class PlayerController : MonoBehaviour, IDamageable,IPlayerStatus
+    public sealed class PlayerController : MonoBehaviour, IDamageable, IPlayerStatus
     {
         public event Action<PlayerHealthInfo> OnHealthChanged;
+        public event Action<PlayerEnergyInfo> OnEnergyChanged
+        {
+            add => _energyCore.OnEnergyChanged += value;
+            remove => _energyCore.OnEnergyChanged -= value;
+        }
 
         [SerializeField] private PlayerMoverData _playerMoverData;
         [SerializeField] private EnergyCoreData _energyCoreData;
@@ -35,6 +40,9 @@ namespace RobotAction.Gameplay.Player
         public float MaxHealth => _maxHealth;
         public float CurrentHealth { get; private set; }
 
+        public float MaxEnergy => _energyCore.MaxEnergy;
+        public float CurrentEnergy => _energyCore.CurrentEnergy;
+
         private int _selectTargetNum;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
@@ -48,7 +56,7 @@ namespace RobotAction.Gameplay.Player
             _energyCore = new EnergyCore(_energyCoreData);
 
             TryGetComponent(out Rigidbody rigidbody);
-            _mover = new PlayerMover(owner: transform,_playerMoverData ,rigidbody, _energyCore);
+            _mover = new PlayerMover(owner: transform, _playerMoverData, rigidbody, _energyCore);
 
             _targetBuffer = new TargetBuffer();
             _autoLockSensor = new(transform, _autoLockSensorData, _targetBuffer);
@@ -142,8 +150,8 @@ namespace RobotAction.Gameplay.Player
         public void GetDamage(float damage)
         {
             CurrentHealth -= damage;
-            
-            var HealthInfo = new PlayerHealthInfo(MaxHealth,CurrentHealth);
+
+            var HealthInfo = new PlayerHealthInfo(MaxHealth, CurrentHealth);
 
             OnHealthChanged?.Invoke(HealthInfo);
 

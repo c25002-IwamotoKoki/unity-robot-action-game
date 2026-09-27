@@ -10,7 +10,7 @@ namespace RobotAction.Root
         [SerializeField] private HubPresenter _hubPresentor;
         [SerializeField] private HubView _hubView;
 
-        public void Awake()
+        private void Start()
         {
             _hubPresentor.Initialize(_player);
         }

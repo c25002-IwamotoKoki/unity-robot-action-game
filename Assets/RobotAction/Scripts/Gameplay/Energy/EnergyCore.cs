@@ -1,3 +1,4 @@
+using RobotAction.Core;
 using System;
 
 namespace RobotAction.Gameplay.Energy
@@ -5,17 +6,19 @@ namespace RobotAction.Gameplay.Energy
     public class EnergyCore
     {
         public float MaxEnergy { get; }
+        public float CurrentEnergy { get; private set; }
+
+        public event Action<PlayerEnergyInfo> OnEnergyChanged;
 
         private readonly float _recoveryRate;
         private readonly float _coolDownDuration;
 
-        private float _currentEnergy;
         private float _coolTimer;
 
         public EnergyCore(EnergyCoreData data)
         {
             MaxEnergy = data.MaxEnergy;
-            _currentEnergy = MaxEnergy;
+            CurrentEnergy = MaxEnergy;
             _recoveryRate = data.RecoveryRate;
             _coolDownDuration = data.CoolDownDuration;
         }
@@ -28,21 +31,26 @@ namespace RobotAction.Gameplay.Energy
                 return;
             }
 
-            if(_currentEnergy < MaxEnergy)
+            if(CurrentEnergy < MaxEnergy)
             {
-                _currentEnergy = MathF.Min(MaxEnergy, _currentEnergy + _recoveryRate * deltaTime);
+                CurrentEnergy = MathF.Min(MaxEnergy,CurrentEnergy + _recoveryRate * deltaTime);
+
+                var energyInfo = new PlayerEnergyInfo(MaxEnergy, CurrentEnergy);
+                OnEnergyChanged?.Invoke(energyInfo);
             }
         }
 
         public bool TryCosume(float value)
         {
-            if (_currentEnergy < value) return false;
+            if (CurrentEnergy < value) return false;
 
-            _currentEnergy -= value;
+            var energyInfo = new PlayerEnergyInfo(MaxEnergy,CurrentEnergy);
+            OnEnergyChanged?.Invoke(energyInfo);
+
+            CurrentEnergy -= value;
             _coolTimer = _coolDownDuration;
 
             return true;
         }
-
     }
 }

@@ -1,4 +1,3 @@
-using RobotAction.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +8,9 @@ namespace RobotAction.UI
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _energyBar;
 
-        public void SetHelth(PlayerHealthInfo healthInfo)
+        public void SetHelth(float maxHealth,float currentHealth)
         {
-            _healthBar.fillAmount = healthInfo.CurrentHealth / healthInfo.MaxHealth;
+            _healthBar.fillAmount = currentHealth / maxHealth;
         }
 
         public void SetEenrgy(float maxEnergy, float currentEnergy)

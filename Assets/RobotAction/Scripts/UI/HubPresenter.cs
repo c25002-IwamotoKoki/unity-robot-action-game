@@ -30,13 +30,12 @@ namespace RobotAction.UI
 
         public void SetHealthView(PlayerHealthInfo healthInfo)
         {
-            _hubView.SetHelth(healthInfo);
+            _hubView.SetHelth(healthInfo.MaxHealth,healthInfo.CurrentHealth);
         }
 
         public void SetEnergyView(PlayerEnergyInfo energyInfo)
         {
             _hubView.SetEenrgy(energyInfo.MaxEnergy,energyInfo.CurrentEnergy);
-            Debug.Log($"EnergyView‚ðƒZƒbƒg|Current = {energyInfo.CurrentEnergy}|Max = {energyInfo.MaxEnergy}");
         }
     }
 }

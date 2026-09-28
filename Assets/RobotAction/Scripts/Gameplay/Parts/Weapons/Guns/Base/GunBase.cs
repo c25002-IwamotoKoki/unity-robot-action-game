@@ -10,12 +10,15 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public Transform Owner { get; private set; }
 
         public float AttackRange { get; protected set; }
+        public abstract int MaxUseCount { get; }
+        public int RemainingUseCount { get; protected set; }
 
         protected abstract float FireRate { get; }
+        protected bool CanFire => RemainingUseCount > 0;
 
-        private float _fireRateTimer;
         protected bool _isFired;
 
+        private float _fireRateTimer;
         private Rigidbody _rigidbody;
         private Collider _collider;
 

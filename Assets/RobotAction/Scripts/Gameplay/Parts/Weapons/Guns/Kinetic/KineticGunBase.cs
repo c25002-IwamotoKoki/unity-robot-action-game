@@ -9,6 +9,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         [SerializeField] private Transform _muzzleTransform;
         private KineticMagazine _magazine;
 
+        public override int MaxUseCount =>  _data.MaxAmmo;
+
         protected override float FireRate => _data.FireRate;
 
         protected override void OnAwake()
@@ -17,6 +19,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             {
                 Debug.LogError("KineticMagazineÇéÊìæÇ≈Ç´Ç‹ÇπÇÒÇ≈ÇµÇΩÅB");
             }
+
+            RemainingUseCount = _data.MaxAmmo;
         }
 
         private void Start()
@@ -31,10 +35,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public override void Fire()
         {
-            if(_isFired)
-            {
-                return;
-            }
+            if (_isFired || !CanFire) return;
 
             var bulletContext = new BulletContext(owner:transform.root,
                                                   _data.BulletLifeTime,
@@ -46,6 +47,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                                  _muzzleTransform.rotation);
 
             _isFired = true;
+            RemainingUseCount--;
         }
 
         public override void Equip(Transform owner)

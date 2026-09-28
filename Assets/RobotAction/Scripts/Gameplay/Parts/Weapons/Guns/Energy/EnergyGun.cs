@@ -92,6 +92,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _startBeamWorldPosition = _muzzlePoint.position;
             _damagedTargetIds.Clear();
             RemainingUseCount--;
+            InvokeOnWeaponStatusChangedEvent();
             _isfiring = true;
             _isFired = true;
         }

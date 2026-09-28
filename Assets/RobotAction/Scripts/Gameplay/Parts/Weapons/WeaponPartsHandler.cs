@@ -1,15 +1,20 @@
+using RobotAction.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons
 {
-    public class WeaponPartsHandler : PartsHandlerBase<IWeaponPart>
+    public class WeaponPartsHandler : PartsHandlerBase<IWeaponPart>, IWeaponStatus
     {
         public event Action<IWeaponPart> OnWeaponEquipped;
+        public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
+        public int RemainingUseCount => CurrentPart?.RemainingUseCount ?? default;
+        public int MaxUseCount => CurrentPart?.MaxUseCount ?? default;
+
 
         [SerializeField] private float _weaponSarchRange;
-        [SerializeField,Min(1)] private int _maxWeaponSarch;
+        [SerializeField, Min(1)] private int _maxWeaponSarch;
         [SerializeField] private LayerMask _sarchLayer;
 
         private Collider[] _detectedColliders;
@@ -25,7 +30,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
         {
             IWeaponPart weapon = GetComponentInChildren<IWeaponPart>();
 
-            if(weapon != null)
+            if (weapon != null)
             {
                 Equip(weapon);
                 OnWeaponEquipped?.Invoke(weapon);
@@ -34,7 +39,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         public bool TryPickUpNearlyWeapon()
         {
-            if(TrySearchWeapon())
+            if (TrySearchWeapon())
             {
                 Equip(_detectedWeaponParts[0]);
                 OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
@@ -44,22 +49,48 @@ namespace RobotAction.Gameplay.Parts.Weapons
             return false;
         }
 
+        protected override void OnEquip()
+        {
+            if(CurrentPart != null)
+            {
+                CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
+            }
+
+            base.OnEquip();
+        }
+
+        protected override void OnUnequip()
+        {
+            if(CurrentPart != null)
+            {
+                CurrentPart.OnWeaponStatusChanged -= HandleWeaponStatusChanged;
+            }
+
+            base.OnUnequip();
+        }
+
+        private void HandleWeaponStatusChanged(WeaponStatusInfo statusInfo)
+        {
+            OnWeaponStatusChanged?.Invoke(statusInfo);
+        }
+
         private bool TrySearchWeapon()
         {
             _detectedWeaponParts.Clear();
 
-            int searchCount = Physics.OverlapSphereNonAlloc(transform.position,
-                                                           _weaponSarchRange,
-                                                           _detectedColliders,
-                                                           _sarchLayer);
-
-            if(searchCount != 0)
+            int searchCount = Physics.OverlapSphereNonAlloc(
+                transform.position,
+                _weaponSarchRange,
+                _detectedColliders,
+                _sarchLayer
+            );
+            if (searchCount != 0)
             {
-                for(int i = 0; i < searchCount; i++)
+                for (int i = 0; i < searchCount; i++)
                 {
-                    if(_detectedColliders[i].TryGetComponent(out IWeaponPart part))
+                    if (_detectedColliders[i].TryGetComponent(out IWeaponPart part))
                     {
-                        if(!part.Owner)
+                        if (!part.Owner)
                         {
                             _detectedWeaponParts.Add(part);
                         }

@@ -10,7 +10,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         private KineticMagazine _magazine;
 
         public override int MaxUseCount =>  _data.MaxAmmo;
-
         protected override float FireRate => _data.FireRate;
 
         protected override void OnAwake()
@@ -21,6 +20,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             }
 
             RemainingUseCount = _data.MaxAmmo;
+            InvokeOnWeaponStatusChangedEvent();
         }
 
         private void Start()
@@ -48,6 +48,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             _isFired = true;
             RemainingUseCount--;
+            InvokeOnWeaponStatusChangedEvent();
         }
 
         public override void Equip(Transform owner)

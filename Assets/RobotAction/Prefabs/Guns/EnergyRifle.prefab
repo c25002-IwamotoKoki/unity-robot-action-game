@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1455997533754989495}
   - component: {fileID: 8681909846700130858}
   - component: {fileID: 8210678804934135668}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnergyRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

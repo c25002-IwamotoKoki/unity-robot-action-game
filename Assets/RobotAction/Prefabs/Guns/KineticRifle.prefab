@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 2272909339064459971}
   - component: {fileID: 3138642753551181003}
   - component: {fileID: 5368072487672567306}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KineticRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

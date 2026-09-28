@@ -8,9 +8,11 @@ namespace RobotAction.UI
         [SerializeField] private HubView _hubView;
 
         private IPlayerStatus _playerStatus;
+        private IWeaponStatus _rightStatus;
+        private IWeaponStatus _leftStatus;
         private bool _isInitialized;
 
-        public void Initialize(IPlayerStatus status)
+        public void Initialize(IPlayerStatus status, IWeaponStatus rightStatus,IWeaponStatus leftStatus)
         {
             if (_isInitialized) return;
 
@@ -20,12 +22,21 @@ namespace RobotAction.UI
             _playerStatus.OnHealthChanged += SetHealthView;
             _playerStatus.OnEnergyChanged += SetEnergyView;
 
+            _rightStatus = rightStatus;
+            _rightStatus.OnWeaponStatusChanged += SetRightWeaponStatusView;
+
+            _leftStatus = leftStatus;
+            _leftStatus.OnWeaponStatusChanged += SetLeftWeaponStatusView;
+
         }
 
         private void OnDisable()
         {
             _playerStatus.OnHealthChanged -= SetHealthView;
             _playerStatus.OnEnergyChanged -= SetEnergyView;
+
+            _rightStatus.OnWeaponStatusChanged -= SetRightWeaponStatusView;
+            _leftStatus.OnWeaponStatusChanged -= SetLeftWeaponStatusView;
         }
 
         public void SetHealthView(PlayerHealthInfo healthInfo)
@@ -36,6 +47,16 @@ namespace RobotAction.UI
         public void SetEnergyView(PlayerEnergyInfo energyInfo)
         {
             _hubView.SetEenrgy(energyInfo.MaxEnergy,energyInfo.CurrentEnergy);
+        }
+
+        private void SetRightWeaponStatusView(WeaponStatusInfo status)
+        {
+            _hubView.SetRightWeapon(status.MaxUseCount,status.RemainingUseCount);
+        }
+
+        public void SetLeftWeaponStatusView(WeaponStatusInfo status)
+        {
+            _hubView.SetLeftWeapon(status.MaxUseCount,status.RemainingUseCount);
         }
     }
 }

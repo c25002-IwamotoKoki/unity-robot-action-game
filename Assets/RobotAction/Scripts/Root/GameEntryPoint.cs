@@ -12,7 +12,11 @@ namespace RobotAction.Root
 
         private void Start()
         {
-            _hubPresentor.Initialize(_player);
+            _hubPresentor.Initialize(
+                _player,
+                _player.RightWeaponPartsHandler,
+                _player.LeftWeaponPartsHandler
+            );
         }
     }
 }

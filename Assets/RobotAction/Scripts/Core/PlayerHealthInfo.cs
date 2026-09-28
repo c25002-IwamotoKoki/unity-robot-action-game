@@ -1,0 +1,14 @@
+namespace RobotAction.Core
+{
+    public readonly struct PlayerHealthInfo
+    {
+        public float MaxHealth { get; }
+        public float CurrentHealth { get; }
+
+        public PlayerHealthInfo(float maxHealth, float currentHealth)
+        {
+            MaxHealth = maxHealth;
+            CurrentHealth = currentHealth;
+        }
+    }
+}

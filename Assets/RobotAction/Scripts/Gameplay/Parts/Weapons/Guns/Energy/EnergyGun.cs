@@ -65,8 +65,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 {
                     if (_damagedTargetIds.Add(_hitColliders[i].GetInstanceID()))
                     {
-                        _hitColliders[i].TryGetComponent(out IDamageable target);
-                        target?.GetDamage(_data.Damage);
+                        if (_hitColliders[i].TryGetComponent(out IDamageable target) &&
+                            _hitColliders[i].transform != transform.root)
+                        {
+                            target?.GetDamage(_data.Damage);
+                        }
                     }
                 }
             }

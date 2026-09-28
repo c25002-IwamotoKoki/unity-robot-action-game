@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3042270641532806520}
   - component: {fileID: 3828745049059109211}
   - component: {fileID: 4642354849512462899}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnergyMachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}

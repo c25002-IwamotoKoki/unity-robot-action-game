@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2426473220520517964}
   - component: {fileID: 1607127317547861223}
   - component: {fileID: 191873979974121606}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: KineticSubMachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}

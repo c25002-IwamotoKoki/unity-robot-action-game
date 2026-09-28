@@ -1,8 +1,9 @@
+using RobotAction.Core;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts
 {
-    public interface IWeaponPart : IPart
+    public interface IWeaponPart : IPart,IWeaponStatus
     {
         public float AttackRange { get; }
 

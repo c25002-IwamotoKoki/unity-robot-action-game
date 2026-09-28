@@ -39,9 +39,10 @@ namespace RobotAction.Gameplay.Player
 
         public float MaxHealth => _maxHealth;
         public float CurrentHealth { get; private set; }
-
         public float MaxEnergy => _energyCore.MaxEnergy;
         public float CurrentEnergy => _energyCore.CurrentEnergy;
+        public WeaponPartsHandler RightWeaponPartsHandler => _rightWeaponHandler;
+        public WeaponPartsHandler LeftWeaponPartsHandler => _leftWeaponHandler;
 
         private int _selectTargetNum;
         private bool _isRightAttacking;

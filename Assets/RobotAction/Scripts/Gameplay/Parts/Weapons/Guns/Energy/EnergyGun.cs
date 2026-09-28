@@ -11,6 +11,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         [SerializeField] private Transform _muzzlePoint;
         [SerializeField] private EnergyGunData _data;
 
+        public override int MaxUseCount => _data.MaxAmmo;
+
         protected override float FireRate => _data.FireRate;
 
         private LineRenderer _beamRenderer;
@@ -29,6 +31,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _beamRenderer.enabled = false;
             _hitColliders = new Collider[_data.MaxHitCount];
             _damagedTargetIds = new(_data.MaxHitCount);
+            RemainingUseCount = _data.MaxAmmo;
             base.OnAwake();
         }
 
@@ -84,10 +87,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public override void Fire()
         {
-            if (_isFired) return;
+            if (_isFired || !CanFire) return;
 
             _startBeamWorldPosition = _muzzlePoint.position;
             _damagedTargetIds.Clear();
+            RemainingUseCount--;
+            InvokeOnWeaponStatusChangedEvent();
             _isfiring = true;
             _isFired = true;
         }

@@ -11,12 +11,25 @@ namespace RobotAction.Gameplay.Parts
             CurrentPart?.Unequip();
             CurrentPart = newPart;
             CurrentPart.Equip(transform);
+            OnEquip();
+        }
+
+        protected virtual void OnEquip()
+        {
+
         }
 
         public void Unequip()
         {
             CurrentPart?.Unequip();
             CurrentPart = null;
+            OnUnequip();
         }
+
+        protected virtual void OnUnequip()
+        {
+            
+        }
+
     }
 }

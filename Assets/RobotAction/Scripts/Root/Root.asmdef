@@ -1,9 +1,10 @@
 {
-    "name": "GamePlay",
+    "name": "Root",
     "rootNamespace": "RobotAction",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:a11f07668eb5a804b83fa861cd36bda1"
+        "GUID:a11f07668eb5a804b83fa861cd36bda1",
+        "GUID:626f5289fb725364dba1c5eb3ed12ddf",
+        "GUID:dd751b3b19138844fa25588547ed984a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 268e48e0f3635424fb41eed925234ae0, type: 3}
+  m_Name: SO_weaponCatalog
+  m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.WeaponPartsCatalog
+  _data:
+  - {fileID: 11400000, guid: aa780f30165aedd4da2411b332953de9, type: 2}
+  - {fileID: 11400000, guid: 41c81bd04efa12d41a735701116d7332, type: 2}
+  - {fileID: 11400000, guid: 14d14393c7bc3e94eae188e628892595, type: 2}
+  - {fileID: 11400000, guid: 6381e1bf92de56d438a53c050f31d1f7, type: 2}
+  - {fileID: 11400000, guid: 72ee3ae564a2b3042ad9996ae08ff5d9, type: 2}

@@ -535,6 +535,138 @@ namespace RobotAction.Gameplay.Player
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Garage"",
+            ""id"": ""ff61772c-b60b-4a60-8f95-fc123b1ba18d"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""01682ad6-5f38-4991-82cd-cb4eaf530398"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchNext"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ad9c52c-9bc2-4d8f-ba34-fd443aecb902"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchPrevious"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5a10fe9-84a8-4559-b532-40e914fac50a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c206a05-0297-4717-a769-2b75284c5077"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""18131c87-4069-4ea3-baf1-3e5516c0757b"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3f30b0f-dc3c-4358-aa83-5322f0a04893"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76f7fe6c-c371-4b86-abd1-02a16beaee7c"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44b867d7-e046-4e73-bc96-d04548edaa82"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9593d6a1-2221-4e20-8ddc-bf806f47c446"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchPrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3ca4004-768a-40f6-87af-e26286a4fc23"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchPrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20b8b8fc-d317-4469-a40f-0fae4a686ca1"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5a6a45b-9228-4e94-9af3-30509851321f"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -553,11 +685,18 @@ namespace RobotAction.Gameplay.Player
             m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_SwitchTarget = m_Player.FindAction("SwitchTarget", throwIfNotFound: true);
+            // Garage
+            m_Garage = asset.FindActionMap("Garage", throwIfNotFound: true);
+            m_Garage_Toggle = m_Garage.FindAction("Toggle", throwIfNotFound: true);
+            m_Garage_SwitchNext = m_Garage.FindAction("SwitchNext", throwIfNotFound: true);
+            m_Garage_SwitchPrevious = m_Garage.FindAction("SwitchPrevious", throwIfNotFound: true);
+            m_Garage_Submit = m_Garage.FindAction("Submit", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
         {
             UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerInputActions.Player.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Garage.enabled, "This will cause a leak and performance issues, PlayerInputActions.Garage.Disable() has not been called.");
         }
 
         /// <summary>
@@ -846,6 +985,135 @@ namespace RobotAction.Gameplay.Player
         /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
         /// </summary>
         public PlayerActions @Player => new PlayerActions(this);
+
+        // Garage
+        private readonly InputActionMap m_Garage;
+        private List<IGarageActions> m_GarageActionsCallbackInterfaces = new List<IGarageActions>();
+        private readonly InputAction m_Garage_Toggle;
+        private readonly InputAction m_Garage_SwitchNext;
+        private readonly InputAction m_Garage_SwitchPrevious;
+        private readonly InputAction m_Garage_Submit;
+        /// <summary>
+        /// Provides access to input actions defined in input action map "Garage".
+        /// </summary>
+        public struct GarageActions
+        {
+            private @PlayerInputActions m_Wrapper;
+
+            /// <summary>
+            /// Construct a new instance of the input action map wrapper class.
+            /// </summary>
+            public GarageActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+            /// <summary>
+            /// Provides access to the underlying input action "Garage/Toggle".
+            /// </summary>
+            public InputAction @Toggle => m_Wrapper.m_Garage_Toggle;
+            /// <summary>
+            /// Provides access to the underlying input action "Garage/SwitchNext".
+            /// </summary>
+            public InputAction @SwitchNext => m_Wrapper.m_Garage_SwitchNext;
+            /// <summary>
+            /// Provides access to the underlying input action "Garage/SwitchPrevious".
+            /// </summary>
+            public InputAction @SwitchPrevious => m_Wrapper.m_Garage_SwitchPrevious;
+            /// <summary>
+            /// Provides access to the underlying input action "Garage/Submit".
+            /// </summary>
+            public InputAction @Submit => m_Wrapper.m_Garage_Submit;
+            /// <summary>
+            /// Provides access to the underlying input action map instance.
+            /// </summary>
+            public InputActionMap Get() { return m_Wrapper.m_Garage; }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+            public void Enable() { Get().Enable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+            public void Disable() { Get().Disable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+            public bool enabled => Get().enabled;
+            /// <summary>
+            /// Implicitly converts an <see ref="GarageActions" /> to an <see ref="InputActionMap" /> instance.
+            /// </summary>
+            public static implicit operator InputActionMap(GarageActions set) { return set.Get(); }
+            /// <summary>
+            /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <param name="instance">Callback instance.</param>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+            /// </remarks>
+            /// <seealso cref="GarageActions" />
+            public void AddCallbacks(IGarageActions instance)
+            {
+                if (instance == null || m_Wrapper.m_GarageActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GarageActionsCallbackInterfaces.Add(instance);
+                @Toggle.started += instance.OnToggle;
+                @Toggle.performed += instance.OnToggle;
+                @Toggle.canceled += instance.OnToggle;
+                @SwitchNext.started += instance.OnSwitchNext;
+                @SwitchNext.performed += instance.OnSwitchNext;
+                @SwitchNext.canceled += instance.OnSwitchNext;
+                @SwitchPrevious.started += instance.OnSwitchPrevious;
+                @SwitchPrevious.performed += instance.OnSwitchPrevious;
+                @SwitchPrevious.canceled += instance.OnSwitchPrevious;
+                @Submit.started += instance.OnSubmit;
+                @Submit.performed += instance.OnSubmit;
+                @Submit.canceled += instance.OnSubmit;
+            }
+
+            /// <summary>
+            /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <remarks>
+            /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+            /// </remarks>
+            /// <seealso cref="GarageActions" />
+            private void UnregisterCallbacks(IGarageActions instance)
+            {
+                @Toggle.started -= instance.OnToggle;
+                @Toggle.performed -= instance.OnToggle;
+                @Toggle.canceled -= instance.OnToggle;
+                @SwitchNext.started -= instance.OnSwitchNext;
+                @SwitchNext.performed -= instance.OnSwitchNext;
+                @SwitchNext.canceled -= instance.OnSwitchNext;
+                @SwitchPrevious.started -= instance.OnSwitchPrevious;
+                @SwitchPrevious.performed -= instance.OnSwitchPrevious;
+                @SwitchPrevious.canceled -= instance.OnSwitchPrevious;
+                @Submit.started -= instance.OnSubmit;
+                @Submit.performed -= instance.OnSubmit;
+                @Submit.canceled -= instance.OnSubmit;
+            }
+
+            /// <summary>
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GarageActions.UnregisterCallbacks(IGarageActions)" />.
+            /// </summary>
+            /// <seealso cref="GarageActions.UnregisterCallbacks(IGarageActions)" />
+            public void RemoveCallbacks(IGarageActions instance)
+            {
+                if (m_Wrapper.m_GarageActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            /// <summary>
+            /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+            /// </summary>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+            /// </remarks>
+            /// <seealso cref="GarageActions.AddCallbacks(IGarageActions)" />
+            /// <seealso cref="GarageActions.RemoveCallbacks(IGarageActions)" />
+            /// <seealso cref="GarageActions.UnregisterCallbacks(IGarageActions)" />
+            public void SetCallbacks(IGarageActions instance)
+            {
+                foreach (var item in m_Wrapper.m_GarageActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_GarageActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        /// <summary>
+        /// Provides a new <see cref="GarageActions" /> instance referencing this action map.
+        /// </summary>
+        public GarageActions @Garage => new GarageActions(this);
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
         /// </summary>
@@ -937,6 +1205,42 @@ namespace RobotAction.Gameplay.Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnSwitchTarget(InputAction.CallbackContext context);
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Garage" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="GarageActions.AddCallbacks(IGarageActions)" />
+        /// <seealso cref="GarageActions.RemoveCallbacks(IGarageActions)" />
+        public interface IGarageActions
+        {
+            /// <summary>
+            /// Method invoked when associated input action "Toggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnToggle(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "SwitchNext" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSwitchNext(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "SwitchPrevious" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSwitchPrevious(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Submit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnSubmit(InputAction.CallbackContext context);
         }
     }
 }

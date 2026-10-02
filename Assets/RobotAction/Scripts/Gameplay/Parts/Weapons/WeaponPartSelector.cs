@@ -107,37 +107,51 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         private void SelectCurrentSlotNext()
         {
-            //èzä¬éÆ
-            if(_currentSlot == WeaponPartSlot.Right)
+            if (IsCurrentSlotSubmitted())
             {
+                return;
+            }
+
+            switch (_currentSlot)
+            {
+                case WeaponPartSlot.Right:
                     _currentRightSelectIndex++;
                     _currentRightSelectIndex %= _catalog.Data.Count;
                     OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
-            }
-            else
-            {
+                    break;
+
+                case WeaponPartSlot.Left:
                     _currentLeftSelectIndex++;
                     _currentLeftSelectIndex %= _catalog.Data.Count;
                     OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
+                    break;
             }
         }
 
         private void SelectCurrentSlotPrevious()
         {
-            //èzä¬éÆ
-            if (_currentSlot == WeaponPartSlot.Right)
+            if (IsCurrentSlotSubmitted())
             {
-                    _currentRightSelectIndex--;
-                _currentRightSelectIndex = (_currentRightSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
-                    OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
+                return;
             }
-            else
+
+            //èzä¬éÆ
+            switch (_currentSlot)
             {
+                case WeaponPartSlot.Right:
+                    _currentRightSelectIndex--;
+                    _currentRightSelectIndex %= _catalog.Data.Count;
+                    OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
+                    break;
+
+                case WeaponPartSlot.Left:
                     _currentLeftSelectIndex--;
-                _currentLeftSelectIndex = (_currentLeftSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
+                    _currentLeftSelectIndex %= _catalog.Data.Count;
                     OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
+                    break;
             }
         }
+
 
         private void HandleSwitchNext(InputAction.CallbackContext context)
         {

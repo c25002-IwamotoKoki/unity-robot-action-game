@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e4a3ad089ad37344ab4f41e3f9cdf8d, type: 3}
+  m_Name: SO_kineticSniperRifle
+  m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.WeaponPartData
+  _id: wpn_kinetic_rifle
+  _name: KineticSniperRifle
+  _prefab: {fileID: 4228907766282822371, guid: 5da49ce5a2deed9418e7cd4fd0defcc9, type: 3}
+  _sprite: {fileID: 21300000, guid: a01d8b905acc1664da50d78628a6903c, type: 3}

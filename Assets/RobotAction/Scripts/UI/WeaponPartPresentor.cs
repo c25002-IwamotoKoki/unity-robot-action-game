@@ -57,10 +57,8 @@ namespace RobotAction.UI
             }
         }
 
-        private void HandleSubmitted(WeaponPartSlot slot)
+        private void HandleSubmitted()
         {
-            _currentSlot = slot;
-
             switch (_currentSlot)
             {
                 case WeaponPartSlot.Right:

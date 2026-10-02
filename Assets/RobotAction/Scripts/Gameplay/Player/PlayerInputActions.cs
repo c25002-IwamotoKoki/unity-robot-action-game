@@ -575,6 +575,15 @@ namespace RobotAction.Gameplay.Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""7da3f7c2-7f08-4d02-9d1d-b79315bb4b1e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -665,6 +674,28 @@ namespace RobotAction.Gameplay.Player
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ed3990f-b953-4552-b35f-15c1a411a643"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38b6c7cd-b500-44f7-87fe-77c20481137b"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -691,6 +722,7 @@ namespace RobotAction.Gameplay.Player
             m_Garage_SwitchNext = m_Garage.FindAction("SwitchNext", throwIfNotFound: true);
             m_Garage_SwitchPrevious = m_Garage.FindAction("SwitchPrevious", throwIfNotFound: true);
             m_Garage_Submit = m_Garage.FindAction("Submit", throwIfNotFound: true);
+            m_Garage_Cancel = m_Garage.FindAction("Cancel", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -993,6 +1025,7 @@ namespace RobotAction.Gameplay.Player
         private readonly InputAction m_Garage_SwitchNext;
         private readonly InputAction m_Garage_SwitchPrevious;
         private readonly InputAction m_Garage_Submit;
+        private readonly InputAction m_Garage_Cancel;
         /// <summary>
         /// Provides access to input actions defined in input action map "Garage".
         /// </summary>
@@ -1020,6 +1053,10 @@ namespace RobotAction.Gameplay.Player
             /// Provides access to the underlying input action "Garage/Submit".
             /// </summary>
             public InputAction @Submit => m_Wrapper.m_Garage_Submit;
+            /// <summary>
+            /// Provides access to the underlying input action "Garage/Cancel".
+            /// </summary>
+            public InputAction @Cancel => m_Wrapper.m_Garage_Cancel;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1058,6 +1095,9 @@ namespace RobotAction.Gameplay.Player
                 @Submit.started += instance.OnSubmit;
                 @Submit.performed += instance.OnSubmit;
                 @Submit.canceled += instance.OnSubmit;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
 
             /// <summary>
@@ -1081,6 +1121,9 @@ namespace RobotAction.Gameplay.Player
                 @Submit.started -= instance.OnSubmit;
                 @Submit.performed -= instance.OnSubmit;
                 @Submit.canceled -= instance.OnSubmit;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
             }
 
             /// <summary>
@@ -1241,6 +1284,13 @@ namespace RobotAction.Gameplay.Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnSubmit(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnCancel(InputAction.CallbackContext context);
         }
     }
 }

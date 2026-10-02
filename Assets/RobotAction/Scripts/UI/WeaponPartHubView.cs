@@ -46,5 +46,16 @@ namespace RobotAction.UI
         {
             _leftWeaponDisplay.color = _submittedSlotColor;
         }
+
+        public void SetRightUnsubmitted()
+        {
+            _rightWeaponDisplay.color = Color.white;
+        }
+
+        public void SetLeftUnsubmitted()
+        {
+            _leftWeaponDisplay.color = Color.white;
+        }
+
     }
 }

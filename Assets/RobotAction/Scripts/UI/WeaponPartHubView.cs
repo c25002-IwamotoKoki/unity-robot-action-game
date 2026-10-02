@@ -10,8 +10,8 @@ namespace RobotAction.UI
         [SerializeField] private TextMeshProUGUI _rightWeaponNameDisplay;
         [SerializeField] private Image _leftWeaponDisplay;
         [SerializeField] private TextMeshProUGUI _leftWeaponNameDisplay;
-
         [SerializeField] private RectTransform _highlightDisplay;
+        [SerializeField] private Color _submittedSlotColor;
 
         public void SetRightWeapon(Sprite sprite,string name)
         {
@@ -35,6 +35,16 @@ namespace RobotAction.UI
         public void SetLeftWeaponHighlight()
         {
             _highlightDisplay.position = _leftWeaponNameDisplay.transform.position;
+        }
+
+        public void SetRightSubmitted()
+        {
+            _rightWeaponDisplay.color = _submittedSlotColor;
+        }
+
+        public void SetLeftSubmitted()
+        {
+            _leftWeaponDisplay.color = _submittedSlotColor;
         }
     }
 }

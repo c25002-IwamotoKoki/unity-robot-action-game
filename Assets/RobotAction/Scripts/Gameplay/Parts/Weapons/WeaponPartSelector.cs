@@ -16,7 +16,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         public event Action<IWeaponPartData> OnSelected;
         public event Action<WeaponPartSlot> OnSlotChanged;
-        public event Action<WeaponPartSlot> OnSubmitted;
+        public event Action OnSubmitted;
         public event Action OnCanceled;
 
         private WeaponPartSlot _currentSlot;
@@ -60,10 +60,10 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         private void HandleSubmit(InputAction.CallbackContext context)
         {
-            SubmitWeapon();
+            SubmitCurrentSlot();
         }
 
-        private void SubmitWeapon()
+        private void SubmitCurrentSlot()
         {
             switch (_currentSlot)
             {
@@ -82,7 +82,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
             }
 
-            OnSubmitted?.Invoke(_currentSlot);
+            OnSubmitted?.Invoke();
         }
 
         private bool IsCurrentSlotSubmitted()

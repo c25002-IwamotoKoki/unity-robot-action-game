@@ -12,10 +12,12 @@ namespace RobotAction.Gameplay.Parts.Weapons
         [SerializeField] private InputActionReference _submitWeaponAction;
         [SerializeField] private InputActionReference _switchNextAction;
         [SerializeField] private InputActionReference _switchPreviousAction;
+        [SerializeField] private InputActionReference _cancelAction;
 
         public event Action<IWeaponPartData> OnSelected;
         public event Action<WeaponPartSlot> OnSlotChanged;
         public event Action<WeaponPartSlot> OnSubmitted;
+        public event Action OnCanceled;
 
         private WeaponPartSlot _currentSlot;
         private int _currentRightSelectIndex;
@@ -44,6 +46,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
             EnableAction(_toggleSlotAction, HandleToggle);
             EnableAction(_switchNextAction, HandleSwitchNext);
             EnableAction(_switchPreviousAction, HandleSwitchPrevious);
+            EnableAction(_cancelAction, HandleCancel);
         }
 
         private void OnDisable()
@@ -52,6 +55,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
             DisableAction(_toggleSlotAction, HandleToggle);
             DisableAction(_switchNextAction, HandleSwitchNext);
             DisableAction(_switchPreviousAction, HandleSwitchPrevious);
+            DisableAction(_cancelAction,HandleCancel);
         }
 
         private void HandleSubmit(InputAction.CallbackContext context)
@@ -89,6 +93,32 @@ namespace RobotAction.Gameplay.Parts.Weapons
                 WeaponPartSlot.Left => _isLeftSubmitted,
                 _ => throw new ArgumentOutOfRangeException(nameof(_currentSlot), _currentSlot, null),
             };
+        }
+
+        private void HandleCancel(InputAction.CallbackContext context)
+        {
+            CancelCurrentSlot();
+        }
+
+        private void CancelCurrentSlot()
+        {
+            if (!IsCurrentSlotSubmitted())
+            {
+                return;
+            }
+
+            switch (_currentSlot)
+            {
+                case WeaponPartSlot.Right:
+                    _isRightSubmitted = false;
+                    break;
+
+                    case WeaponPartSlot.Left:
+                    _isLeftSubmitted = false;
+                    break;
+            }
+
+            OnCanceled?.Invoke();
         }
 
         private void HandleToggle(InputAction.CallbackContext context)
@@ -140,13 +170,13 @@ namespace RobotAction.Gameplay.Parts.Weapons
             {
                 case WeaponPartSlot.Right:
                     _currentRightSelectIndex--;
-                    _currentRightSelectIndex %= _catalog.Data.Count;
+                    _currentRightSelectIndex = (_currentRightSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
                     OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
                     break;
 
                 case WeaponPartSlot.Left:
                     _currentLeftSelectIndex--;
-                    _currentLeftSelectIndex %= _catalog.Data.Count;
+                    _currentLeftSelectIndex = (_currentLeftSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
                     OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
                     break;
             }

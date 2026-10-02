@@ -16,6 +16,7 @@ namespace RobotAction.UI
             _selector.OnSelected += HandleSelected;
             _selector.OnSlotChanged += HandleToggleSlot;
             _selector.OnSubmitted += HandleSubmitted;
+            _selector.OnCanceled += HandleCanceled;
         }
 
         private void OnDisable()
@@ -23,6 +24,7 @@ namespace RobotAction.UI
             _selector.OnSelected -= HandleSelected;
             _selector.OnSlotChanged -= HandleToggleSlot;
             _selector.OnSubmitted -= HandleSubmitted;
+            _selector.OnCanceled -= HandleCanceled;
         }
 
         private void HandleSelected(IWeaponPartData data)
@@ -67,6 +69,20 @@ namespace RobotAction.UI
 
                 case WeaponPartSlot.Left:
                     _hubView.SetLeftSubmitted();
+                    return;
+            }
+        }
+
+        private void HandleCanceled()
+        {
+            switch (_currentSlot)
+            {
+                case WeaponPartSlot.Right:
+                    _hubView.SetRightUnsubmitted();
+                    return;
+
+                case WeaponPartSlot.Left:
+                    _hubView.SetLeftUnsubmitted();
                     return;
             }
         }

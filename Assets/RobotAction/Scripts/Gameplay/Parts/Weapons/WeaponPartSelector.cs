@@ -15,10 +15,15 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         public event Action<IWeaponPartData> OnSelected;
         public event Action<WeaponPartSlot> OnSlotChanged;
+        public event Action<WeaponPartSlot> OnSubmitted;
 
         private WeaponPartSlot _currentSlot;
         private int _currentRightSelectIndex;
         private int _currentLeftSelectIndex;
+        private string _currentRightId;
+        private string _currentLeftId;
+        private bool _isRightSubmitted;
+        private bool _isLeftSubmitted;
 
         public void Awake()
         {
@@ -56,7 +61,34 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         private void SubmitWeapon()
         {
-           
+            switch (_currentSlot)
+            {
+                case WeaponPartSlot.Right:
+                    _currentRightId = _catalog.Data[_currentRightSelectIndex].Id;
+                    _isRightSubmitted = true;
+                    break;
+
+                case WeaponPartSlot.Left:
+                    _currentLeftId = _catalog.Data[_currentLeftSelectIndex].Id;
+                    _isLeftSubmitted = true;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_currentSlot), _currentSlot, "ñ¢íËã`ÇÃílÇ™ì¸ÇËÇ‹ÇµÇΩ");
+
+            }
+
+            OnSubmitted?.Invoke(_currentSlot);
+        }
+
+        private bool IsCurrentSlotSubmitted()
+        {
+            return _currentSlot switch
+            {
+                WeaponPartSlot.Right => _isRightSubmitted,
+                WeaponPartSlot.Left => _isLeftSubmitted,
+                _ => throw new ArgumentOutOfRangeException(nameof(_currentSlot), _currentSlot, null),
+            };
         }
 
         private void HandleToggle(InputAction.CallbackContext context)
@@ -78,15 +110,15 @@ namespace RobotAction.Gameplay.Parts.Weapons
             //èzä¬éÆ
             if(_currentSlot == WeaponPartSlot.Right)
             {
-                _currentRightSelectIndex++;
-                _currentRightSelectIndex %= _catalog.Data.Count;
-                OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
+                    _currentRightSelectIndex++;
+                    _currentRightSelectIndex %= _catalog.Data.Count;
+                    OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
             }
             else
             {
-                _currentLeftSelectIndex++;
-                _currentLeftSelectIndex %= _catalog.Data.Count;
-                OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
+                    _currentLeftSelectIndex++;
+                    _currentLeftSelectIndex %= _catalog.Data.Count;
+                    OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
             }
         }
 
@@ -95,15 +127,15 @@ namespace RobotAction.Gameplay.Parts.Weapons
             //èzä¬éÆ
             if (_currentSlot == WeaponPartSlot.Right)
             {
-                _currentRightSelectIndex--;
+                    _currentRightSelectIndex--;
                 _currentRightSelectIndex = (_currentRightSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
-                OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
+                    OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
             }
             else
             {
-                _currentLeftSelectIndex--;
+                    _currentLeftSelectIndex--;
                 _currentLeftSelectIndex = (_currentLeftSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
-                OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
+                    OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
             }
         }
 

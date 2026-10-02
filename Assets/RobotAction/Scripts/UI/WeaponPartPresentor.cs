@@ -15,12 +15,14 @@ namespace RobotAction.UI
         {
             _selector.OnSelected += HandleSelected;
             _selector.OnSlotChanged += HandleToggleSlot;
+            _selector.OnSubmitted += HandleSubmitted;
         }
 
         private void OnDisable()
         {
             _selector.OnSelected -= HandleSelected;
             _selector.OnSlotChanged -= HandleToggleSlot;
+            _selector.OnSubmitted -= HandleSubmitted;
         }
 
         private void HandleSelected(IWeaponPartData data)
@@ -49,6 +51,22 @@ namespace RobotAction.UI
 
                 case WeaponPartSlot.Left:
                     _hubView.SetLeftWeaponHighlight();
+                    return;
+            }
+        }
+
+        private void HandleSubmitted(WeaponPartSlot slot)
+        {
+            _currentSlot = slot;
+
+            switch (_currentSlot)
+            {
+                case WeaponPartSlot.Right:
+                    _hubView.SetRightSubmitted();
+                    return;
+
+                case WeaponPartSlot.Left:
+                    _hubView.SetLeftSubmitted();
                     return;
             }
         }

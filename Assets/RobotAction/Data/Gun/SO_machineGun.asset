@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SO_machineGun
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
   _name: MachineGun
+  _maxUseCount: 250
   _fireRate: 0.2
   _bulletLifeTime: 2
   _bulletSpeed: 50

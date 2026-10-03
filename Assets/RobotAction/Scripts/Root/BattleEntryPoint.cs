@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RobotAction.Root
 {
-    public sealed class GameEntryPoint : MonoBehaviour
+    public sealed class BattleEntryPoint : MonoBehaviour
     {
         [SerializeField] private PlayerController _player;
         [SerializeField] private HubPresenter _hubPresentor;

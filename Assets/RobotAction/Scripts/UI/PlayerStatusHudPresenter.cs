@@ -1,36 +1,37 @@
 using RobotAction.Core;
-using UnityEngine;
+using System;
 
 namespace RobotAction.UI
 {
-    public sealed class PlayerStatusHudPresenter : MonoBehaviour
+    public sealed class PlayerStatusHudPresenter : IDisposable
     {
-        [SerializeField] private PlayerStatusHudView _hubView;
+        private readonly PlayerStatusHudView _hubView;
+        private readonly IPlayerStatus _playerStatus;
+        private readonly IWeaponStatus _rightStatus;
+        private readonly IWeaponStatus _leftStatus;
 
-        private IPlayerStatus _playerStatus;
-        private IWeaponStatus _rightStatus;
-        private IWeaponStatus _leftStatus;
-        private bool _isInitialized;
-
-        public void Initialize(IPlayerStatus status, IWeaponStatus rightStatus,IWeaponStatus leftStatus)
+        public PlayerStatusHudPresenter(
+            PlayerStatusHudView hudView,
+            IPlayerStatus playerStatus, 
+            IWeaponStatus rightstatus,
+            IWeaponStatus leftStatus
+        )
         {
-            if (_isInitialized) return;
+            _hubView = hudView;
 
-            _isInitialized = true;
-
-            _playerStatus = status;
+            _playerStatus = playerStatus;
             _playerStatus.OnHealthChanged += SetHealthView;
             _playerStatus.OnEnergyChanged += SetEnergyView;
 
-            _rightStatus = rightStatus;
+            _rightStatus = rightstatus;
             _rightStatus.OnWeaponStatusChanged += SetRightWeaponStatusView;
 
             _leftStatus = leftStatus;
             _leftStatus.OnWeaponStatusChanged += SetLeftWeaponStatusView;
 
         }
-
-        private void OnDisable()
+     
+        public void Dispose()
         {
             _playerStatus.OnHealthChanged -= SetHealthView;
             _playerStatus.OnEnergyChanged -= SetEnergyView;

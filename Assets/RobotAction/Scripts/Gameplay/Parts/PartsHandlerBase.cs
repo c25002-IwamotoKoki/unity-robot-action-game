@@ -6,7 +6,7 @@ namespace RobotAction.Gameplay.Parts
     {
         public T CurrentPart { get; private set; }
 
-        protected void Equip(T newPart)
+        public void Equip(T newPart)
         {
             CurrentPart?.Unequip();
             CurrentPart = newPart;

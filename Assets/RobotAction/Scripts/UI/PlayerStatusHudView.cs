@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace RobotAction.UI
 {
-    public class HubView : MonoBehaviour
+    public class PlayerStatusHudView : MonoBehaviour
     {
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _energyBar;

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SO_rfle_energy
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.EnergyGunData
   _name: EnergyRifle
+  _maxUseCount: 80
   _fireRate: 2
   _damage: 200
-  _maxRange: 25
-  _beamExtendSpeed: 200
+  _maxRange: 50
+  _beamExtendSpeed: 300
   _maxHitCount: 5
   _hitLayer:
     serializedVersion: 2

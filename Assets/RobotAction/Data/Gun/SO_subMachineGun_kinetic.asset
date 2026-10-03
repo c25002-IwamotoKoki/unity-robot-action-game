@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SO_subMachineGun_kinetic
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
   _name: SubMachineGun
+  _maxUseCount: 200
   _fireRate: 0.16
   _bulletLifeTime: 1
   _bulletSpeed: 125

@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace RobotAction.UI
 {
-    public sealed class HubPresenter : MonoBehaviour
+    public sealed class PlayerStatusHudPresenter : MonoBehaviour
     {
-        [SerializeField] private HubView _hubView;
+        [SerializeField] private PlayerStatusHudView _hubView;
 
         private IPlayerStatus _playerStatus;
         private IWeaponStatus _rightStatus;

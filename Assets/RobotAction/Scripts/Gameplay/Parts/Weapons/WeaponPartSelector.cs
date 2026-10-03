@@ -18,6 +18,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
         public event Action<WeaponPartSlot> OnSlotChanged;
         public event Action OnSubmitted;
         public event Action OnCanceled;
+        public event Action<RobotAssemblyInfo> OnAllSubmitted;
 
         private WeaponPartSlot _currentSlot;
         private int _currentRightSelectIndex;
@@ -65,6 +66,13 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         private void SubmitCurrentSlot()
         {
+            if(_isRightSubmitted && _isLeftSubmitted)
+            {
+                var robotAssemblyInfo = new RobotAssemblyInfo(_currentRightId, _currentLeftId);
+
+                OnAllSubmitted?.Invoke(robotAssemblyInfo);
+            }
+
             switch (_currentSlot)
             {
                 case WeaponPartSlot.Right:

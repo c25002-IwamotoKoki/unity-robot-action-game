@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SO_sniperRifle_kinetic
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
   _name: SniperRifle
+  _maxUseCount: 80
   _fireRate: 2
   _bulletLifeTime: 3
   _bulletSpeed: 200
-  _bulletBaseAttackPower: 300
+  _bulletBaseAttackPower: 200

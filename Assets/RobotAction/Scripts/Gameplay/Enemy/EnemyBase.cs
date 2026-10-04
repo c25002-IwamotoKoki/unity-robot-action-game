@@ -3,11 +3,14 @@ using RobotAction.Gameplay.Player;
 using RobotAction.Gameplay.ObjectPool;
 using UnityEngine;
 using UnityEngine.Pool;
+using System;
 
 namespace RobotAction.Gameplay.Enemy
 {
     public abstract class EnemyBase : MonoBehaviour, IDamageable,IPoolable<EnemyBase>
     {
+        public event Action<EnemyBase> OnDied;
+
         [SerializeField] protected EnemyData _data;
 
         [SerializeField] private EnemySearchData _searchData;
@@ -21,6 +24,7 @@ namespace RobotAction.Gameplay.Enemy
         private AttackState _attackState;
         private ChaseState _chaseState;
         private Collider[] _detectedColliders;
+        private bool _isDead;
 
         public PatrolState PatrolState => _patrolState;
         public AttackState AttackState => _attackState;
@@ -47,6 +51,18 @@ namespace RobotAction.Gameplay.Enemy
         public void GetDamage(float damage)
         {
             _currentHealth -= damage;
+
+            if(_currentHealth <= 0 && !_isDead)
+            {
+                Died();
+            }
+        }
+
+        protected virtual void Died()
+        {
+            OnDied?.Invoke(this);
+            _ownerPool.Release(this);
+            _isDead = true;
         }
 
         public void SearchNearlyTarget()
@@ -72,12 +88,12 @@ namespace RobotAction.Gameplay.Enemy
 
         public virtual void OnGet()
         {
-            
+            _isDead = false;
         }
 
         public virtual void OnReturn()
         {
-
+            
         }
 
         public abstract void Attack();

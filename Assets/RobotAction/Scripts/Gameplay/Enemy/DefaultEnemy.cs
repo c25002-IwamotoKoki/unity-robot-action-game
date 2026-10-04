@@ -38,6 +38,13 @@ namespace RobotAction.Gameplay.Enemy
             _leftWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
         }
 
+        protected override void Died()
+        {
+            _rightWeaponHandler.Unequip();
+            _leftWeaponHandler.Unequip();
+            base.Died();
+        }
+
         private void HandleWeaponEquipped(IWeaponPart weapon)
         {
             _blackboard.AttackRange = weapon.AttackRange;

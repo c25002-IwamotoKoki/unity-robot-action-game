@@ -46,6 +46,11 @@ namespace RobotAction.Root.Battle
             _currnetKillCount++;
 
             _gameHudView.SetKiilCount(_requiredKillCount, _currnetKillCount);
+
+            if(_currnetKillCount >= _requiredKillCount)
+            {
+                _gameHudView.SetGameClearText();
+            }
         }
     }
 }

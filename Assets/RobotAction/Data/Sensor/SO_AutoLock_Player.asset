@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e4334dad9eb624eb856bbb5b50de52, type: 3}
   m_Name: SO_AutoLock_Player
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Sensor.AutoLockSensorData
-  _maxSearch: 10
-  _searchRange: 100
-  _searchPositionOffset: {x: 0, y: 0, z: 0}
+  _maxSearch: 15
+  _searchRange: 55
+  _searchPositionOffset: {x: 0, y: 0, z: 55}
   _searchCoolTime: 0.2

@@ -38,6 +38,7 @@ namespace RobotAction.Root.Battle
         private void OnDisable()
         {
             _randomAreaEnemyGenerator.OnEnemyDied -= HandleDiedEnemy;
+            _playerstatusHudPresenter.Dispose();
         }
 
         private void HandleDiedEnemy()
@@ -45,11 +46,6 @@ namespace RobotAction.Root.Battle
             _currnetKillCount++;
 
             _gameHudView.SetKiilCount(_requiredKillCount, _currnetKillCount);
-        }
-
-        private void OnDisable()
-        {
-            _playerstatusHudPresenter.Dispose();
         }
     }
 }

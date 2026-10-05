@@ -20,7 +20,6 @@ namespace RobotAction.Gameplay.Enemy
 
         private void Awake()
         {
-            TryGetComponent(out _enemyPool);
             _enemyPool.SetCapacity(_capacity);
             _onFieldEnemy = new(_capacity);
         }

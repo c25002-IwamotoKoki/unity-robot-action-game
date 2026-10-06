@@ -6,7 +6,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Collider))]
-    public abstract class GunBase : MonoBehaviour,IWeaponPart,IWeaponStatus
+    public abstract class GunBase : MonoBehaviour,IWeaponPart
     {
         public Transform Owner { get; private set; }
         public float AttackRange { get; protected set; }

@@ -89,6 +89,7 @@ namespace RobotAction.Gameplay.Enemy
         public virtual void OnGet()
         {
             _isDead = false;
+            _currentHealth = _data.MaxHealth;
         }
 
         public virtual void OnReturn()

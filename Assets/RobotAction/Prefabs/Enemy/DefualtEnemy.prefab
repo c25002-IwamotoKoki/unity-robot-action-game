@@ -272,6 +272,13 @@ MonoBehaviour:
   _searchData: {fileID: 11400000, guid: b9a40684ffd07a649bdda923e2548055, type: 2}
   _rightWeaponHandler: {fileID: 5575327364414714465}
   _leftWeaponHandler: {fileID: 985581624712778846}
+  _rushAttackSpeed: 50
+  _rushAttackRange: 5
+  _maxRushHitCount: 1
+  _rushRate: 2
+  _rushHitLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1931945574170951541
 GameObject:
   m_ObjectHideFlags: 0

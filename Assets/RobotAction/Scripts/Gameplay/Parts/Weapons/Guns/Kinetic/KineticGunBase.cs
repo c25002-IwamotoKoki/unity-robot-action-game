@@ -7,10 +7,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     {
         [SerializeField] private KineticGunData _data;
         [SerializeField] private Transform _muzzleTransform;
-        private KineticMagazine _magazine;
 
         public override int MaxUseCount =>  _data.MaxAmmo;
         protected override float FireRate => _data.FireRate;
+
+        private KineticMagazine _magazine;
 
         protected override void OnAwake()
         {

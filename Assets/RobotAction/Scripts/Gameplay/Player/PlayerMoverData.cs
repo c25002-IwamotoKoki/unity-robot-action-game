@@ -19,7 +19,7 @@ namespace RobotAction.Gameplay.Player
 
         [Space(10)]
 
-        [Header("Phy")]
+        [Header("Physics")]
         [SerializeField] private float _maxSpeedDeceleration;
 
         public float MoveSpeed => _moveSpeed;

@@ -6,9 +6,9 @@ namespace RobotAction.Gameplay.Sensors
     public class TargetBuffer
     {
         public List<Transform> DetectedTargets { get; private set; } = new();
-        private bool _isCapacitySet;
-
         public bool HasTarget => DetectedTargets.Count > 0;
+
+        private bool _isCapacitySet;
 
         public TargetBuffer()
         {
@@ -33,9 +33,7 @@ namespace RobotAction.Gameplay.Sensors
             for(int i = 0; i < targets.Count; i++)
             {
                 DetectedTargets.Add(targets[i]);
-            }
-           
+            }       
         }
-
     }
 }

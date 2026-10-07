@@ -8,13 +8,13 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     [RequireComponent(typeof(Collider))]
     public abstract class GunBase : MonoBehaviour,IWeaponPart
     {
+        public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
+
         public Transform Owner { get; private set; }
         public float AttackRange { get; protected set; }
         public int RemainingUseCount { get; protected set; }
-
-        public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
-
         public abstract int MaxUseCount { get; }
+
         protected abstract float FireRate { get; }
 
         protected bool CanFire => RemainingUseCount > 0;
@@ -59,8 +59,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _rigidbody.isKinematic = true;
             _collider.enabled = false;
             transform.SetParent(Owner);
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
+            transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
 
         public void Unequip()
@@ -69,12 +68,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _rigidbody.isKinematic = false;
             _collider.enabled = true;
             transform.SetParent(null);
-        }
-
-        protected void ResetCollDown()
-        {
-            _fireRateTimer = 0;
-            _isFired = true;
         }
 
         protected void InvokeOnWeaponStatusChangedEvent()

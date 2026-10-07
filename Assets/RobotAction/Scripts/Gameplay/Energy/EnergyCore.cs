@@ -5,13 +5,12 @@ namespace RobotAction.Gameplay.Energy
 {
     public class EnergyCore
     {
-        public float MaxEnergy { get; }
-        public float CurrentEnergy { get; private set; }
-
-        public event Action<PlayerEnergyInfo> OnEnergyChanged;
-
         private readonly float _recoveryRate;
         private readonly float _coolDownDuration;
+
+        public event Action<PlayerEnergyInfo> OnEnergyChanged;
+        public float MaxEnergy { get; }
+        public float CurrentEnergy { get; private set; }
 
         private float _coolTimer;
 

@@ -17,12 +17,11 @@ namespace RobotAction.Gameplay.Enemy
         [SerializeField] private float _rushRate;
         [SerializeField] private LayerMask _rushHitLayer;
 
+        private Rigidbody _rightBody;
         private Collider[] _hitColliders;
         private float _rushRateTimer;
         private bool _canRush;
         private bool _isWeaponAttack = true;
-
-        private Rigidbody _rightBody;
 
         protected override void Awake()
         {
@@ -53,6 +52,13 @@ namespace RobotAction.Gameplay.Enemy
 
             base.Update();
         }
+
+        private void OnDisable()
+        {
+            _rightWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
+            _leftWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
+        }
+
 
         public override void Attack()
         {
@@ -101,12 +107,6 @@ namespace RobotAction.Gameplay.Enemy
             base.OnGet();
             _rushRateTimer = 0;
             _canRush = true;
-        }
-
-        private void OnDisable()
-        {
-            _rightWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
-            _leftWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
         }
 
         protected override void Died()

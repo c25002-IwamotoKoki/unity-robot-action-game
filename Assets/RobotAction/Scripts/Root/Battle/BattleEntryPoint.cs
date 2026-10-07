@@ -14,9 +14,8 @@ namespace RobotAction.Root.Battle
         [SerializeField] private GameHudView _gameHudView;
         [SerializeField] private int _requiredKillCount;
 
-        private int _currnetKillCount;
-
         private PlayerStatusHudPresenter _playerstatusHudPresenter;
+        private int _currnetKillCount;
 
         private void Start()
         {

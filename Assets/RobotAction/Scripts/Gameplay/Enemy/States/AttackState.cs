@@ -41,6 +41,7 @@ namespace RobotAction.Gameplay.Enemy
                 _toTargetDirection = (_blackboard.Target.position-
                                       _ownerEnemy.transform.position).normalized;
 
+                _ownerEnemy.RotateTowards(_toTargetDirection);
             }
         }
 

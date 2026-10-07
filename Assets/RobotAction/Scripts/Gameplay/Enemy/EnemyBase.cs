@@ -34,7 +34,12 @@ namespace RobotAction.Gameplay.Enemy
         {
             _currentHealth = _data.MaxHealth;
             _detectedColliders = new Collider[_searchData.MaxSearchCount];
-            _blackboard = new Blackboard();
+
+            _blackboard = new Blackboard
+            {
+                PeriodicTickInterval = _data.PeriodicTickInterval,
+            };
+
             _stateMachine = new StateMachine(this, _blackboard);
             _patrolState = new PatrolState(_stateMachine, this, _blackboard);
             _attackState = new AttackState(_stateMachine,this,_blackboard);
@@ -46,6 +51,7 @@ namespace RobotAction.Gameplay.Enemy
         protected virtual void Update()
         {
             _stateMachine.Tick();
+            _stateMachine.PeriodicTick(Time.deltaTime);
         }
 
         public void GetDamage(float damage)

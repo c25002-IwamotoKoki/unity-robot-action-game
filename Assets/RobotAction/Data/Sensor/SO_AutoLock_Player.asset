@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Sensor.AutoLockSensorData
   _maxSearch: 15
   _searchRange: 55
-  _searchPositionOffset: {x: 0, y: 0, z: 55}
+  _searchOffset: 55
   _searchCoolTime: 0.2
+  _searchLayer:
+    serializedVersion: 2
+    m_Bits: 256

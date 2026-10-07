@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 7155862355110342341}
   - component: {fileID: 1324347889556657267}
   - component: {fileID: 1918276830295000077}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DefualtEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -38,10 +38,12 @@ namespace RobotAction.Gameplay.Sensors
         {
             _detectedTargets.Clear();
 
-            Vector3 sarchCentor = sarchOrigin + _data.SearchPositionOffset;
+            Vector3 sarchCentor = sarchOrigin + _owner.forward * _data.SearchOffset;
+
             int sarchCount = Physics.OverlapSphereNonAlloc(sarchCentor,
                                                            _data.SearchRange,
-                                                           _detectedColliders);
+                                                           _detectedColliders,
+                                                           _data.SearchLayer);
 
             if (sarchCount != 0)
             {

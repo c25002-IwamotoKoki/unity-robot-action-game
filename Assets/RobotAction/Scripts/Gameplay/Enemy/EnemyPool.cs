@@ -7,7 +7,7 @@ namespace RobotAction.Gameplay.Enemy
     {
         private bool _isSetCpacity;
         private bool _isInitialize;
-        public bool CanSpawn  => _isInitialize && GetCountAll() <= _defaultCapacity;
+        public bool CanSpawn  => _isInitialize && Pool.CountInactive > 0;
 
         public EnemyBase Spawn()
         {

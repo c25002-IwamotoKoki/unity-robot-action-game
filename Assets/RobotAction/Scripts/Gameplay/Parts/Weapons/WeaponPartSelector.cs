@@ -7,18 +7,18 @@ namespace RobotAction.Gameplay.Parts.Weapons
 {
     public class WeaponPartSelector : MonoBehaviour
     {
+        public event Action<IWeaponPartData> OnSelected;
+        public event Action<WeaponPartSlot> OnSlotChanged;
+        public event Action OnSubmitted;
+        public event Action OnCanceled;
+        public event Action<RobotAssemblyInfo> OnAllSubmitted;
+
         [SerializeField] private WeaponPartCatalog _catalog;
         [SerializeField] private InputActionReference _toggleSlotAction;
         [SerializeField] private InputActionReference _submitWeaponAction;
         [SerializeField] private InputActionReference _switchNextAction;
         [SerializeField] private InputActionReference _switchPreviousAction;
         [SerializeField] private InputActionReference _cancelAction;
-
-        public event Action<IWeaponPartData> OnSelected;
-        public event Action<WeaponPartSlot> OnSlotChanged;
-        public event Action OnSubmitted;
-        public event Action OnCanceled;
-        public event Action<RobotAssemblyInfo> OnAllSubmitted;
 
         private WeaponPartSlot _currentSlot;
         private int _currentRightSelectIndex;

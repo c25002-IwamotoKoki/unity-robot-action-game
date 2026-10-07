@@ -22,7 +22,6 @@ namespace RobotAction.Gameplay.Player
 
         public Vector2 MoveDirection => _moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
         public Vector2 LookValue => _lookAction?.ReadValue<Vector2>() ?? Vector2.zero;
-
         public bool IsMouseLook => _lookAction.activeControl?.device is Mouse;
 
         public event Action<bool> OnBoost;

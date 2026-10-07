@@ -30,13 +30,6 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _maxHealth;
         [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
 
-        private PlayerInputReader _inputReader;
-        private TargetBuffer _targetBuffer;
-        private PlayerMover _mover;
-        private EnergyCore _energyCore;
-        private AutoLockSensor _autoLockSensor;
-        private WaitForSeconds _trackTargetWait;
-
         public float MaxHealth => _maxHealth;
         public float CurrentHealth { get; private set; }
         public float MaxEnergy => _energyCore.MaxEnergy;
@@ -44,6 +37,12 @@ namespace RobotAction.Gameplay.Player
         public WeaponPartsHandler RightWeaponPartsHandler => _rightWeaponHandler;
         public WeaponPartsHandler LeftWeaponPartsHandler => _leftWeaponHandler;
 
+        private PlayerInputReader _inputReader;
+        private TargetBuffer _targetBuffer;
+        private PlayerMover _mover;
+        private EnergyCore _energyCore;
+        private AutoLockSensor _autoLockSensor;
+        private WaitForSeconds _trackTargetWait;
         private int _selectTargetNum;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
@@ -155,7 +154,6 @@ namespace RobotAction.Gameplay.Player
             var HealthInfo = new PlayerHealthInfo(MaxHealth, CurrentHealth);
 
             OnHealthChanged?.Invoke(HealthInfo);
-
         }
 
         private IEnumerator TrackingTargetRoutine()
@@ -164,9 +162,11 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget && _isLockOn)
                 {
-                    _selectTargetNum = Mathf.Clamp(_selectTargetNum,
-                                                   0,
-                                                   _targetBuffer.DetectedTargets.Count - 1);
+                    _selectTargetNum = Mathf.Clamp(
+                        _selectTargetNum,
+                        0,
+                        _targetBuffer.DetectedTargets.Count - 1
+                    );
 
                     RotateTowardsToTarget(_targetBuffer.DetectedTargets[_selectTargetNum]);
                 }
@@ -176,17 +176,17 @@ namespace RobotAction.Gameplay.Player
             yield break;
         }
 
-
         private void RotateTowardsToTarget(Transform target)
         {
             Vector3 direction = (target.position - transform.position).normalized;
             Quaternion rotation = Quaternion.LookRotation(direction);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                                                  rotation,
-                                                  _targetLookSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                rotation,
+                _targetLookSpeed * Time.deltaTime
+            );
         }
-
 
         private void UpdateLookRotation()
         {
@@ -278,9 +278,11 @@ namespace RobotAction.Gameplay.Player
             if (_isLockOn && _targetBuffer.HasTarget)
             {
                 _selectTargetNum--;
-                _selectTargetNum = Mathf.Clamp(_selectTargetNum,
-                                         0,
-                                         _targetBuffer.DetectedTargets.Count - 1);
+                _selectTargetNum = Mathf.Clamp(
+                    _selectTargetNum,
+                    0,
+                    _targetBuffer.DetectedTargets.Count - 1
+                );
             }
         }
     }

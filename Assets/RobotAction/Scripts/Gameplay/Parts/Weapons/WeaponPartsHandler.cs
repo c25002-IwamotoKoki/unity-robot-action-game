@@ -9,6 +9,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
     {
         public event Action<IWeaponPart> OnWeaponEquipped;
         public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
+
         public int RemainingUseCount => CurrentPart?.RemainingUseCount ?? default;
         public int MaxUseCount => CurrentPart?.MaxUseCount ?? default;
 

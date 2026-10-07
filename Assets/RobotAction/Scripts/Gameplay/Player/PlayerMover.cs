@@ -16,10 +16,12 @@ namespace RobotAction.Gameplay.Player
         private bool _isBoosting;
         private bool _isHovering;
 
-        public PlayerMover(Transform owner,
-                           IPlayerMoverData data,
-                           Rigidbody rigidbody,
-                           EnergyCore energyCore)
+        public PlayerMover(
+            Transform owner,
+            IPlayerMoverData data,
+            Rigidbody rigidbody,
+            EnergyCore energyCore
+        )
         {
             _owner = owner;
             _data = data;

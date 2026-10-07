@@ -16,13 +16,13 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         protected override float FireRate => _data.FireRate;
 
         private LineRenderer _beamRenderer;
-        private bool _isfiring;
+        private Collider[] _hitColliders;
+        private HashSet<int> _damagedTargetIds;
         private Vector3 _startBeamWorldPosition;
         private Vector3 _endBeamWorldPosition;
         private float _currentLength;
-        private Collider[] _hitColliders;
-        private HashSet<int> _damagedTargetIds;
-
+        private bool _isfiring;
+        
         protected override void OnAwake()
         {
             AttackRange = _data.MaxRange;

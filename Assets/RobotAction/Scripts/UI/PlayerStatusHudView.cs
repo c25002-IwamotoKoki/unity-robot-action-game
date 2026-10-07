@@ -7,7 +7,6 @@ namespace RobotAction.UI
     {
         [SerializeField] private Image _healthBar;
         [SerializeField] private Image _energyBar;
-
         [SerializeField] private Image _rightWeaponBar;
         [SerializeField] private Image _leftWeaponBar;
 

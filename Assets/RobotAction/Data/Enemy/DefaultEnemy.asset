@@ -17,3 +17,4 @@ MonoBehaviour:
   _baseAttackPower: 1000
   _moveSpeed: 10
   _rotateSpeed: 5
+  _periodicTickInterval: 0.5

@@ -107,7 +107,7 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget)
                 {
-                    _rightWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[0].position);
+                    _rightWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[_selectTargetNum].position);
                 }
 
                 _rightWeaponHandler.Attack();
@@ -117,7 +117,7 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget)
                 {
-                    _leftWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[0].position);
+                    _leftWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[_selectTargetNum].position);
                 }
 
                 _leftWeaponHandler.Attack();

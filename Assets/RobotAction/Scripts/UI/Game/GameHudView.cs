@@ -6,9 +6,9 @@ namespace RobotAction.UI.Game
     public class GameHudView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _enemyKillProgressText;
-        [SerializeField] private TextMeshProUGUI _gameClearText;
+        [SerializeField] private RectTransform _gameClearText;
         [SerializeField] private RectTransform _defeatText;
-        [SerializeField] private Vector2 _gameClearTextPosition;
+        [SerializeField] private Vector2 _activeGameClearTextPosition;
         [SerializeField] private Vector2 _activeDefeatTextPosition;
 
         public void SetKiilCount(int requiredCount,int currentCount)
@@ -18,7 +18,7 @@ namespace RobotAction.UI.Game
 
         public void SetGameClearText()
         {
-            _gameClearText.rectTransform.position = _gameClearTextPosition;
+            _gameClearText.position = _activeGameClearTextPosition;
         }
 
         public void SetDefeatText()

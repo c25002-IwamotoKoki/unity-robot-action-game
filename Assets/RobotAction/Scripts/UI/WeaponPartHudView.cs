@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace RobotAction.UI
 {
-    public sealed class WeaponPartHubView : MonoBehaviour
+    public sealed class WeaponPartHudView : MonoBehaviour
     {
         [SerializeField] private Image _rightWeaponDisplay;
         [SerializeField] private TextMeshProUGUI _rightWeaponNameDisplay;

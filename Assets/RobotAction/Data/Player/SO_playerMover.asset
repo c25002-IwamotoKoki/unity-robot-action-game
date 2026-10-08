@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac2a8882473480498f342bc436c23e6, type: 3}
   m_Name: SO_playerMover
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Player.PlayerMoverData
-  _moveSpeed: 15
-  _defaultMaxSpeed: 10
-  _moveEnergyCost: 10
-  _boostSpeed: 30
-  _boostEnergyCost: 30
-  _boostMaxSpeed: 40
+  _moveSpeed: 20
+  _defaultMaxSpeed: 15
+  _moveEnergyCost: 50
+  _boostSpeed: 35
+  _boostEnergyCost: 500
+  _boostMaxSpeed: 30
   _maxSpeedDeceleration: 15

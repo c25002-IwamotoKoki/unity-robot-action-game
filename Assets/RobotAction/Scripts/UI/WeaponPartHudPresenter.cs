@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace RobotAction.UI
 {
-    public sealed class WeaponPartPresentor : MonoBehaviour
+    public sealed class WeaponPartHudPresenter : MonoBehaviour
     {
         [SerializeField] private WeaponPartSelector _selector;
-        [SerializeField] private WeaponPartHubView _hubView;
+        [SerializeField] private WeaponPartHudView _hubView;
 
         private WeaponPartSlot _currentSlot;
 

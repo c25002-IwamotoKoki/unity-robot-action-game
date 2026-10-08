@@ -31,12 +31,14 @@ namespace RobotAction.Root.Battle
 
         private void OnEnable()
         {
-            _randomAreaEnemyGenerator.OnEnemyDied += HandleDiedEnemy; 
+            _randomAreaEnemyGenerator.OnEnemyDied += HandleDiedEnemy;
+            _player.OnDied += HandleDiedPlayer;
         }
 
         private void OnDisable()
         {
             _randomAreaEnemyGenerator.OnEnemyDied -= HandleDiedEnemy;
+            _player.OnDied -= HandleDiedPlayer;
             _playerstatusHudPresenter.Dispose();
         }
 
@@ -50,6 +52,11 @@ namespace RobotAction.Root.Battle
             {
                 _gameHudView.SetGameClearText();
             }
+        }
+
+        private void HandleDiedPlayer()
+        {
+            _gameHudView.SetDefeatText();
         }
     }
 }

@@ -13,5 +13,7 @@ namespace RobotAction.Core
         public event Action<PlayerHealthInfo> OnHealthChanged;
 
         public event Action<PlayerEnergyInfo> OnEnergyChanged;
+
+        public event Action OnDied;
     }
 }

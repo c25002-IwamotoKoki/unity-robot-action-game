@@ -2354,7 +2354,7 @@ MonoBehaviour:
   _leftWeaponHandler: {fileID: 3133254594904269246}
   _mouseLookSensitivity: 0.1
   _gamePadLookSensitivity: 1
-  _targetLookSpeed: 3
+  _targetLookSpeed: 10
   _maxHealth: 10000
   _trackTargetCoolDown: 0.3
 --- !u!4 &3074712330051092855

@@ -57,6 +57,9 @@ namespace RobotAction.Gameplay.Parts.Weapons
                 CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
             }
 
+            var statusInfo = new WeaponStatusInfo(MaxUseCount, RemainingUseCount);
+            OnWeaponStatusChanged?.Invoke(statusInfo);
+
             base.OnEquip();
         }
 
@@ -66,6 +69,9 @@ namespace RobotAction.Gameplay.Parts.Weapons
             {
                 CurrentPart.OnWeaponStatusChanged -= HandleWeaponStatusChanged;
             }
+
+            var statusInfo = new WeaponStatusInfo(MaxUseCount,RemainingUseCount);
+            OnWeaponStatusChanged?.Invoke(statusInfo);
 
             base.OnUnequip();
         }

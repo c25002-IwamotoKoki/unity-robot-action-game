@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SO_player_energyCore
   m_EditorClassIdentifier: GamePlay::RobotAction.EnergyCoreData
   _maxEnergy: 10000
-  _recoveryRate: 2000
-  _coolDownDuration: 3
+  _recoveryRate: 5000
+  _coolDownDuration: 1

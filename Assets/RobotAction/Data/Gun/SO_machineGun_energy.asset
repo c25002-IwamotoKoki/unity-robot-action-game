@@ -21,4 +21,4 @@ MonoBehaviour:
   _maxHitCount: 5
   _hitLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 256

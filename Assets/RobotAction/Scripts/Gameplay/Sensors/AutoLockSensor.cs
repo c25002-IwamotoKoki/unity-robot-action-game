@@ -11,7 +11,7 @@ namespace RobotAction.Gameplay.Sensors
         private readonly TargetBuffer _targetBuffer;
         private readonly Collider[] _detectedColliders;
         private readonly List<Transform> _detectedTargets;
-        private float _sarchCoolTimer;
+        private float _searchCoolTimer;
 
         public AutoLockSensor(Transform owner,AutoLockSensorData data, TargetBuffer buffer)
         {
@@ -23,29 +23,33 @@ namespace RobotAction.Gameplay.Sensors
             _detectedTargets = new List<Transform>(_data.MaxSearch);
         }
 
-        public void Tick(float deltaTime, Vector3 sarchOrigin)
+        public void Tick(float deltaTime, Vector3 searchOrigin)
         {
-            _sarchCoolTimer += deltaTime;
+            _searchCoolTimer += deltaTime;
 
-            if(_sarchCoolTimer >= _data.SearchCoolTime)
+            if(_searchCoolTimer >= _data.SearchCoolTime)
             {
-                _sarchCoolTimer = 0;
-                ExecuteSearch(sarchOrigin);
+                _searchCoolTimer = 0;
+                ExecuteSearch(searchOrigin);
             }
         }
 
-        private void ExecuteSearch(Vector3 sarchOrigin)
+        private void ExecuteSearch(Vector3 searchOrigin)
         {
             _detectedTargets.Clear();
 
-            Vector3 sarchCentor = sarchOrigin + _data.SearchPositionOffset;
-            int sarchCount = Physics.OverlapSphereNonAlloc(sarchCentor,
-                                                           _data.SearchRange,
-                                                           _detectedColliders);
+            searchOrigin += _owner.forward * _data.SearchOffset;
 
-            if (sarchCount != 0)
+            int searchCount = Physics.OverlapSphereNonAlloc(
+                searchOrigin,
+                _data.SearchRange,
+                _detectedColliders,
+                _data.SearchLayer
+            );
+
+            if (searchCount != 0)
             {
-                for (int i = 0; i < sarchCount; i++)
+                for (int i = 0; i < searchCount; i++)
                 {
                     if (_detectedColliders[i].TryGetComponent(out EnemyBase enemy))
                     {

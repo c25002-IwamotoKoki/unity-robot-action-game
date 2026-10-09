@@ -13,7 +13,6 @@ namespace RobotAction.Gameplay.Parts.Weapons
         public int RemainingUseCount => CurrentPart?.RemainingUseCount ?? default;
         public int MaxUseCount => CurrentPart?.MaxUseCount ?? default;
 
-
         [SerializeField] private float _weaponSarchRange;
         [SerializeField, Min(1)] private int _maxWeaponSarch;
         [SerializeField] private LayerMask _sarchLayer;
@@ -38,8 +37,18 @@ namespace RobotAction.Gameplay.Parts.Weapons
             }
         }
 
+        private void OnDisable()
+        {
+            if(CurrentPart != null)
+            {
+                CurrentPart.OnWeaponStatusChanged -= OnWeaponStatusChanged;
+            }
+        }
+
         public bool TryPickUpNearlyWeapon()
         {
+            if (CurrentPart != null) return false;
+
             if (TrySearchWeapon())
             {
                 Equip(_detectedWeaponParts[0]);
@@ -50,30 +59,30 @@ namespace RobotAction.Gameplay.Parts.Weapons
             return false;
         }
 
-        protected override void OnEquip()
+        public override void Equip(IWeaponPart weapon)
         {
-            if(CurrentPart != null)
-            {
-                CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
-            }
+            if (weapon == null || weapon == CurrentPart) return;
+
+            base.Equip(weapon);
+
+            CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
 
             var statusInfo = new WeaponStatusInfo(MaxUseCount, RemainingUseCount);
             OnWeaponStatusChanged?.Invoke(statusInfo);
-
-            base.OnEquip();
         }
 
-        protected override void OnUnequip()
+        public override void Unequip()
         {
-            if(CurrentPart != null)
-            {
-                CurrentPart.OnWeaponStatusChanged -= HandleWeaponStatusChanged;
-            }
+            if (CurrentPart == null) return;
 
-            var statusInfo = new WeaponStatusInfo(MaxUseCount,RemainingUseCount);
+            CurrentPart.OnWeaponStatusChanged -= HandleWeaponStatusChanged;
+
+            //ëïîıâèúÇµÇΩÇΩÇﬂmax1,currentÇÕ0Ç≈ÉCÉxÉìÉgÇî≠çs
+            //maxÇ™1Ç»ÇÃÇÕ0èúéZÇñhé~Ç∑ÇÈÇΩÇﬂÇ≈Ç∑
+            var statusInfo = new WeaponStatusInfo(maxAmout: 1, remainingAmout: 0);
             OnWeaponStatusChanged?.Invoke(statusInfo);
 
-            base.OnUnequip();
+            base.Unequip();
         }
 
         private void HandleWeaponStatusChanged(WeaponStatusInfo statusInfo)
@@ -97,7 +106,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
                 {
                     if (_detectedColliders[i].TryGetComponent(out IWeaponPart part))
                     {
-                        if (!part.Owner)
+                        if (part.Owner == null && part != CurrentPart)
                         {
                             _detectedWeaponParts.Add(part);
                         }

@@ -7,9 +7,9 @@ namespace RobotAction.UI.Game
     {
         [SerializeField] private TextMeshProUGUI _enemyKillProgressText;
         [SerializeField] private RectTransform _gameClearText;
-        [SerializeField] private RectTransform _defeatText;
+        [SerializeField] private RectTransform _defeatDisplay;
         [SerializeField] private Vector2 _activeGameClearTextPosition;
-        [SerializeField] private Vector2 _activeDefeatTextPosition;
+        [SerializeField] private Vector2 _activeDefeatDisplayPosition;
 
         public void SetKiilCount(int requiredCount,int currentCount)
         {
@@ -21,9 +21,9 @@ namespace RobotAction.UI.Game
             _gameClearText.position = _activeGameClearTextPosition;
         }
 
-        public void SetDefeatText()
+        public void SetDefeatDisplay()
         {
-            _defeatText.position = _activeDefeatTextPosition;
+            _defeatDisplay.position = _activeDefeatDisplayPosition;
         }
     }
 }

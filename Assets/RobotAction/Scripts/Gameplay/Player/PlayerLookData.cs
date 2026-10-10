@@ -8,11 +8,11 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private float _mouseLookSensitivity;
         [SerializeField] private float _gamePadLookSensitivity;
         [SerializeField] private float _targetLookSpeed;
-        [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
+        [SerializeField] private float _lookDeadZone = 0.2f;
 
         public float MouseLookSensitivity => _mouseLookSensitivity;
         public float GamePadLookSensitivity => _gamePadLookSensitivity;
         public float TargetLookSpeed => _targetLookSpeed;
-        public float TrackTargetCoolDown => _trackTargetCoolDown;
+        public float LookDeadZone => _lookDeadZone;
     }
 }

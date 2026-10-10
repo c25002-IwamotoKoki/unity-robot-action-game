@@ -35,15 +35,17 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private void OnTriggerEnter(Collider other)
         {
-            if (_owner == null || _isReleased) return;
-
-            if (other.transform.TryGetComponent(out IDamageable damageable) &&
-                other.transform != _owner)
+            //先に_ownerがnullの時にはじいているのは自傷防止チェックの際の例外防止のため
+            if (_owner == null || _isReleased || other.transform == _owner) return;
+      
+            if (other.transform.TryGetComponent(out IDamageable damageable))
             {
-                damageable.GetDamage(_baseAttackPower);
-                OwnerPool.Release(this);
-                _isReleased = true;
+                damageable.GetDamage(_baseAttackPower);          
             }
+
+            //何らかのオブジェクトに着弾したためPoolに返却
+            OwnerPool.Release(this);
+            _isReleased = true;
         }
 
         public override void OnGet()

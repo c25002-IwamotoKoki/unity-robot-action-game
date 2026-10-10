@@ -23,13 +23,10 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private PlayerMoverData _playerMoverData;
         [SerializeField] private EnergyCoreData _energyCoreData;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
+        [SerializeField] private PlayerLookData _lookData;
         [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
         [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
-        [SerializeField] private float _mouseLookSensitivity;
-        [SerializeField] private float _gamePadLookSensitivity;
-        [SerializeField] private float _targetLookSpeed;
         [SerializeField] private float _maxHealth;
-        [SerializeField, Min(0.2f)] private float _trackTargetCoolDown = 0.2f;
 
         public float MaxHealth => _maxHealth;
         public float CurrentHealth { get; private set; }
@@ -61,7 +58,7 @@ namespace RobotAction.Gameplay.Player
 
             _targetBuffer = new TargetBuffer();
             _autoLockSensor = new(transform, _autoLockSensorData, _targetBuffer);
-            _trackTargetWait = new WaitForSeconds(_trackTargetCoolDown * Time.deltaTime);
+            _trackTargetWait = new WaitForSeconds(_lookData.TrackTargetCoolDown * Time.deltaTime);
             _isTracking = true;
 
             Cursor.lockState = CursorLockMode.Locked;
@@ -190,7 +187,7 @@ namespace RobotAction.Gameplay.Player
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 rotation,
-                _targetLookSpeed * Time.deltaTime
+                _lookData.TargetLookSpeed * Time.deltaTime
             );
         }
 
@@ -205,14 +202,14 @@ namespace RobotAction.Gameplay.Player
             if (_inputReader.IsMouseLook)
             {
                 Vector3 angle = transform.localEulerAngles;
-                angle.y += rawInput.x * _mouseLookSensitivity;
+                angle.y += rawInput.x * _lookData.MouseLookSensitivity;
 
                 transform.eulerAngles = angle;
             }
             else
             {
                 Vector3 angle = transform.localEulerAngles;
-                angle.y += rawInput.x * _gamePadLookSensitivity * Time.deltaTime;
+                angle.y += rawInput.x * _lookData.GamePadLookSensitivity * Time.deltaTime;
 
                 transform.eulerAngles = angle;
             }

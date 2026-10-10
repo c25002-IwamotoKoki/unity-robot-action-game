@@ -6,8 +6,8 @@ namespace RobotAction.Gameplay.Enemy
     public class EnemyPool : ComponentPoolBase<EnemyBase>
     {
         private bool _isSetCpacity;
-        private bool _isInitialize;
-        public bool CanSpawn  => _isInitialize && Pool.CountInactive > 0;
+        private bool _isInitialized;
+        public bool CanSpawn  => _isInitialized && Pool.CountInactive > 0;
 
         public EnemyBase Spawn()
         {
@@ -30,7 +30,7 @@ namespace RobotAction.Gameplay.Enemy
 
             PrewarmPoolFlow();
 
-            _isInitialize = true;
+            _isInitialized = true;
         }
 
     }

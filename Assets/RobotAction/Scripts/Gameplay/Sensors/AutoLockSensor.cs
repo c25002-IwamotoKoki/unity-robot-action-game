@@ -32,6 +32,15 @@ namespace RobotAction.Gameplay.Sensors
                 _searchCoolTimer = 0;
                 ExecuteSearch(searchOrigin);
             }
+
+            Transform currentTarget = _targetBuffer.CurrentTarget; 
+
+            if(currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
+            {
+                _targetBuffer.CurrentTarget = _targetBuffer.HasTarget
+                    ? _targetBuffer.DetectedTargets[0]
+                    : null;
+            }
         }
 
         private void ExecuteSearch(Vector3 searchOrigin)

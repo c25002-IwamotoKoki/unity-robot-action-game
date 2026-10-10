@@ -4,7 +4,6 @@ using RobotAction.Gameplay.Energy;
 using RobotAction.Gameplay.Parts.Weapons;
 using RobotAction.Gameplay.Sensors;
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Player
@@ -40,17 +39,18 @@ namespace RobotAction.Gameplay.Player
         private PlayerMover _mover;
         private EnergyCore _energyCore;
         private AutoLockSensor _autoLockSensor;
-        private WaitForSeconds _trackTargetWait;
+        private PlayerLookController _lookController;
         private int _selectTargetNum;
         private bool _isRightAttacking;
         private bool _isLeftAttacking;
-        private bool _isTracking;
         private bool _isLockOn;
 
         private void Awake()
         {
             _inputReader = new PlayerInputReader(new PlayerInputActions());
+
             CurrentHealth = _maxHealth;
+
             _energyCore = new EnergyCore(_energyCoreData);
 
             TryGetComponent(out Rigidbody rigidbody);
@@ -58,13 +58,8 @@ namespace RobotAction.Gameplay.Player
 
             _targetBuffer = new TargetBuffer();
             _autoLockSensor = new(transform, _autoLockSensorData, _targetBuffer);
-            _trackTargetWait = new WaitForSeconds(_lookData.TrackTargetCoolDown * Time.deltaTime);
-            _isTracking = true;
 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            StartCoroutine(TrackingTargetRoutine());
+            _lookController = new PlayerLookController(_lookData,owner:transform);
         }
 
         private void OnEnable()
@@ -105,7 +100,8 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget)
                 {
-                    _rightWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[_selectTargetNum].position);
+                    var target = _targetBuffer.DetectedTargets[_selectTargetNum];
+                    _rightWeaponHandler.SetTarget(target.position);
                 }
 
                 _rightWeaponHandler.Attack();
@@ -115,13 +111,27 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget)
                 {
-                    _leftWeaponHandler.SetTarget(_targetBuffer.DetectedTargets[_selectTargetNum].position);
+                    var target = _targetBuffer.DetectedTargets[_selectTargetNum];
+                    _leftWeaponHandler.SetTarget(target.position);
                 }
 
                 _leftWeaponHandler.Attack();
-            }
+            }          
+        }
 
-            UpdateLookRotation();
+        private void LateUpdate()
+        {
+            if (_isLockOn && _targetBuffer.HasTarget)
+            {
+                _selectTargetNum = Mathf.Clamp(_selectTargetNum, 0, _targetBuffer.DetectedTargets.Count - 1);
+
+                var target = _targetBuffer.DetectedTargets[_selectTargetNum];
+                _lookController.TrackingTarget(target, Time.deltaTime);
+            }
+            else
+            {
+                _lookController.UpdateYawRotation(_inputReader.LookValue.x, Time.deltaTime, _inputReader.IsMouseLook);
+            }
         }
 
         private void OnDisable()
@@ -156,62 +166,6 @@ namespace RobotAction.Gameplay.Player
             if(CurrentHealth <= 0)
             {
                 OnDied?.Invoke();
-            }
-        }
-
-        private IEnumerator TrackingTargetRoutine()
-        {
-            while (_isTracking)
-            {
-                if (_targetBuffer.HasTarget && _isLockOn)
-                {
-                    _selectTargetNum = Mathf.Clamp(
-                        _selectTargetNum,
-                        0,
-                        _targetBuffer.DetectedTargets.Count - 1
-                    );
-
-                    RotateTowardsToTarget(_targetBuffer.DetectedTargets[_selectTargetNum]);
-                }
-
-                yield return _trackTargetWait;
-            }
-            yield break;
-        }
-
-        private void RotateTowardsToTarget(Transform target)
-        {
-            Vector3 direction = (target.position - transform.position).normalized;
-            Quaternion rotation = Quaternion.LookRotation(direction);
-
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                rotation,
-                _lookData.TargetLookSpeed * Time.deltaTime
-            );
-        }
-
-        private void UpdateLookRotation()
-        {
-            if (_isLockOn) return;
-
-            Vector2 rawInput = _inputReader.LookValue;
-
-            if (rawInput.x == 0) return;
-
-            if (_inputReader.IsMouseLook)
-            {
-                Vector3 angle = transform.localEulerAngles;
-                angle.y += rawInput.x * _lookData.MouseLookSensitivity;
-
-                transform.eulerAngles = angle;
-            }
-            else
-            {
-                Vector3 angle = transform.localEulerAngles;
-                angle.y += rawInput.x * _lookData.GamePadLookSensitivity * Time.deltaTime;
-
-                transform.eulerAngles = angle;
             }
         }
 

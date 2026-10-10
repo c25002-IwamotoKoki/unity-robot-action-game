@@ -5,7 +5,11 @@ namespace RobotAction.Gameplay.Sensors
 {
     public class TargetBuffer
     {
+        public Transform CurrentTarget { get; set; }
+
         public List<Transform> DetectedTargets { get; private set; } = new();
+        public HashSet<Transform> TargetSet { get; private set; }
+
         public bool HasTarget => DetectedTargets.Count > 0;
 
         private bool _isCapacitySet;
@@ -13,11 +17,13 @@ namespace RobotAction.Gameplay.Sensors
         public TargetBuffer()
         {
             DetectedTargets = new();
+            TargetSet = new();
         }
 
         public void SetCapacity(int capacity)
         {
             DetectedTargets = new List<Transform>(capacity);
+            TargetSet = new HashSet<Transform>(capacity);
             _isCapacitySet = true;
         }
 
@@ -29,10 +35,12 @@ namespace RobotAction.Gameplay.Sensors
             }
 
             DetectedTargets.Clear();
+            TargetSet.Clear();
 
             for(int i = 0; i < targets.Count; i++)
             {
                 DetectedTargets.Add(targets[i]);
+                TargetSet.Add(targets[i]);
             }       
         }
     }

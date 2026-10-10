@@ -2516,13 +2516,10 @@ MonoBehaviour:
   _playerMoverData: {fileID: 11400000, guid: 7623f7e1364101f43a4ad8b817ae6f50, type: 2}
   _energyCoreData: {fileID: 11400000, guid: 8adaa8bf22d235c4c864d58742e8e410, type: 2}
   _autoLockSensorData: {fileID: 11400000, guid: 4e81f192be36d1545b061ae9c3ae913b, type: 2}
+  _lookData: {fileID: 11400000, guid: 603d8449c32fc6244b3cc00631a20ca5, type: 2}
   _rightWeaponHandler: {fileID: 1456601139600328952}
   _leftWeaponHandler: {fileID: 3133254594904269246}
-  _mouseLookSensitivity: 0.1
-  _gamePadLookSensitivity: 1
-  _targetLookSpeed: 10
   _maxHealth: 10000
-  _trackTargetCoolDown: 0.3
 --- !u!4 &3074712330051092855
 Transform:
   m_ObjectHideFlags: 0

@@ -230,9 +230,10 @@ namespace RobotAction.Gameplay.Player
             if (_isLockOn && _targetBuffer.HasTarget)
             {
                 _selectTargetNum++;
-                _selectTargetNum = Mathf.Clamp(_selectTargetNum,
-                                         0,
-                                         _targetBuffer.DetectedTargets.Count - 1);
+                _selectTargetNum = Mathf.Clamp(
+                    _selectTargetNum,
+                    0,
+                    _targetBuffer.DetectedTargets.Count - 1);
             }
         }
 

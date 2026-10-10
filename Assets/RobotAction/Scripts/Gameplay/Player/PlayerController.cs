@@ -217,6 +217,12 @@ namespace RobotAction.Gameplay.Player
         private void HandleLockOn()
         {
             _isLockOn = !_isLockOn;
+
+            if(!_isLockOn)
+            {
+                //現状プレイヤーの操作に上下を向く処理がないためLockOnが解除された場合x,z軸の角度を0に戻す
+                transform.rotation = Quaternion.Euler(0,transform.localEulerAngles.y,0);
+            }
         }
 
         private void HandleSwitchRightTarget()

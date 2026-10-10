@@ -100,7 +100,7 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget)
                 {
-                    var target = _targetBuffer.DetectedTargets[_selectTargetNum];
+                    var target = _targetBuffer.CurrentTarget;
                     _rightWeaponHandler.SetTarget(target.position);
                 }
 
@@ -111,7 +111,7 @@ namespace RobotAction.Gameplay.Player
             {
                 if (_targetBuffer.HasTarget)
                 {
-                    var target = _targetBuffer.DetectedTargets[_selectTargetNum];
+                    var target = _targetBuffer.CurrentTarget;
                     _leftWeaponHandler.SetTarget(target.position);
                 }
 
@@ -125,7 +125,7 @@ namespace RobotAction.Gameplay.Player
             {
                 _selectTargetNum = Mathf.Clamp(_selectTargetNum, 0, _targetBuffer.DetectedTargets.Count - 1);
 
-                var target = _targetBuffer.DetectedTargets[_selectTargetNum];
+                var target = _targetBuffer.CurrentTarget;
                 _lookController.TrackingTarget(target, Time.deltaTime);
             }
             else
@@ -233,7 +233,10 @@ namespace RobotAction.Gameplay.Player
                 _selectTargetNum = Mathf.Clamp(
                     _selectTargetNum,
                     0,
-                    _targetBuffer.DetectedTargets.Count - 1);
+                    _targetBuffer.DetectedTargets.Count - 1
+                );
+
+                _targetBuffer.CurrentTarget = _targetBuffer.DetectedTargets[_selectTargetNum];
             }
         }
 
@@ -247,6 +250,8 @@ namespace RobotAction.Gameplay.Player
                     0,
                     _targetBuffer.DetectedTargets.Count - 1
                 );
+
+                _targetBuffer.CurrentTarget = _targetBuffer.DetectedTargets[_selectTargetNum];
             }
         }
     }

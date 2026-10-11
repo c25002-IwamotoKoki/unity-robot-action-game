@@ -45,20 +45,6 @@ namespace RobotAction.Gameplay.Parts.Weapons
             }
         }
 
-        public bool TryPickUpNearlyWeapon()
-        {
-            if (CurrentPart != null) return false;
-
-            if (TrySearchWeapon())
-            {
-                Equip(_detectedWeaponParts[0]);
-                OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
-                return true;
-            }
-
-            return false;
-        }
-
         public override void Equip(IWeaponPart weapon)
         {
             if (weapon == null || weapon == CurrentPart) return;
@@ -85,9 +71,33 @@ namespace RobotAction.Gameplay.Parts.Weapons
             base.Unequip();
         }
 
+        public void SetTarget(Vector3 position)
+        {
+            CurrentPart?.SetTarget(position);
+        }
+
+        public void Attack()
+        {
+            CurrentPart?.Attack();
+        }
+
         private void HandleWeaponStatusChanged(WeaponStatusInfo statusInfo)
         {
             OnWeaponStatusChanged?.Invoke(statusInfo);
+        }
+
+        public bool TryPickUpProximityWeapon()
+        {
+            if (CurrentPart != null) return false;
+
+            if (TrySearchWeapon())
+            {
+                Equip(_detectedWeaponParts[0]);
+                OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
+                return true;
+            }
+
+            return false;
         }
 
         private bool TrySearchWeapon()
@@ -135,16 +145,6 @@ namespace RobotAction.Gameplay.Parts.Weapons
                     }
                 }
             }
-        }
-
-        public void SetTarget(Vector3 position)
-        {
-            CurrentPart?.SetTarget(position);
-        }
-
-        public void Attack()
-        {
-            CurrentPart?.Attack();
         }
     }
 }

@@ -196,7 +196,7 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleRightEquip()
         {
-            _rightWeaponHandler.TryPickUpNearlyWeapon();
+            _rightWeaponHandler.TryPickUpProximityWeapon();
         }
 
         private void HandleRightUnequip()
@@ -206,7 +206,7 @@ namespace RobotAction.Gameplay.Player
 
         private void HandleLeftEquip()
         {
-            _leftWeaponHandler.TryPickUpNearlyWeapon();
+            _leftWeaponHandler.TryPickUpProximityWeapon();
         }
 
         private void HandleLeftUnequip()

@@ -10,11 +10,13 @@ namespace RobotAction.Gameplay.Sensors
         [SerializeField] private float _searchOffset;
         [SerializeField] private float _searchCoolTime;
         [SerializeField] private LayerMask _searchLayer;
+        [SerializeField] private LayerMask _obstacleLayer;
 
         public int MaxSearch => _maxSearch;
         public float SearchRange => _searchRange;
         public float SearchOffset => _searchOffset;
         public float SearchCoolTime => _searchCoolTime;
         public LayerMask SearchLayer => _searchLayer;
+        public LayerMask ObstacleLayer => _obstacleLayer;
     }
 }

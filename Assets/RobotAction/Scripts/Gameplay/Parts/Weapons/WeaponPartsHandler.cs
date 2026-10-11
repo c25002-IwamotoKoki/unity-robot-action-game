@@ -100,21 +100,41 @@ namespace RobotAction.Gameplay.Parts.Weapons
                 _detectedColliders,
                 _sarchLayer
             );
-            if (searchCount != 0)
+
+            SortDetectedCollidersByProximity(searchCount);
+
+            //Šù‚É‹ß‚¢‡‚Å•À‚ñ‚Å‚¢‚é‚½‚ß0‚©‚ç‡”Ô‚É•Ší‚©‚Ç‚¤‚©‚ğŠm‚©‚ß‚é
+            for (int i = 0; i < searchCount; i++)
             {
-                for (int i = 0; i < searchCount; i++)
+                if (_detectedColliders[i].TryGetComponent(out IWeaponPart part))
                 {
-                    if (_detectedColliders[i].TryGetComponent(out IWeaponPart part))
+                    if (part.Owner == null && part != CurrentPart)
                     {
-                        if (part.Owner == null && part != CurrentPart)
-                        {
-                            _detectedWeaponParts.Add(part);
-                        }
+                        _detectedWeaponParts.Add(part);
                     }
                 }
             }
 
             return _detectedWeaponParts.Count > 0;
+        }
+
+        private void SortDetectedCollidersByProximity(int searchCount)
+        {
+            for (int i = 0; i < searchCount - 1; i++)
+            {
+                for (int j = i + 1; j < searchCount; j++)
+                {
+                    float distanceSqrI = (_detectedColliders[i].transform.position - transform.position).sqrMagnitude;
+                    float distanceSqrJ = (_detectedColliders[j].transform.position - transform.position).sqrMagnitude;
+
+                    if (distanceSqrJ < distanceSqrI)
+                    {
+                        var temp = _detectedColliders[i];
+                        _detectedColliders[i] = _detectedColliders[j];
+                        _detectedColliders[j] = temp;
+                    }
+                }
+            }
         }
 
         public void SetTarget(Vector3 position)

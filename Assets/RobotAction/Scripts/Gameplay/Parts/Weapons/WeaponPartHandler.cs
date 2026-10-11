@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons
 {
-    public class WeaponPartsHandler : PartsHandlerBase<IWeaponPart>, IWeaponStatus
+    public class WeaponPartHandler : PartHandlerBase<IWeaponPart>, IWeaponStatus
     {
         public event Action<IWeaponPart> OnWeaponEquipped;
         public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
@@ -45,20 +45,6 @@ namespace RobotAction.Gameplay.Parts.Weapons
             }
         }
 
-        public bool TryPickUpNearlyWeapon()
-        {
-            if (CurrentPart != null) return false;
-
-            if (TrySearchWeapon())
-            {
-                Equip(_detectedWeaponParts[0]);
-                OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
-                return true;
-            }
-
-            return false;
-        }
-
         public override void Equip(IWeaponPart weapon)
         {
             if (weapon == null || weapon == CurrentPart) return;
@@ -85,9 +71,34 @@ namespace RobotAction.Gameplay.Parts.Weapons
             base.Unequip();
         }
 
+        public void SetTarget(Vector3 position)
+        {
+            CurrentPart?.SetTarget(position);
+        }
+
+        public void Attack()
+        {
+            CurrentPart?.Attack();
+        }
+
         private void HandleWeaponStatusChanged(WeaponStatusInfo statusInfo)
         {
             OnWeaponStatusChanged?.Invoke(statusInfo);
+        }
+
+        public bool TryPickUpProximityWeapon()
+        {
+            if (CurrentPart != null) return false;
+
+            if (TrySearchWeapon())
+            {
+                //検知した武器パーツは近い順に並べてあるので0を指定することで最も近い武器パーツを拾えます
+                Equip(_detectedWeaponParts[0]);
+                OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
+                return true;
+            }
+
+            return false;
         }
 
         private bool TrySearchWeapon()
@@ -100,16 +111,17 @@ namespace RobotAction.Gameplay.Parts.Weapons
                 _detectedColliders,
                 _sarchLayer
             );
-            if (searchCount != 0)
+
+            SortDetectedCollidersByProximity(searchCount);
+
+            //既に近い順で並んでいるため0から順番に武器かどうかを確かめる
+            for (int i = 0; i < searchCount; i++)
             {
-                for (int i = 0; i < searchCount; i++)
+                if (_detectedColliders[i].TryGetComponent(out IWeaponPart part))
                 {
-                    if (_detectedColliders[i].TryGetComponent(out IWeaponPart part))
+                    if (part.Owner == null && part != CurrentPart)
                     {
-                        if (part.Owner == null && part != CurrentPart)
-                        {
-                            _detectedWeaponParts.Add(part);
-                        }
+                        _detectedWeaponParts.Add(part);
                     }
                 }
             }
@@ -117,14 +129,23 @@ namespace RobotAction.Gameplay.Parts.Weapons
             return _detectedWeaponParts.Count > 0;
         }
 
-        public void SetTarget(Vector3 position)
+        private void SortDetectedCollidersByProximity(int searchCount)
         {
-            CurrentPart?.SetTarget(position);
-        }
+            for (int i = 0; i < searchCount - 1; i++)
+            {
+                for (int j = i + 1; j < searchCount; j++)
+                {
+                    float distanceSqrI = (_detectedColliders[i].transform.position - transform.position).sqrMagnitude;
+                    float distanceSqrJ = (_detectedColliders[j].transform.position - transform.position).sqrMagnitude;
 
-        public void Attack()
-        {
-            CurrentPart?.Attack();
+                    if (distanceSqrJ < distanceSqrI)
+                    {
+                        var temp = _detectedColliders[i];
+                        _detectedColliders[i] = _detectedColliders[j];
+                        _detectedColliders[j] = temp;
+                    }
+                }
+            }
         }
     }
 }

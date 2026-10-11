@@ -21,7 +21,7 @@ namespace RobotAction.Gameplay.RobotBuild
             EquipWeapon(assemblyInfo.LeftWeaponPartId, _player.LeftWeaponPartsHandler);
         }
 
-        private void EquipWeapon(string partId,WeaponPartsHandler handler)
+        private void EquipWeapon(string partId,WeaponPartHandler handler)
         {
             if(string.IsNullOrEmpty(partId))
             {

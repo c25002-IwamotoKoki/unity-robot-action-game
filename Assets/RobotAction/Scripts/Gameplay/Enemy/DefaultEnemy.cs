@@ -9,8 +9,8 @@ namespace RobotAction.Gameplay.Enemy
     [RequireComponent(typeof(Collider))]
     public class DefaultEnemy : EnemyBase
     {
-        [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
-        [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
+        [SerializeField] private WeaponPartHandler _rightWeaponHandler;
+        [SerializeField] private WeaponPartHandler _leftWeaponHandler;
         [SerializeField] private float _rushAttackSpeed;
         [SerializeField] private float _rushAttackRange;
         [SerializeField] private int _maxRushHitCount;

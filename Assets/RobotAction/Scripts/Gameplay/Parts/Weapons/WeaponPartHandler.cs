@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons
 {
-    public class WeaponPartsHandler : PartsHandlerBase<IWeaponPart>, IWeaponStatus
+    public class WeaponPartHandler : PartHandlerBase<IWeaponPart>, IWeaponStatus
     {
         public event Action<IWeaponPart> OnWeaponEquipped;
         public event Action<WeaponStatusInfo> OnWeaponStatusChanged;

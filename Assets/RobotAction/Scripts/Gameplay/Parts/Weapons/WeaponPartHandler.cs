@@ -92,6 +92,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
             if (TrySearchWeapon())
             {
+                //検知した武器パーツは近い順に並べてあるので0を指定することで最も近い武器パーツを拾えます
                 Equip(_detectedWeaponParts[0]);
                 OnWeaponEquipped?.Invoke(_detectedWeaponParts[0]);
                 return true;

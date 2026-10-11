@@ -13,7 +13,7 @@ namespace RobotAction.Gameplay.Sensors
         private readonly List<Transform> _detectedTargets;
         private float _searchCoolTimer;
 
-        public AutoLockSensor(Transform owner,AutoLockSensorData data, TargetBuffer buffer)
+        public AutoLockSensor(Transform owner, AutoLockSensorData data, TargetBuffer buffer)
         {
             _owner = owner;
             _data = data;
@@ -27,15 +27,15 @@ namespace RobotAction.Gameplay.Sensors
         {
             _searchCoolTimer += deltaTime;
 
-            if(_searchCoolTimer >= _data.SearchCoolTime)
+            if (_searchCoolTimer >= _data.SearchCoolTime)
             {
                 _searchCoolTimer = 0;
                 ExecuteSearch(searchOrigin);
             }
 
-            Transform currentTarget = _targetBuffer.CurrentTarget; 
+            Transform currentTarget = _targetBuffer.CurrentTarget;
 
-            if(currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
+            if (currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
             {
                 _targetBuffer.CurrentTarget = _targetBuffer.HasTarget
                     ? _targetBuffer.DetectedTargets[0]
@@ -60,6 +60,14 @@ namespace RobotAction.Gameplay.Sensors
             {
                 for (int i = 0; i < searchCount; i++)
                 {
+                    Vector3 targetPosition = _detectedColliders[i].transform.position;
+
+                    //Targetとの間に壁があったら検知しないための処理
+                    if (Physics.Linecast(_owner.position,targetPosition,_data.ObstacleLayer))
+                    {
+                        continue;
+                    }
+
                     if (_detectedColliders[i].TryGetComponent(out EnemyBase enemy))
                     {
                         _detectedTargets.Add(enemy.transform);
@@ -67,21 +75,20 @@ namespace RobotAction.Gameplay.Sensors
                 }
             }
 
-            for(int i = 0; i < _detectedTargets.Count-1; i++)
+            for (int i = 0; i < _detectedTargets.Count - 1; i++)
             {
-                for(int j = i + 1; j < _detectedTargets.Count; j++)
+                for (int j = i + 1; j < _detectedTargets.Count; j++)
                 {
                     float sqrDistanceI = (_detectedTargets[i].position - _owner.position).sqrMagnitude;
                     float sqrDistanceJ = (_detectedTargets[j].position - _owner.position).sqrMagnitude;
 
                     //後ろ側の敵jが前側の敵iよりも近い位置にいるならスワップ
-                    if(sqrDistanceJ < sqrDistanceI)
+                    if (sqrDistanceJ < sqrDistanceI)
                     {
                         Transform temp = _detectedTargets[i];
                         _detectedTargets[i] = _detectedTargets[j];
-                        _detectedTargets[j] =temp;
+                        _detectedTargets[j] = temp;
                     }
-
                 }
             }
 

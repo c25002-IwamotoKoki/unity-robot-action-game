@@ -515,7 +515,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": ""negative"",
                     ""id"": ""6263e7bb-6147-4639-aa87-11ca8609dc0d"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Mouse>/scroll/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -526,7 +526,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": ""positive"",
                     ""id"": ""c568d264-c72e-484a-9dc9-9366a17ab091"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Mouse>/scroll/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

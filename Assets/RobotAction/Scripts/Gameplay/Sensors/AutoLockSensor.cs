@@ -11,6 +11,7 @@ namespace RobotAction.Gameplay.Sensors
         private readonly TargetBuffer _targetBuffer;
         private readonly Collider[] _detectedColliders;
         private readonly List<Transform> _detectedTargets;
+
         private float _searchCoolTimer;
 
         public AutoLockSensor(Transform owner, AutoLockSensorData data, TargetBuffer buffer)
@@ -56,25 +57,29 @@ namespace RobotAction.Gameplay.Sensors
                 _data.SearchLayer
             );
 
-            if (searchCount != 0)
+            for (int i = 0; i < searchCount; i++)
             {
-                for (int i = 0; i < searchCount; i++)
+                Vector3 targetPosition = _detectedColliders[i].transform.position;
+
+                //Target‚Æ‚ÌŠÔ‚É•Ç‚ª‚ ‚Á‚½‚çŒŸ’m‚µ‚È‚¢‚½‚ß‚Ìˆ—
+                if (Physics.Linecast(_owner.position, targetPosition, _data.ObstacleLayer))
                 {
-                    Vector3 targetPosition = _detectedColliders[i].transform.position;
+                    continue;
+                }
 
-                    //Target‚Æ‚ÌŠÔ‚É•Ç‚ª‚ ‚Á‚½‚çŒŸ’m‚µ‚È‚¢‚½‚ß‚Ìˆ—
-                    if (Physics.Linecast(_owner.position,targetPosition,_data.ObstacleLayer))
-                    {
-                        continue;
-                    }
-
-                    if (_detectedColliders[i].TryGetComponent(out EnemyBase enemy))
-                    {
-                        _detectedTargets.Add(enemy.transform);
-                    }
+                if (_detectedColliders[i].TryGetComponent(out EnemyBase enemy))
+                {
+                    _detectedTargets.Add(enemy.transform);
                 }
             }
 
+            SortDetectedTargetsByProximity();
+
+            _targetBuffer?.UpdateTargets(_detectedTargets);
+        }
+
+        private void SortDetectedTargetsByProximity()
+        {
             for (int i = 0; i < _detectedTargets.Count - 1; i++)
             {
                 for (int j = i + 1; j < _detectedTargets.Count; j++)
@@ -91,8 +96,6 @@ namespace RobotAction.Gameplay.Sensors
                     }
                 }
             }
-
-            _targetBuffer?.UpdateTargets(_detectedTargets);
         }
     }
 }

@@ -306,7 +306,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""fbc81b24-000b-464e-937e-67a5280a6527"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -438,7 +438,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""35349a8b-beae-4bac-bb4c-5fb87f7f760e"",
-                    ""path"": ""<Keyboard>/h"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -460,7 +460,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""b646b6a8-8fa0-4c3e-9dd7-653bacb6a4e2"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -515,7 +515,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": ""negative"",
                     ""id"": ""6263e7bb-6147-4639-aa87-11ca8609dc0d"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Mouse>/scroll/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -526,7 +526,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": ""positive"",
                     ""id"": ""c568d264-c72e-484a-9dc9-9366a17ab091"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Mouse>/scroll/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

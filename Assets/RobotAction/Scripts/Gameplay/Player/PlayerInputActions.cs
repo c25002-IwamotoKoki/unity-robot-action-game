@@ -306,7 +306,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""fbc81b24-000b-464e-937e-67a5280a6527"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -438,7 +438,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""35349a8b-beae-4bac-bb4c-5fb87f7f760e"",
-                    ""path"": ""<Keyboard>/h"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

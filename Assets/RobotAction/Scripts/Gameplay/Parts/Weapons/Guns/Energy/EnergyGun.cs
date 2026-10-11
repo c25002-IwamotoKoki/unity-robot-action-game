@@ -125,7 +125,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             for (int i = 0; i < hitCount - 1; i++)
             {
-                for (int j = 0; j < hitCount; j++)
+                for (int j = i + 1; j < hitCount; j++)
                 {
                     float distanceSqrI = (_hitColliders[i].transform.position - _startBeamWorldPosition).sqrMagnitude;
                     float distanceSqrJ = (_hitColliders[j].transform.position - _startBeamWorldPosition).sqrMagnitude;

@@ -460,7 +460,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     ""name"": """",
                     ""id"": ""b646b6a8-8fa0-4c3e-9dd7-653bacb6a4e2"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

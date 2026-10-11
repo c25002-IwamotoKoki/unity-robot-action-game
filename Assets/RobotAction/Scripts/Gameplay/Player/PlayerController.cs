@@ -23,16 +23,16 @@ namespace RobotAction.Gameplay.Player
         [SerializeField] private EnergyCoreData _energyCoreData;
         [SerializeField] private AutoLockSensorData _autoLockSensorData;
         [SerializeField] private PlayerLookData _lookData;
-        [SerializeField] private WeaponPartsHandler _rightWeaponHandler;
-        [SerializeField] private WeaponPartsHandler _leftWeaponHandler;
+        [SerializeField] private WeaponPartHandler _rightWeaponHandler;
+        [SerializeField] private WeaponPartHandler _leftWeaponHandler;
         [SerializeField] private float _maxHealth;
 
         public float MaxHealth => _maxHealth;
         public float CurrentHealth { get; private set; }
         public float MaxEnergy => _energyCore.MaxEnergy;
         public float CurrentEnergy => _energyCore.CurrentEnergy;
-        public WeaponPartsHandler RightWeaponPartsHandler => _rightWeaponHandler;
-        public WeaponPartsHandler LeftWeaponPartsHandler => _leftWeaponHandler;
+        public WeaponPartHandler RightWeaponPartsHandler => _rightWeaponHandler;
+        public WeaponPartHandler LeftWeaponPartsHandler => _leftWeaponHandler;
 
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;

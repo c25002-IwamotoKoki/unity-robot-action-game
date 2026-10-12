@@ -496,9 +496,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UI::RobotAction.UI.PlayerStatusHudView
   _healthBar: {fileID: 1647337309651269736}
+  _healthBarText: {fileID: 8480284862021395255}
   _energyBar: {fileID: 2059814029394175557}
+  _energyBarText: {fileID: 388906124389081163}
   _rightWeaponBar: {fileID: 4501455064994272049}
+  _rightWeaponBarText: {fileID: 8291740021422122996}
   _leftWeaponBar: {fileID: 3614519895837324229}
+  _leftWeaponBarText: {fileID: 8930157744107466877}
 --- !u!4 &685751237
 Transform:
   m_ObjectHideFlags: 0

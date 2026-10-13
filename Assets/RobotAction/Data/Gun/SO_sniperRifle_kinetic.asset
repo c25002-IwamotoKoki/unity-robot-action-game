@@ -16,5 +16,5 @@ MonoBehaviour:
   _maxUseCount: 80
   _fireRate: 2
   _bulletLifeTime: 3
-  _bulletSpeed: 200
-  _bulletBaseAttackPower: 200
+  _bulletSpeed: 300
+  _bulletBaseAttackPower: 400

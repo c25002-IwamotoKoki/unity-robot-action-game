@@ -6,7 +6,7 @@ namespace RobotAction.UI.Game
     public class GameHudView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _enemyKillProgressText;
-        [SerializeField] private RectTransform _gameClearText;
+        [SerializeField] private RectTransform _gameClearDisplay;
         [SerializeField] private RectTransform _defeatDisplay;
         [SerializeField] private Vector2 _activeGameClearTextPosition;
         [SerializeField] private Vector2 _activeDefeatDisplayPosition;
@@ -18,7 +18,7 @@ namespace RobotAction.UI.Game
 
         public void SetGameClearText()
         {
-            _gameClearText.position = _activeGameClearTextPosition;
+            _gameClearDisplay.position = _activeGameClearTextPosition;
         }
 
         public void SetDefeatDisplay()

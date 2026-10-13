@@ -15,12 +15,13 @@ namespace RobotAction.Root.Battle
         [SerializeField] private PlayerStatusHudView _playerStatusHudView;
         [SerializeField] private RandomAreaEnemyGenerator _randomAreaEnemyGenerator;
         [SerializeField] private GameHudView _gameHudView;
-        [SerializeField] private InputActionReference _retryAction;
+        [SerializeField] private InputActionReference _submitAction;
         [SerializeField] private int _requiredKillCount;
 
         private PlayerStatusHudPresenter _playerStatusHudPresenter;
         private int _currnetKillCount;
         private bool _isPlayerDeathProcessed;
+        private bool _isGameClearProcessed;
 
         private void Start()
         {
@@ -45,8 +46,9 @@ namespace RobotAction.Root.Battle
             _randomAreaEnemyGenerator.OnEnemyDied -= HandleDiedEnemy;
             _player.OnDied -= HandlePlayerDied;
 
-            _retryAction.action.started -= HandleRetryAction;
-            _retryAction.action.Disable();
+            _submitAction.action.started -= HandleRetryAction;
+            _submitAction.action.started -= HandleToTitleAction;
+            _submitAction.action.Disable();
 
             _playerStatusHudPresenter.Dispose();
         }
@@ -59,18 +61,19 @@ namespace RobotAction.Root.Battle
 
             if(_currnetKillCount >= _requiredKillCount)
             {
-                _gameHudView.SetGameClearText();
+                GameClearProcess();
             }
         }
 
         private void HandlePlayerDied()
         {
-            if (_isPlayerDeathProcessed) return;
+            //二重に呼ばれることによるEventの二重購読を防ぐため
+            if (_isPlayerDeathProcessed || _isGameClearProcessed) return;
 
             _gameHudView.SetDefeatDisplay();
 
-            _retryAction.action.Enable();
-            _retryAction.action.started += HandleRetryAction;
+            _submitAction.action.Enable();
+            _submitAction.action.started += HandleRetryAction;
             _isPlayerDeathProcessed = true;
 
             Time.timeScale = 0;
@@ -97,5 +100,39 @@ namespace RobotAction.Root.Battle
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+
+        private void GameClearProcess()
+        {
+            //二重に呼ばれることによるEventの二重購読を防ぐため
+            if (_isGameClearProcessed || _isPlayerDeathProcessed) return;
+
+            _submitAction.action.Enable();
+            _submitAction.action.started += HandleToTitleAction;
+            _isGameClearProcessed = true;
+
+            _gameHudView.SetGameClearText();
+
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        public void OnToTitleButtonClicked()
+        {
+            ExecuteLoadTitle();
+        }
+
+        private void HandleToTitleAction(InputAction.CallbackContext context)
+        {
+            ExecuteLoadTitle();
+        }
+
+        private void ExecuteLoadTitle()
+        {
+            Time.timeScale = 1f;
+            //タイトルシーンでもカーソルを使うため
+            //Cursor.LockStateはNoneでCurSor.visibleはtrueのまま
+            SceneManager.LoadScene(SceneNames.Title);
+        }    
     }
 }

@@ -38,7 +38,7 @@ namespace RobotAction.UI
         public void SetLeftWeapon(int maxUseCount, int remainingUseCount)
         {
             _leftWeaponBar.fillAmount = (float)remainingUseCount / maxUseCount;
-            _leftWeaponBarText.SetText("RightWeapon:{0}/{1}", remainingUseCount, maxUseCount);
+            _leftWeaponBarText.SetText("LeftWeapon:{0}/{1}", remainingUseCount, maxUseCount);
         }
 
     }

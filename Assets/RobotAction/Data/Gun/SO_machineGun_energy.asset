@@ -15,10 +15,10 @@ MonoBehaviour:
   _name: EnergyMachineGun
   _maxUseCount: 200
   _fireRate: 0.3
-  _damage: 20
+  _damage: 40
   _maxRange: 20
   _beamExtendSpeed: 500
-  _maxHitCount: 5
+  _maxHitCount: 3
   _hitLayer:
     serializedVersion: 2
     m_Bits: 256

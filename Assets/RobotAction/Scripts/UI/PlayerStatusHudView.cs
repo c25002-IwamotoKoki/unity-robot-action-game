@@ -41,5 +41,17 @@ namespace RobotAction.UI
             _leftWeaponBarText.SetText("LeftWeapon:{0}/{1}", remainingUseCount, maxUseCount);
         }
 
+        public void SetRightWeaponNone()
+        {
+            _rightWeaponBar.fillAmount = 0;
+            _rightWeaponBarText.SetText("RightWeapon:None");
+        }
+
+        public void SetLeftWeaponNone()
+        {
+            _leftWeaponBar.fillAmount = 0;
+            _leftWeaponBarText.SetText("LeftWeapon:None");
+        }
+
     }
 }

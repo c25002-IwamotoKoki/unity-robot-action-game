@@ -25,9 +25,11 @@ namespace RobotAction.UI
 
             _rightStatus = rightstatus;
             _rightStatus.OnWeaponStatusChanged += SetRightWeaponStatusView;
+            _rightStatus.OnUnequipWeapon += HandleRightWeaponUnequip;
 
             _leftStatus = leftStatus;
             _leftStatus.OnWeaponStatusChanged += SetLeftWeaponStatusView;
+            _leftStatus.OnUnequipWeapon += HandleLeftWeaponUnequip;
 
         }
      
@@ -37,7 +39,9 @@ namespace RobotAction.UI
             _playerStatus.OnEnergyChanged -= SetEnergyView;
 
             _rightStatus.OnWeaponStatusChanged -= SetRightWeaponStatusView;
+            _rightStatus.OnUnequipWeapon -= HandleRightWeaponUnequip;
             _leftStatus.OnWeaponStatusChanged -= SetLeftWeaponStatusView;
+            _leftStatus.OnUnequipWeapon -= HandleLeftWeaponUnequip;
         }
 
         public void SetHealthView()
@@ -58,6 +62,16 @@ namespace RobotAction.UI
         public void SetLeftWeaponStatusView()
         {
             _hubView.SetLeftWeapon(_leftStatus.MaxUseCount,_leftStatus.RemainingUseCount);
+        }
+
+        private void HandleRightWeaponUnequip()
+        {
+            _hubView.SetRightWeaponNone();
+        }
+
+        private void HandleLeftWeaponUnequip()
+        {
+            _hubView.SetLeftWeaponNone();
         }
     }
 }

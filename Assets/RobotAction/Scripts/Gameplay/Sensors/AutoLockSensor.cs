@@ -36,6 +36,8 @@ namespace RobotAction.Gameplay.Sensors
 
             Transform currentTarget = _targetBuffer.CurrentTarget;
 
+            //現在のターゲットがいないもしくは範囲外のターゲットを検知したままになっているなら
+            //最も近い敵を自動でロックオンする
             if (currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
             {
                 _targetBuffer.CurrentTarget = _targetBuffer.HasTarget

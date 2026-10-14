@@ -1,11 +1,20 @@
+using RobotAction.Core.Sensor;
 using RobotAction.Gameplay.Enemy;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Sensors
 {
-    public class AutoLockSensor
+    public class AutoLockSensor : IAutoLockSensorStatus
     {
+        public Vector3 CurrentLockOnPosition => 
+            _targetBuffer.HasTarget 
+            ? _targetBuffer.CurrentTarget.position
+            : Vector3.zero;
+
+        public bool HasLockOnTarget => _targetBuffer.CurrentTarget != null;
+
         private readonly Transform _owner;
         private readonly AutoLockSensorData _data;
         private readonly TargetBuffer _targetBuffer;
@@ -36,6 +45,8 @@ namespace RobotAction.Gameplay.Sensors
 
             Transform currentTarget = _targetBuffer.CurrentTarget;
 
+            //現在のターゲットがいないもしくは範囲外のターゲットを検知したままになっているなら
+            //最も近い敵を自動でロックオンする
             if (currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
             {
                 _targetBuffer.CurrentTarget = _targetBuffer.HasTarget

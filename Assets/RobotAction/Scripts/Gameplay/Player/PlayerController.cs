@@ -33,6 +33,7 @@ namespace RobotAction.Gameplay.Player
         public float CurrentEnergy => _energyCore.CurrentEnergy;
         public WeaponPartHandler RightWeaponPartsHandler => _rightWeaponHandler;
         public WeaponPartHandler LeftWeaponPartsHandler => _leftWeaponHandler;
+        public AutoLockSensor AutoLockSensor => _autoLockSensor;
 
         private PlayerInputReader _inputReader;
         private TargetBuffer _targetBuffer;

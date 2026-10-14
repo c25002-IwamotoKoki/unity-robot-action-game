@@ -12,8 +12,8 @@ namespace RobotAction.Gameplay.Player
     public sealed class PlayerController : MonoBehaviour, IDamageable, IPlayerStatus
     {
         public event Action OnDied;
-        public event Action<PlayerHealthInfo> OnHealthChanged;
-        public event Action<PlayerEnergyInfo> OnEnergyChanged
+        public event Action OnHealthChanged;
+        public event Action OnEnergyChanged
         {
             add => _energyCore.OnEnergyChanged += value;
             remove => _energyCore.OnEnergyChanged -= value;
@@ -159,9 +159,7 @@ namespace RobotAction.Gameplay.Player
         {
             CurrentHealth -= damage;
 
-            var HealthInfo = new PlayerHealthInfo(MaxHealth, CurrentHealth);
-
-            OnHealthChanged?.Invoke(HealthInfo);
+            OnHealthChanged?.Invoke();
 
             if(CurrentHealth <= 0)
             {

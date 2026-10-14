@@ -8,7 +8,7 @@ namespace RobotAction.Gameplay.Energy
         private readonly float _recoveryRate;
         private readonly float _coolDownDuration;
 
-        public event Action<PlayerEnergyInfo> OnEnergyChanged;
+        public event Action OnEnergyChanged;
         public float MaxEnergy { get; }
         public float CurrentEnergy { get; private set; }
 
@@ -34,8 +34,7 @@ namespace RobotAction.Gameplay.Energy
             {
                 CurrentEnergy = MathF.Min(MaxEnergy,CurrentEnergy + _recoveryRate * deltaTime);
 
-                var energyInfo = new PlayerEnergyInfo(MaxEnergy, CurrentEnergy);
-                OnEnergyChanged?.Invoke(energyInfo);
+                OnEnergyChanged?.Invoke();
             }
         }
 
@@ -43,8 +42,7 @@ namespace RobotAction.Gameplay.Energy
         {
             if (CurrentEnergy < value) return false;
 
-            var energyInfo = new PlayerEnergyInfo(MaxEnergy,CurrentEnergy);
-            OnEnergyChanged?.Invoke(energyInfo);
+            OnEnergyChanged?.Invoke();
 
             CurrentEnergy -= value;
             _coolTimer = _coolDownDuration;

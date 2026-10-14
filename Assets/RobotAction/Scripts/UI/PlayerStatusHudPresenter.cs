@@ -50,14 +50,14 @@ namespace RobotAction.UI
             _hubView.SetEenrgy(_playerStatus.MaxEnergy,_playerStatus.CurrentEnergy);
         }
 
-        private void SetRightWeaponStatusView(WeaponStatusInfo status)
+        private void SetRightWeaponStatusView()
         {
-            _hubView.SetRightWeapon(status.MaxUseCount,status.RemainingUseCount);
+            _hubView.SetRightWeapon(_rightStatus.MaxUseCount,_rightStatus.RemainingUseCount);
         }
 
-        public void SetLeftWeaponStatusView(WeaponStatusInfo status)
+        public void SetLeftWeaponStatusView()
         {
-            _hubView.SetLeftWeapon(status.MaxUseCount,status.RemainingUseCount);
+            _hubView.SetLeftWeapon(_leftStatus.MaxUseCount,_leftStatus.RemainingUseCount);
         }
     }
 }

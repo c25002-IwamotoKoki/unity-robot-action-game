@@ -8,7 +8,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     [RequireComponent(typeof(Collider))]
     public abstract class GunBase : MonoBehaviour,IWeaponPart
     {
-        public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
+        public event Action OnWeaponStatusChanged;
 
         public Transform Owner { get; private set; }
         public float AttackRange { get; protected set; }
@@ -72,8 +72,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected void InvokeOnWeaponStatusChangedEvent()
         {
-            var statusInfo = new WeaponStatusInfo(MaxUseCount,RemainingUseCount);
-            OnWeaponStatusChanged?.Invoke(statusInfo);
+            OnWeaponStatusChanged?.Invoke();
         }
 
         public abstract void Fire();

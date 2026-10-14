@@ -8,7 +8,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
     public class WeaponPartHandler : PartHandlerBase<IWeaponPart>, IWeaponStatus
     {
         public event Action<IWeaponPart> OnWeaponEquipped;
-        public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
+        public event Action OnWeaponStatusChanged;
 
         public int RemainingUseCount => CurrentPart?.RemainingUseCount ?? default;
         public int MaxUseCount => CurrentPart?.MaxUseCount ?? default;
@@ -53,8 +53,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
             CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
 
-            var statusInfo = new WeaponStatusInfo(MaxUseCount, RemainingUseCount);
-            OnWeaponStatusChanged?.Invoke(statusInfo);
+            OnWeaponStatusChanged?.Invoke();
         }
 
         public override void Unequip()
@@ -63,10 +62,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
             CurrentPart.OnWeaponStatusChanged -= HandleWeaponStatusChanged;
 
-            //‘•”õ‰ğœ‚µ‚½‚½‚ßmax1,current‚Í0‚ÅƒCƒxƒ“ƒg‚ğ”­s
-            //max‚ª1‚È‚Ì‚Í0œZ‚ğ–h~‚·‚é‚½‚ß‚Å‚·
-            var statusInfo = new WeaponStatusInfo(maxAmout: 1, remainingAmout: 0);
-            OnWeaponStatusChanged?.Invoke(statusInfo);
+            OnWeaponStatusChanged?.Invoke();
 
             base.Unequip();
         }
@@ -81,9 +77,9 @@ namespace RobotAction.Gameplay.Parts.Weapons
             CurrentPart?.Attack();
         }
 
-        private void HandleWeaponStatusChanged(WeaponStatusInfo statusInfo)
+        private void HandleWeaponStatusChanged()
         {
-            OnWeaponStatusChanged?.Invoke(statusInfo);
+            OnWeaponStatusChanged?.Invoke();
         }
 
         public bool TryPickUpProximityWeapon()

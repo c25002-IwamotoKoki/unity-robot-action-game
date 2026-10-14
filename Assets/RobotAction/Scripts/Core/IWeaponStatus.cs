@@ -7,6 +7,6 @@ namespace RobotAction.Core
         public int MaxUseCount { get; }
         public int RemainingUseCount { get; }
 
-        public event Action<WeaponStatusInfo> OnWeaponStatusChanged;
+        public event Action OnWeaponStatusChanged;
     }
 }

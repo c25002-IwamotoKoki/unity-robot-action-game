@@ -7,14 +7,14 @@ namespace RobotAction.UI
     {
         private readonly PlayerStatusHudView _hubView;
         private readonly IPlayerStatus _playerStatus;
-        private readonly IWeaponStatus _rightStatus;
-        private readonly IWeaponStatus _leftStatus;
+        private readonly IWeaponPartHandler _rightStatus;
+        private readonly IWeaponPartHandler _leftStatus;
 
         public PlayerStatusHudPresenter(
             PlayerStatusHudView hudView,
             IPlayerStatus playerStatus, 
-            IWeaponStatus rightstatus,
-            IWeaponStatus leftStatus
+            IWeaponPartHandler rightstatus,
+            IWeaponPartHandler leftStatus
         )
         {
             _hubView = hudView;

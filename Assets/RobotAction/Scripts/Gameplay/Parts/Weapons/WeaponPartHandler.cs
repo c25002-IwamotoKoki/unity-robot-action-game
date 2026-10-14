@@ -5,10 +5,11 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons
 {
-    public class WeaponPartHandler : PartHandlerBase<IWeaponPart>, IWeaponStatus
+    public class WeaponPartHandler : PartHandlerBase<IWeaponPart>, IWeaponPartHandler
     {
         public event Action<IWeaponPart> OnWeaponEquipped;
         public event Action OnWeaponStatusChanged;
+        public event Action OnUnequipWeapon;
 
         public int RemainingUseCount => CurrentPart?.RemainingUseCount ?? default;
         public int MaxUseCount => CurrentPart?.MaxUseCount ?? default;
@@ -62,7 +63,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
             CurrentPart.OnWeaponStatusChanged -= HandleWeaponStatusChanged;
 
-            OnWeaponStatusChanged?.Invoke();
+            OnUnequipWeapon?.Invoke();
 
             base.Unequip();
         }

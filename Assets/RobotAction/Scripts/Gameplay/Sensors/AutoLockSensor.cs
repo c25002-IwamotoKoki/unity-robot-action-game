@@ -1,11 +1,20 @@
+using RobotAction.Core.Sensor;
 using RobotAction.Gameplay.Enemy;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Sensors
 {
-    public class AutoLockSensor
+    public class AutoLockSensor : IAutoLockSensorStatus
     {
+        public Vector3 CurrentLockOnPosition => 
+            _targetBuffer.HasTarget 
+            ? _targetBuffer.CurrentTarget.position
+            : Vector3.zero;
+
+        public bool HasLockOnTarget => _targetBuffer.CurrentTarget != null;
+
         private readonly Transform _owner;
         private readonly AutoLockSensorData _data;
         private readonly TargetBuffer _targetBuffer;

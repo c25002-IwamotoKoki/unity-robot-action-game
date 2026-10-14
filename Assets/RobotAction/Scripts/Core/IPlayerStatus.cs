@@ -10,9 +10,9 @@ namespace RobotAction.Core
         public float MaxEnergy { get; }
         public float CurrentEnergy { get; }
 
-        public event Action<PlayerHealthInfo> OnHealthChanged;
+        public event Action OnHealthChanged;
 
-        public event Action<PlayerEnergyInfo> OnEnergyChanged;
+        public event Action OnEnergyChanged;
 
         public event Action OnDied;
     }

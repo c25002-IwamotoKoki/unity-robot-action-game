@@ -40,14 +40,14 @@ namespace RobotAction.UI
             _leftStatus.OnWeaponStatusChanged -= SetLeftWeaponStatusView;
         }
 
-        public void SetHealthView(PlayerHealthInfo healthInfo)
+        public void SetHealthView()
         {
-            _hubView.SetHelth(healthInfo.MaxHealth,healthInfo.CurrentHealth);
+            _hubView.SetHelth(_playerStatus.MaxHealth,_playerStatus.CurrentHealth);
         }
 
-        public void SetEnergyView(PlayerEnergyInfo energyInfo)
+        public void SetEnergyView()
         {
-            _hubView.SetEenrgy(energyInfo.MaxEnergy,energyInfo.CurrentEnergy);
+            _hubView.SetEenrgy(_playerStatus.MaxEnergy,_playerStatus.CurrentEnergy);
         }
 
         private void SetRightWeaponStatusView(WeaponStatusInfo status)

@@ -5,31 +5,31 @@ namespace RobotAction.UI
 {
     public sealed class PlayerStatusHudPresenter : IDisposable
     {
-        private readonly PlayerStatusHudView _hubView;
+        private readonly PlayerStatusHudView _hudView;
         private readonly IPlayerStatus _playerStatus;
-        private readonly IWeaponPartHandler _rightStatus;
-        private readonly IWeaponPartHandler _leftStatus;
+        private readonly IWeaponPartHandler _rightWeaponHandler;
+        private readonly IWeaponPartHandler _leftWeaponHandler;
 
         public PlayerStatusHudPresenter(
             PlayerStatusHudView hudView,
             IPlayerStatus playerStatus, 
-            IWeaponPartHandler rightstatus,
-            IWeaponPartHandler leftStatus
+            IWeaponPartHandler rightWeaponHandler,
+            IWeaponPartHandler leftWeaponHandler
         )
         {
-            _hubView = hudView;
+            _hudView = hudView;
 
             _playerStatus = playerStatus;
             _playerStatus.OnHealthChanged += SetHealthView;
             _playerStatus.OnEnergyChanged += SetEnergyView;
 
-            _rightStatus = rightstatus;
-            _rightStatus.OnWeaponStatusChanged += SetRightWeaponStatusView;
-            _rightStatus.OnUnequipWeapon += HandleRightWeaponUnequip;
+            _rightWeaponHandler = rightWeaponHandler;
+            _rightWeaponHandler.OnWeaponStatusChanged += SetRightWeaponStatusView;
+            _rightWeaponHandler.OnUnequipWeapon += HandleRightWeaponUnequip;
 
-            _leftStatus = leftStatus;
-            _leftStatus.OnWeaponStatusChanged += SetLeftWeaponStatusView;
-            _leftStatus.OnUnequipWeapon += HandleLeftWeaponUnequip;
+            _leftWeaponHandler = leftWeaponHandler;
+            _leftWeaponHandler.OnWeaponStatusChanged += SetLeftWeaponStatusView;
+            _leftWeaponHandler.OnUnequipWeapon += HandleLeftWeaponUnequip;
 
         }
      
@@ -38,40 +38,40 @@ namespace RobotAction.UI
             _playerStatus.OnHealthChanged -= SetHealthView;
             _playerStatus.OnEnergyChanged -= SetEnergyView;
 
-            _rightStatus.OnWeaponStatusChanged -= SetRightWeaponStatusView;
-            _rightStatus.OnUnequipWeapon -= HandleRightWeaponUnequip;
-            _leftStatus.OnWeaponStatusChanged -= SetLeftWeaponStatusView;
-            _leftStatus.OnUnequipWeapon -= HandleLeftWeaponUnequip;
+            _rightWeaponHandler.OnWeaponStatusChanged -= SetRightWeaponStatusView;
+            _rightWeaponHandler.OnUnequipWeapon -= HandleRightWeaponUnequip;
+            _leftWeaponHandler.OnWeaponStatusChanged -= SetLeftWeaponStatusView;
+            _leftWeaponHandler.OnUnequipWeapon -= HandleLeftWeaponUnequip;
         }
 
-        public void SetHealthView()
+        private void SetHealthView()
         {
-            _hubView.SetHelth(_playerStatus.MaxHealth,_playerStatus.CurrentHealth);
+            _hudView.SetHelth(_playerStatus.MaxHealth,_playerStatus.CurrentHealth);
         }
 
-        public void SetEnergyView()
+        private void SetEnergyView()
         {
-            _hubView.SetEenrgy(_playerStatus.MaxEnergy,_playerStatus.CurrentEnergy);
+            _hudView.SetEenrgy(_playerStatus.MaxEnergy,_playerStatus.CurrentEnergy);
         }
 
         private void SetRightWeaponStatusView()
         {
-            _hubView.SetRightWeapon(_rightStatus.MaxUseCount,_rightStatus.RemainingUseCount);
+            _hudView.SetRightWeapon(_rightWeaponHandler.MaxUseCount,_rightWeaponHandler.RemainingUseCount);
         }
 
-        public void SetLeftWeaponStatusView()
+        private void SetLeftWeaponStatusView()
         {
-            _hubView.SetLeftWeapon(_leftStatus.MaxUseCount,_leftStatus.RemainingUseCount);
+            _hudView.SetLeftWeapon(_leftWeaponHandler.MaxUseCount,_leftWeaponHandler.RemainingUseCount);
         }
 
         private void HandleRightWeaponUnequip()
         {
-            _hubView.SetRightWeaponNone();
+            _hudView.SetRightWeaponNone();
         }
 
         private void HandleLeftWeaponUnequip()
         {
-            _hubView.SetLeftWeaponNone();
+            _hudView.SetLeftWeaponNone();
         }
     }
 }

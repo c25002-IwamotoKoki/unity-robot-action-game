@@ -3,6 +3,7 @@ using RobotAction.Gameplay.Enemy;
 using RobotAction.Gameplay.Player;
 using RobotAction.UI;
 using RobotAction.UI.Game;
+using RobotAction.UI.Sensor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,7 @@ namespace RobotAction.Root.Battle
         [SerializeField] private PlayerStatusHudView _playerStatusHudView;
         [SerializeField] private RandomAreaEnemyGenerator _randomAreaEnemyGenerator;
         [SerializeField] private GameHudView _gameHudView;
+        [SerializeField] private LockOnHudView _lockOnHudView;
         [SerializeField] private InputActionReference _submitAction;
         [SerializeField] private int _requiredKillCount;
 
@@ -31,6 +33,8 @@ namespace RobotAction.Root.Battle
                 _player.RightWeaponPartsHandler,
                 _player.LeftWeaponPartsHandler
             );
+
+            _lockOnHudView.Initialized(_player.AutoLockSensor);
 
             _gameHudView.SetKiilCount(_requiredKillCount, _currnetKillCount);
         }

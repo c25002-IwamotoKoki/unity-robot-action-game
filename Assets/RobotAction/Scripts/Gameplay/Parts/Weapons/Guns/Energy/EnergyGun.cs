@@ -97,7 +97,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             for (int i = 0; i < hitCount; i++)
             {
-                //自身に当たった場合はスキップ
+                //自身の持ち主(transform.root)に当たった場合はスキップ
                 if (_hitColliders[i].transform == transform.root) continue;
 
                 //_hitCollidersは近い順に並んでいるため近い順にダメージを与えていき

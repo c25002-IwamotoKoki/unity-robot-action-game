@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RobotAction.UI
+namespace RobotAction.UI.Weapon
 {
     public sealed class WeaponPartHudView : MonoBehaviour
     {

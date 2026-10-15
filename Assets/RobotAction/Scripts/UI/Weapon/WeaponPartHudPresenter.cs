@@ -2,7 +2,7 @@
 using RobotAction.Gameplay.Parts.Weapons;
 using UnityEngine;
 
-namespace RobotAction.UI
+namespace RobotAction.UI.Weapon
 {
     public sealed class WeaponPartHudPresenter : MonoBehaviour
     {

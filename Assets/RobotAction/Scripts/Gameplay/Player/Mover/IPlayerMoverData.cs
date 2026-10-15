@@ -1,4 +1,4 @@
-namespace RobotAction.Gameplay.Player
+namespace RobotAction.Gameplay.Player.Mover
 {
     public interface IPlayerMoverData
     {

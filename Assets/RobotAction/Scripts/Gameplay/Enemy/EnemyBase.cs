@@ -4,6 +4,7 @@ using RobotAction.Gameplay.ObjectPool;
 using UnityEngine;
 using UnityEngine.Pool;
 using System;
+using RobotAction.Gameplay.Enemy.Scriptables;
 
 namespace RobotAction.Gameplay.Enemy
 {

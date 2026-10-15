@@ -1,7 +1,7 @@
 using RobotAction.Core.RobotAssembly;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Parts.Weapons
+namespace RobotAction.Gameplay.Parts.Weapons.Scriptables
 {
     [CreateAssetMenu(fileName = "SO_weapon_part", menuName = "Robot/WeaponPartData")]
     public class WeaponPartData : ScriptableObject,IWeaponPartData

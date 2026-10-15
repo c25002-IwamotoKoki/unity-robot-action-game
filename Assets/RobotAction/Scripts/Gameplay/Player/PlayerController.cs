@@ -2,6 +2,8 @@ using RobotAction.Core;
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Energy;
 using RobotAction.Gameplay.Parts.Weapons;
+using RobotAction.Gameplay.Player.Mover;
+using RobotAction.Gameplay.Player.Look;
 using RobotAction.Gameplay.Sensors;
 using System;
 using UnityEngine;

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RobotAction.UI
+namespace RobotAction.UI.Player
 {
     public class PlayerStatusHudView : MonoBehaviour
     {

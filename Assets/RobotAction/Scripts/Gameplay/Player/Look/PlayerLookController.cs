@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Player
+namespace RobotAction.Gameplay.Player.Look
 {
     public class PlayerLookController
     {

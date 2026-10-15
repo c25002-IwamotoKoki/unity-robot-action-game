@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Player
+namespace RobotAction.Gameplay.Player.Look
 {
     [CreateAssetMenu(fileName = "PlayerLookData", menuName = "Player/LookData")]
     public class PlayerLookData : ScriptableObject

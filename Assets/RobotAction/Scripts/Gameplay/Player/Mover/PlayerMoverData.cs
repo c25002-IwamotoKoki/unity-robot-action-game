@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Player
+namespace RobotAction.Gameplay.Player.Mover
 {
     [CreateAssetMenu(fileName = "PlayerMoverData", menuName = "Scriptable Objects/PlayerMoverData")]
     public class PlayerMoverData : ScriptableObject,IPlayerMoverData

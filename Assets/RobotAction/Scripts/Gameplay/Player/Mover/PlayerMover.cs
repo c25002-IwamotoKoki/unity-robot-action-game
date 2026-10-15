@@ -1,7 +1,7 @@
 using RobotAction.Gameplay.Energy;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Player
+namespace RobotAction.Gameplay.Player.Mover
 {
     public class PlayerMover
     {

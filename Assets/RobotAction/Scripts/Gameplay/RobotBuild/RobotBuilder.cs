@@ -1,6 +1,7 @@
 using RobotAction.Core.RobotAssembly;
 using RobotAction.Gameplay.Parts;
 using RobotAction.Gameplay.Parts.Weapons;
+using RobotAction.Gameplay.Parts.Weapons.Scriptables;
 using RobotAction.Gameplay.Player;
 using RobotAction.Gameplay.Scene;
 using System;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Enemy
+namespace RobotAction.Gameplay.Enemy.Scriptables
 {
     [CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/EnemyData")]
     public class EnemyData : ScriptableObject

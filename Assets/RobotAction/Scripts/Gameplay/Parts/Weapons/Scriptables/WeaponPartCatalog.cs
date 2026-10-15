@@ -2,7 +2,7 @@ using RobotAction.Core.RobotAssembly;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RobotAction.Gameplay.Parts.Weapons
+namespace RobotAction.Gameplay.Parts.Weapons.Scriptables
 {
     [CreateAssetMenu(fileName = "WeaponPartsCatalog", menuName = "Robot/WeaponPartsCatalog")]
     public sealed class WeaponPartCatalog : ScriptableObject

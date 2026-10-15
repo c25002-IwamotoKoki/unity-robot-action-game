@@ -1,7 +1,7 @@
 using RobotAction.Core.Scene;
 using RobotAction.Gameplay.Enemy;
 using RobotAction.Gameplay.Player;
-using RobotAction.UI;
+using RobotAction.UI.Player;
 using RobotAction.UI.Game;
 using RobotAction.UI.Sensor;
 using UnityEngine;

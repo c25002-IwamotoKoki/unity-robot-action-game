@@ -1,7 +1,7 @@
 using RobotAction.Core;
 using System;
 
-namespace RobotAction.UI
+namespace RobotAction.UI.Player
 {
     public sealed class PlayerStatusHudPresenter : IDisposable
     {

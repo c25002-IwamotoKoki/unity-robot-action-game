@@ -3,7 +3,7 @@ using UnityEngine;
 namespace RobotAction.Gameplay.Player.Mover
 {
     [CreateAssetMenu(fileName = "PlayerMoverData", menuName = "Scriptable Objects/PlayerMoverData")]
-    public class PlayerMoverData : ScriptableObject,IPlayerMoverData
+    public class PlayerMoverData : ScriptableObject
     {
         [Header("Basic Movement")]
         [SerializeField] private float _moveSpeed;

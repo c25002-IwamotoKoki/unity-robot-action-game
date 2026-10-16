@@ -8,7 +8,7 @@ namespace RobotAction.Gameplay.Player.Mover
         private const float DeadZoneSqr = 0.01f;
 
         private readonly Transform _owner;
-        private readonly IPlayerMoverData _data;
+        private readonly PlayerMoverData _data;
         private readonly EnergyCore _energyCore;
         private readonly Rigidbody _rigidbody;
 
@@ -18,7 +18,7 @@ namespace RobotAction.Gameplay.Player.Mover
 
         public PlayerMover(
             Transform owner,
-            IPlayerMoverData data,
+            PlayerMoverData data,
             Rigidbody rigidbody,
             EnergyCore energyCore
         )

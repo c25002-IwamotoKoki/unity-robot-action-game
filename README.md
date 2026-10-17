@@ -12,6 +12,7 @@
 - **Graphics API**: Direct3D 11 (動作安定化のため固定)
 - **Render Pipeline**: Universal Render Pipeline (URP)
 - **Target Platform**: Windows 11
+- **Package**: Chinemachine(プレイヤー追従カメラ)
 
 ## 起動方法
 1. 本リポジトリを`git clone`またはダウンロードします。

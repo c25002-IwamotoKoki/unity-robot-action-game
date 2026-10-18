@@ -17,6 +17,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
         [SerializeField] private float _weaponSarchRange;
         [SerializeField, Min(1)] private int _maxWeaponSarch;
         [SerializeField] private LayerMask _sarchLayer;
+        [SerializeField] private LayerMask _attackTargetLayer;
 
         private Collider[] _detectedColliders;
         private List<IWeaponPart> _detectedWeaponParts;
@@ -51,6 +52,8 @@ namespace RobotAction.Gameplay.Parts.Weapons
             if (weapon == null || weapon == CurrentPart) return;
 
             base.Equip(weapon);
+
+            CurrentPart.SetAttackTargetLayer(_attackTargetLayer);
 
             CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
 

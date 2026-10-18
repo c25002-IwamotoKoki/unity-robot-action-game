@@ -17,6 +17,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         protected abstract float FireRate { get; }
 
+        //Œp³æ‚©‚ç‚ÌˆÓ}‚µ‚È‚¢’l‚Ì•ÏX‚ð–h‚®‚½‚ßAŒp³æ‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚Ä“Ç‚ÝŽæ‚èê—p‚Å•ÛŽ
+        protected LayerMask AttackTargetLayer { get; private set; }
+
         protected bool CanFire => RemainingUseCount > 0;
         protected bool _isFired;
 
@@ -78,5 +81,10 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public abstract void Fire();
 
         public abstract void SetTarget(Vector3 position);
+
+        public void SetAttackTargetLayer(LayerMask targetLayer)
+        {
+            AttackTargetLayer = targetLayer;
+        }
     }
 }

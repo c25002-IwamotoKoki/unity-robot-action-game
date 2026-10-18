@@ -39,7 +39,7 @@ namespace RobotAction.Gameplay.Player.Look
 
         public void UpdateYawRotation(float rawInputX,float deltaTime,bool isMouseLook)
         {
-            if (Mathf.Abs(rawInputX) <= _data.LookDeadZone) return;
+            if (deltaTime <= 0 || Mathf.Abs(rawInputX) <= _data.LookDeadZone) return;
 
             if (isMouseLook)
             {

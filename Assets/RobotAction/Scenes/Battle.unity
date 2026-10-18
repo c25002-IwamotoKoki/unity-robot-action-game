@@ -3182,6 +3182,9 @@ MonoBehaviour:
   _sarchLayer:
     serializedVersion: 2
     m_Bits: 64
+  _attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!33 &1512755904949317163
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4320,6 +4323,9 @@ MonoBehaviour:
   _sarchLayer:
     serializedVersion: 2
     m_Bits: 64
+  _attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &3154897157946254058
 MonoBehaviour:
   m_ObjectHideFlags: 0

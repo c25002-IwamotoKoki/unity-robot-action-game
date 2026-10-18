@@ -13,7 +13,7 @@ namespace RobotAction.UI.Game
 
         public void SetKiilCount(int requiredCount,int currentCount)
         {
-            _enemyKillProgressText.SetText("RequiredDefatEnemy : {0}/{1}",currentCount,requiredCount);
+            _enemyKillProgressText.SetText("Target : {0}/{1}",currentCount,requiredCount);
         }
 
         public void SetGameClearText()

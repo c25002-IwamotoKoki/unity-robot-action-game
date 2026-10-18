@@ -1147,6 +1147,9 @@ MonoBehaviour:
   _sarchLayer:
     serializedVersion: 2
     m_Bits: 64
+  _attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &4966934118143534593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1200,9 @@ MonoBehaviour:
   _sarchLayer:
     serializedVersion: 2
     m_Bits: 64
+  _attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &5900936266446192658
 GameObject:
   m_ObjectHideFlags: 0

@@ -4688,7 +4688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b>[\u30DE\u30A6\u30B9\u30DB\u30A4\u30FC\u30EB][\u5341\u5B57\u30AD\u30FC\u4E0A\u4E0B]</b>:LockOn\u5BFE\u8C61\u5207\u308A\u66FF\u3048"
+  m_text: "<b>[\u30DE\u30A6\u30B9\u30DB\u30A4\u30FC\u30EB][\u5341\u5B57\u30DC\u30BF\u30F3\u4E0A\u4E0B]</b>:LockOn\u5BFE\u8C61\u5207\u308A\u66FF\u3048"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b6ddf864df663bd4c8636b32f7036434, type: 2}
   m_sharedMaterial: {fileID: -7729794249154615174, guid: b6ddf864df663bd4c8636b32f7036434, type: 2}

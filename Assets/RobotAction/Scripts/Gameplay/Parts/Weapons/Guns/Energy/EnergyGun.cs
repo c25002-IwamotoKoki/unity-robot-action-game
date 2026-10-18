@@ -88,7 +88,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                _startBeamWorldPosition,
                _endBeamWorldPosition,
                _beamRenderer.startWidth,
-               _hitColliders
+               _hitColliders,
+               AttackTargetLayer
             );
 
             if (hitCount <= 0) return;
@@ -97,9 +98,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             for (int i = 0; i < hitCount; i++)
             {
-                //自身の持ち主(transform.root)に当たった場合はスキップ
-                if (_hitColliders[i].transform == transform.root) continue;
-
                 //_hitCollidersは近い順に並んでいるため近い順にダメージを与えていき
                 //何かのオブジェクトにぶつかった時点でビームを止める処理
                 if (_hitColliders[i].TryGetComponent(out IDamageable target))

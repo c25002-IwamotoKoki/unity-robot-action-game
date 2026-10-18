@@ -38,7 +38,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             if (_isFired || !CanFire) return;
 
-            var bulletContext = new BulletContext(owner:transform.root,
+            var bulletContext = new BulletContext(AttackTargetLayer,
                                                   _data.BulletLifeTime,
                                                   _data.BulletSpeed,
                                                   _data.BulletBaseAttackPower);

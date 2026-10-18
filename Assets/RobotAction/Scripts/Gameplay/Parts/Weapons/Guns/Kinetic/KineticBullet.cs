@@ -6,7 +6,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
     [RequireComponent(typeof(Rigidbody))]
     public class KineticBullet : BulletBase
     {
-        private Transform _owner;
+        private LayerMask _attackTargetLayer;
         private Rigidbody _rigidbody;
         private float _baseAttackPower;
         private float _lifeTime;
@@ -35,9 +35,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private void OnTriggerEnter(Collider other)
         {
-            //先に_ownerがnullの時にはじいているのは自傷防止チェックの際の例外防止のため
-            if (_owner == null || _isReleased || other.transform == _owner) return;
-      
+            //other.gameObject.LayerはIndex番号でありLayerMaskとの比較ができないため
+            //シフトでビットマスクに変換した後ビット積(&)によって_attackTargetLayerが含まれているかどうかを判定しています
+            LayerMask otherLayerMask = 1 << other.gameObject.layer;
+            if (_isReleased || ( otherLayerMask & _attackTargetLayer) == 0) return;
+
             if (other.transform.TryGetComponent(out IDamageable damageable))
             {
                 damageable.GetDamage(_baseAttackPower);          
@@ -56,9 +58,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public override void Fire(in BulletContext context)
         {
-            _owner = context.Owner;
             _baseAttackPower = context.BaseAttackPower;
             _lifeTime = context.LifeTime;
+            _attackTargetLayer = context.AttackTargetLayer;
             _rigidbody.AddForce(transform.forward * context.Speed, ForceMode.Impulse);
         }
 

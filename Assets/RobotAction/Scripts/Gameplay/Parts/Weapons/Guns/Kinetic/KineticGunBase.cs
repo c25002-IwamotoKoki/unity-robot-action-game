@@ -47,7 +47,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             AttackRange = CalculateAttackRange();
             base.Equip(owner);
-            _bulletManager.SetAttackTargetLayer(AttackTargetLayer);
         }
 
         public float CalculateAttackRange()
@@ -56,6 +55,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             float gravity = Mathf.Abs(Physics.gravity.y);
             float bulletFlightTime = Mathf.Sqrt(2 * _muzzleTransform.position.y / gravity) * _data.BulletLifeTime;
             return _data.BulletSpeed * bulletFlightTime;
+        }
+
+        public override void SetAttackTargetLayer(LayerMask targetLayer)
+        {
+            base.SetAttackTargetLayer(targetLayer);
+            _bulletManager.SetAttackTargetLayer(targetLayer);
         }
     }
 }

@@ -2,31 +2,29 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
-    [RequireComponent(typeof(KineticMagazine))]
     public abstract class KineticGunBase : GunBase
     {
         [SerializeField] private KineticGunData _data;
         [SerializeField] private Transform _muzzleTransform;
+        [SerializeField] private GameObject _bulletPrefab;
 
         public override int MaxUseCount =>  _data.MaxAmmo;
         protected override float FireRate => _data.FireRate;
 
-        private KineticMagazine _magazine;
+        private KineticBulletManager _bulletManager;
 
         protected override void OnAwake()
         {
-            if (!TryGetComponent(out _magazine))
-            {
-                Debug.LogError("KineticMagazineÇéÊìæÇ≈Ç´Ç‹ÇπÇÒÇ≈ÇµÇΩÅB");
-            }
+            _bulletManager = new KineticBulletManager(_data,_bulletPrefab,_muzzleTransform,AttackTargetLayer);
 
             RemainingUseCount = _data.MaxAmmo;
             InvokeOnWeaponStatusChangedEvent();
         }
 
-        private void Start()
+        protected override void Update()
         {
-            _magazine.Setup(_data);
+            base.Update();
+            _bulletManager.Tick(Time.deltaTime);
         }
 
         public override void SetTarget(Vector3 position)
@@ -38,14 +36,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             if (_isFired || !CanFire) return;
 
-            var bulletContext = new BulletContext(AttackTargetLayer,
-                                                  _data.BulletLifeTime,
-                                                  _data.BulletSpeed,
-                                                  _data.BulletBaseAttackPower);
-
-            _magazine.SpawnBullet(bulletContext,
-                                 _muzzleTransform.position,
-                                 _muzzleTransform.rotation);
+            _bulletManager.Fire();
 
             _isFired = true;
             RemainingUseCount--;
@@ -64,6 +55,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             float gravity = Mathf.Abs(Physics.gravity.y);
             float bulletFlightTime = Mathf.Sqrt(2 * _muzzleTransform.position.y / gravity) * _data.BulletLifeTime;
             return _data.BulletSpeed * bulletFlightTime;
+        }
+
+        public override void SetAttackTargetLayer(LayerMask targetLayer)
+        {
+            base.SetAttackTargetLayer(targetLayer);
+            _bulletManager.SetAttackTargetLayer(targetLayer);
         }
     }
 }

@@ -9,11 +9,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         [SerializeField] private float _bulletLifeTime;
         [SerializeField] private float _bulletSpeed;
         [SerializeField] private float _bulletBaseAttackPower;
+        [SerializeField, Min(1)] private int _maxHitCount = 1;
 
         public float FireRate => _fireRate;
         public float BulletLifeTime => _bulletLifeTime;
         public float BulletSpeed => _bulletSpeed;
         public float BulletBaseAttackPower => _bulletBaseAttackPower;
-
+        public int MaxHitCount => _maxHitCount;
     }
 }

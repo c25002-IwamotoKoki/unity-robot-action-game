@@ -36,7 +36,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             if (_isFired || !CanFire) return;
 
-            _bulletManager.Fire();
+            _bulletManager.Fire(Time.deltaTime);
 
             _isFired = true;
             RemainingUseCount--;

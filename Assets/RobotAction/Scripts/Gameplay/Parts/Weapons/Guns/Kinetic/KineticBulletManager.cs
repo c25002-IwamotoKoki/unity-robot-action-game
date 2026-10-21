@@ -56,14 +56,14 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                     ReleaseBulletByIndex(i);
                 }
 
-                if (BulletHitCheck(activeBullet.Transform))
+                if (TryBulletHitProcess(activeBullet.Transform,deltaTime))
                 {
                     ReleaseBulletByIndex(i);
                 }
             }
         }
 
-        public void Fire()
+        public void Fire(float deltaTime)
         {
             if (!_pool.CanRent) return;
 
@@ -72,6 +72,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             if (bullet == null) return;
 
             bullet.SetPositionAndRotation(_muzzlePoint.position, _muzzlePoint.rotation);
+
+            if(TryBulletHitProcess(bullet,deltaTime))
+            {
+                _pool.Release(bullet);
+                return;
+            }
 
             var activeBullet = new ActiveBullet()
             {
@@ -93,33 +99,56 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _activeBulletList.RemoveAt(lastIndex);
         }
 
-        private bool BulletHitCheck(Transform bullet)
+        private bool TryBulletHitProcess(Transform bullet,float deltaTime)
         {
-            //3で割って大きさを平均化
-            float bulletRadius = (bullet.localScale.x + bullet.localScale.y + bullet.localScale.z) / 3;
+            //現状弾丸を楕円形や四角にするなどを考えていないため1軸のスケールのみ参照
+            float bulletRadius = bullet.localScale.x;
+            float checkRadius = bulletRadius + _gunData.BulletSpeed * deltaTime;
+
+            LayerMask hitMask = _attackTargetLayer | _gunData.ObstacleLayer;
 
             int hitCount = Physics.OverlapSphereNonAlloc(
                 bullet.position,
-                bulletRadius,
+                checkRadius,
                 _hitColliders,
-                _attackTargetLayer
+                hitMask
             );
 
-            for (int i = 0; i < hitCount; i++)
+            if (hitCount == 0) return false;
+
+            SortHitCollidersByProximity(bullet,hitCount);
+
+            //現段階で複数にヒットする予定はないため最も近い敵に対してダメージチェックを行う
+            if (_hitColliders[0].TryGetComponent(out IDamageable damageable))
             {
-                if (_hitColliders[i].TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.GetDamage(_gunData.BulletBaseAttackPower);
-                    return true;
-                }
+                damageable.GetDamage(_gunData.BulletBaseAttackPower);
             }
 
-            return false;
+            return true;
         }
 
         public void SetAttackTargetLayer(LayerMask layer)
         {
             _attackTargetLayer = layer;
+        }
+
+        private void SortHitCollidersByProximity(Transform bullet,int hitCount)
+        {
+            for (int i = 0; i < hitCount - 1; i++)
+            {
+                for (int j = i; j < hitCount; j++)
+                {
+                    float distanceSqrI = (_hitColliders[i].transform.position - bullet.position).sqrMagnitude;
+                    float distanceSqrJ = (_hitColliders[j].transform.position - bullet.position).sqrMagnitude;
+
+                    if(distanceSqrJ < distanceSqrI)
+                    {
+                        var temp = _hitColliders[i];
+                        _hitColliders[i] = _hitColliders[j];
+                        _hitColliders[j] = temp;
+                    }
+                }
+            }
         }
     }
 }

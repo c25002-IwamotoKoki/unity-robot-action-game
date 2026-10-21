@@ -18,3 +18,7 @@ MonoBehaviour:
   _bulletLifeTime: 1
   _bulletSpeed: 200
   _bulletBaseAttackPower: 50
+  _maxHitCount: 1
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512

@@ -55,7 +55,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private void RotateTwordsToPlayer()
         {
-            Vector3 direction = _player.position - transform.position;
+            Vector3 direction = (_player.position - transform.position).normalized;
 
             Quaternion lookDirection = Quaternion.LookRotation(direction);
 

@@ -6,6 +6,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
     public abstract class BossAttackBase : MonoBehaviour
     {
         public abstract float AttackRange { get; }
+        public bool IsExecuting { get; protected set; }
 
         [SerializeField] protected float _baseAttackPower;
 

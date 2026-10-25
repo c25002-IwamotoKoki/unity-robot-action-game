@@ -54,6 +54,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             _durationTimer -= Time.deltaTime;
             if (_durationTimer < 0)
             {
+                IsExecuting = false;
                 _isRushing = false;
                 _isHit = false;
                 _isRushed = true;
@@ -66,6 +67,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             if (_isRushing || _isRushed) return;
 
             _isRushing = true;
+            IsExecuting = true;
             _isHit = false;
             _durationTimer = _rushDuration;
         }

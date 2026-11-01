@@ -1,11 +1,14 @@
 using RobotAction.Gameplay.Combat;
+using RobotAction.Gameplay.Sensors;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy.Boss
 {
     [RequireComponent(typeof(Rigidbody))]
-    public sealed class BossController : MonoBehaviour, IDamageable
+    public sealed class BossController : MonoBehaviour, IDamageable, ITargetable
     {
+        public Transform Transform => transform;
+
         //ボスがプレイヤーを見失うなどは考えていないためそのままつかんでおきます
         [SerializeField] private Transform _player;
         [SerializeField] private float _maxHealth;

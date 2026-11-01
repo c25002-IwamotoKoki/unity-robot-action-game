@@ -78,9 +78,9 @@ namespace RobotAction.Gameplay.Sensors
                     continue;
                 }
 
-                if (_detectedColliders[i].TryGetComponent(out EnemyBase enemy))
+                if (_detectedColliders[i].TryGetComponent(out ITargetable Target))
                 {
-                    _detectedTargets.Add(enemy.transform);
+                    _detectedTargets.Add(Target.Transform);
                 }
             }
 

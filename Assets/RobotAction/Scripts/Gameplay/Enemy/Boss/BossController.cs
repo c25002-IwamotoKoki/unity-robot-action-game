@@ -3,15 +3,19 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy.Boss
 {
+    [RequireComponent(typeof(Rigidbody))]
     public sealed class BossController : MonoBehaviour, IDamageable
     {
         //ボスがプレイヤーを見失うなどは考えていないためそのままつかんでおきます
         [SerializeField] private Transform _player;
-        [SerializeField] private BossAttackBase[] _attacks;
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotateSpeed;
+        [SerializeField] private float _globalAttackInterval;
+        [SerializeField] private BossState _currentState;
 
+        private BossBrain _brain; 
+        private Rigidbody _rididbody;
         private IDamageable _playerDamageable;
         private float _currentHealth;
 
@@ -22,30 +26,17 @@ namespace RobotAction.Gameplay.Enemy.Boss
                 Debug.LogWarning("インスペクターから指定したPlayerにIDamageableが実装されていません");
             }
 
-            foreach (var attack in _attacks)
-            {
-                attack.SetPlayer(_player, _playerDamageable);
-            }
+            TryGetComponent(out _rididbody);
+
+            _brain = new BossBrain(owner:this,_player,_playerDamageable,_globalAttackInterval);
 
             _currentHealth = _maxHealth;
         }
 
         private void Update()
         {
-            RotateTwordsToPlayer();
-
-            transform.position += _moveSpeed * Time.deltaTime * transform.forward;
-
-            float toPlayerDistanceSqr = (_player.position - transform.position).sqrMagnitude;
-
-            foreach (var attack in _attacks)
-            {
-                if (attack.CanAttack(toPlayerDistanceSqr))
-                {
-                    attack.Execute();
-                    break;
-                }
-            }
+            _brain.Tick(Time.deltaTime);
+            _currentState = _brain.CurrentState;
         }
 
         public void GetDamage(float damage)
@@ -53,9 +44,9 @@ namespace RobotAction.Gameplay.Enemy.Boss
             _currentHealth -= damage;
         }
 
-        private void RotateTwordsToPlayer()
+        public void RotateTwordsToPlayer()
         {
-            Vector3 direction = _player.position - transform.position;
+            Vector3 direction = (_player.position - transform.position).normalized;
 
             Quaternion lookDirection = Quaternion.LookRotation(direction);
 
@@ -67,6 +58,11 @@ namespace RobotAction.Gameplay.Enemy.Boss
                 lookDirection,
                 _rotateSpeed * Time.deltaTime
             );
+        }
+
+        public void MoveForward()
+        {
+            _rididbody.AddForce(transform.forward * _moveSpeed,ForceMode.Force);
         }
     }
 }

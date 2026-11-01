@@ -1,15 +1,15 @@
-using RobotAction.Gameplay.Combat;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy.Boss
 {
+    [RequireComponent(typeof(Rigidbody))]
     public sealed class BossRushAttack : BossAttackBase
     {
         public override float AttackRange => _attackRange;
 
-        [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private BossRushAttackData _data;
 
+        private Rigidbody _rigidbody;
         private float _attackRange;
         private float _durationTimer;
         private float _rushCoolTimer;
@@ -19,6 +19,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private void Awake()
         {
+            TryGetComponent(out _rigidbody);
             _attackRange = _data.RushDistance * transform.localScale.magnitude;
         }
 

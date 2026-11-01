@@ -8,12 +8,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         public override float AttackRange => _attackRange;
 
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private float _rushSpeed;
-        [SerializeField] private float _rushDistance;
-        [SerializeField] private float _rushDuration;
-        [SerializeField] private float _rushCoolTime;
-        [SerializeField] private float _hitRange;
-        [SerializeField, Range(-1, 1)] private float _hitThreshold;
+        [SerializeField] private BossRushAttackData _data;
 
         private float _attackRange;
         private float _durationTimer;
@@ -24,14 +19,14 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private void Awake()
         {
-            _attackRange = _rushDistance * transform.localScale.magnitude;
+            _attackRange = _data.RushDistance * transform.localScale.magnitude;
         }
 
         private void FixedUpdate()
         {
             if (!_isRushing || _isRushed) return;
 
-            _rigidbody.AddForce(transform.forward * _rushSpeed, ForceMode.Impulse);
+            _rigidbody.AddForce(transform.forward * _data.RushDistance, ForceMode.Impulse);
         }
 
         private void Update()
@@ -40,7 +35,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             {
                 _rushCoolTimer += Time.deltaTime;
 
-                if (_rushCoolTimer >= _rushCoolTime)
+                if (_rushCoolTimer >= _data.RushCoolTime)
                 {
                     _rushCoolTimer = 0;
                     _isRushed = false;
@@ -69,7 +64,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             _isRushing = true;
             IsExecuting = true;
             _isHit = false;
-            _durationTimer = _rushDuration;
+            _durationTimer = _data.RushDuration;
         }
 
         private void HitProcess()
@@ -86,7 +81,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
             float dot = Vector3.Dot(transform.position, direction);
 
-            if (dot >= _hitThreshold)
+            if (dot >= _data.HitThreshold)
             {
                 _playerDamageable.GetDamage(_baseAttackPower);
                 _isHit = true;

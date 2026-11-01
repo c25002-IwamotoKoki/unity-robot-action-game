@@ -8,8 +8,6 @@ namespace RobotAction.Gameplay.Enemy.Boss
         public abstract float AttackRange { get; }
         public bool IsExecuting { get; protected set; }
 
-        [SerializeField] protected float _baseAttackPower;
-
         protected Transform _player;
         protected IDamageable _playerDamageable;
 

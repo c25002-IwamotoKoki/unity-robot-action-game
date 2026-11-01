@@ -83,7 +83,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
             if (dot >= _data.HitThreshold)
             {
-                _playerDamageable.GetDamage(_baseAttackPower);
+                _playerDamageable.GetDamage(_data.BaseAttackPower);
                 _isHit = true;
             }
         }

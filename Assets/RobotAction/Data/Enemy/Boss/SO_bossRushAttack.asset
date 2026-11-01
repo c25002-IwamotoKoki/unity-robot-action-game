@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e84e6597cdd0f4c83787f62136e4a8, type: 3}
   m_Name: SO_bossRushAttack
   m_EditorClassIdentifier: Gameplay::RobotAction.Gameplay.Enemy.Boss.BossRushAttackData
+  _baseAttackPower: 500
   _rushSpeed: 20
   _rushDistance: 3
   _rushDuration: 1

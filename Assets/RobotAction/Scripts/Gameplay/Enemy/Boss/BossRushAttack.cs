@@ -29,7 +29,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private void FixedUpdate()
         {
-            if (!_isRushing && _isRushed) return;
+            if (!_isRushing || _isRushed) return;
 
             _rigidbody.AddForce(transform.forward * _rushSpeed, ForceMode.Impulse);
         }

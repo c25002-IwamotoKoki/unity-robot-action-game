@@ -44,7 +44,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _currentLength += _data.BeamExtendSpeed * Time.deltaTime;
             _currentLength = MathF.Min(_data.MaxRange, _currentLength);
 
-            _endBeamWorldPosition = _startBeamWorldPosition + transform.forward * _currentLength;
+            _endBeamWorldPosition = _startBeamWorldPosition + _muzzlePoint.forward * _currentLength;
 
             _beamRenderer.SetPosition(0, _startBeamWorldPosition);
             _beamRenderer.SetPosition(1, _endBeamWorldPosition);

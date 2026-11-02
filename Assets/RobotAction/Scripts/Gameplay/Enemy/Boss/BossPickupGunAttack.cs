@@ -6,27 +6,21 @@ namespace RobotAction.Gameplay.Enemy.Boss
 {
     public class BossPickupGunAttack : BossAttackBase
     {
-        public override float AttackRange => _attackRange;
+        public override float AttackRange => _data.AttackRange;
 
         [SerializeField] private Transform[] _gunEquipPoints;
         [Header("銃が動的に変わるためインスペクター上であらかじめ攻撃範囲を設定")]
-        [SerializeField] private float _attackRange;
-        [SerializeField] private float _pickupRange;
-        [Header("GunEquipPointsの数より少なく設定してください")]
-        [SerializeField, Min(1)] private int _maxPickupCount = 1;
-        [SerializeField,Min(1)] private int _maxSearchCount = 1;
-        [SerializeField] private LayerMask _searchLayer;
-        [SerializeField] private LayerMask _attackTargetLayer;
+        [SerializeField] private BossPickupGunAttackData _data;
 
         private Collider[] _detectedColliders;
         private List<GunBase> _currentGuns;
 
         private void Awake()
         {
-            _currentGuns = new(_maxPickupCount);
-            _detectedColliders = new Collider[_maxSearchCount];
+            _currentGuns = new(_data.MaxPickupCount);
+            _detectedColliders = new Collider[_data.MaxSearchCount];
 
-            if(_maxPickupCount > _gunEquipPoints.Length)
+            if(_data.MaxPickupCount > _gunEquipPoints.Length)
             {
                 Debug.LogWarning("MaxPickupCountをMaxPickupCount以下にしてください");
             }
@@ -58,9 +52,9 @@ namespace RobotAction.Gameplay.Enemy.Boss
         {
             int hitCount = Physics.OverlapSphereNonAlloc(
                 transform.position,
-                _pickupRange,
+                _data.PickupRange,
                 _detectedColliders,
-                _searchLayer
+                _data.SearchLayer
             );
 
             for (int i = 0; i < hitCount; i++)
@@ -78,9 +72,9 @@ namespace RobotAction.Gameplay.Enemy.Boss
         {
             int hitCount = Physics.OverlapSphereNonAlloc(
                 transform.position,
-                _pickupRange,
+                _data.PickupRange,
                 _detectedColliders,
-                _searchLayer
+                _data.SearchLayer
             );
 
             if (hitCount <= 0) return false;
@@ -94,11 +88,11 @@ namespace RobotAction.Gameplay.Enemy.Boss
                 if (_detectedColliders[i].TryGetComponent(out GunBase gun))
                 {
                     gun.Equip(_gunEquipPoints[i]);
-                    gun.SetAttackTargetLayer(_attackTargetLayer);
+                    gun.SetAttackTargetLayer(_data.AttackTargetLayer);
                     _currentGuns.Add(gun);
 
                     //検知数と拾える数は別なため上限になったらリターンする。
-                    if (_currentGuns.Count == _maxPickupCount) return true;
+                    if (_currentGuns.Count == _data.MaxPickupCount) return true;
                 }
             }
 

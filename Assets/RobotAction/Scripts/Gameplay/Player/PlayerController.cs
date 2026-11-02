@@ -101,7 +101,7 @@ namespace RobotAction.Gameplay.Player
 
             if (_isRightAttacking)
             {
-                if (_targetBuffer.HasTarget)
+                if (_targetBuffer.HasTarget && _isLockOn)
                 {
                     var target = _targetBuffer.CurrentTarget;
                     _rightWeaponHandler.SetTarget(target.position);
@@ -112,7 +112,7 @@ namespace RobotAction.Gameplay.Player
 
             if (_isLeftAttacking)
             {
-                if (_targetBuffer.HasTarget)
+                if (_targetBuffer.HasTarget && _isLockOn)
                 {
                     var target = _targetBuffer.CurrentTarget;
                     _leftWeaponHandler.SetTarget(target.position);

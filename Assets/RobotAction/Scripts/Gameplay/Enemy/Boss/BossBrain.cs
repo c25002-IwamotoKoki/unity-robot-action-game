@@ -35,6 +35,8 @@ namespace RobotAction.Gameplay.Enemy.Boss
             {
                 attack.SetPlayer(_player, _playerDamageable);
             }
+
+            SortAttacksByProximityRange();
         }
 
         public void Tick(float deltaTime)
@@ -81,6 +83,22 @@ namespace RobotAction.Gameplay.Enemy.Boss
             //‘S‚ÄUŒ‚”ÍˆÍŠO‚È‚çnull‚ğ‘ã“ü
             _currentAttack = null;
             return false;
+        }
+
+        private void SortAttacksByProximityRange()
+        {
+            for(int i = 0; i < _attacks.Length-1; i++)
+            {
+                for (int j = i + 1; j < _attacks.Length; j++)
+                {
+                    if(_attacks[j].AttackRange < _attacks[i].AttackRange)
+                    {
+                        var temp = _attacks[i];
+                        _attacks[i] = _attacks[j];
+                        _attacks[j] = temp;
+                    }
+                }
+            }
         }
     }
 }

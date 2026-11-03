@@ -8,6 +8,8 @@ namespace RobotAction.Gameplay.Enemy.Boss
         public override float AttackRange => _attackRange;
 
         [SerializeField] private BossRushAttackData _data;
+        [Header("突進攻撃の攻撃判定を決める際にモデル(見た目)の大きさが必要なため")]
+        [SerializeField] private Transform _modelTransform;
 
         private Rigidbody _rigidbody;
         private float _attackRange;
@@ -20,7 +22,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         private void Awake()
         {
             TryGetComponent(out _rigidbody);
-            _attackRange = _data.RushDistance * transform.localScale.magnitude;
+            _attackRange = _data.RushDistance * _modelTransform.localScale.magnitude;
         }
 
         private void FixedUpdate()

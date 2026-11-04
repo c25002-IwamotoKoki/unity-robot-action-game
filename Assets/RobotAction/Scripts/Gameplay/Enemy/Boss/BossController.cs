@@ -30,10 +30,12 @@ namespace RobotAction.Gameplay.Enemy.Boss
             }
 
             TryGetComponent(out _rididbody);
-
-            _brain = new BossBrain(owner:this,_player,_playerDamageable,_globalAttackInterval);
-
             _currentHealth = _maxHealth;
+        }
+
+        private void Start()
+        {
+            _brain = new BossBrain(owner: this, _player, _playerDamageable, _globalAttackInterval);
         }
 
         private void Update()

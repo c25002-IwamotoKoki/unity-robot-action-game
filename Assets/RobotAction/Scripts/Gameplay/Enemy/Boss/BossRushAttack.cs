@@ -27,10 +27,6 @@ namespace RobotAction.Gameplay.Enemy.Boss
             float scaleAverage = (_modelTransform.localScale.x + _modelTransform.localScale.y + _modelTransform.localScale.z) / 3;
             _attackRange = (_data.HitRangeOffset + scaleAverage) * _data.RushDistance;
             _hitRange = _data.HitRangeOffset + scaleAverage;
-            _attackRange = (_data.HitRangeOffset + scaleAverage) * _data.RushDistance;
-            _hitRange = _data.HitRangeOffset + scaleAverage;
-
-            Debug.Log($"ScaleAverage = {_attackRange}");
         }
 
         private void FixedUpdate()

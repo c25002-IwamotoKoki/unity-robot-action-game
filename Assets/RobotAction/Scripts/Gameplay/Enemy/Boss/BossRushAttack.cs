@@ -24,7 +24,10 @@ namespace RobotAction.Gameplay.Enemy.Boss
         {
             TryGetComponent(out _rigidbody);
 
-            float scaleAverage = (_modelTransform.localScale.x + _modelTransform.localScale.y + _modelTransform.localScale.z) / 3;
+            //何度もTransformにアクセスするコストを削減
+            Vector3 localScale = _modelTransform.localScale;
+            float scaleAverage = (localScale.x + localScale.y + localScale.z) / 3;
+
             _attackRange = (_data.HitRangeOffset + scaleAverage) * _data.RushDistance;
             _hitRange = _data.HitRangeOffset + scaleAverage;
         }

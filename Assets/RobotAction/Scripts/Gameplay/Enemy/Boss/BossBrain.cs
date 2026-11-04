@@ -1,4 +1,5 @@
 using RobotAction.Gameplay.Combat;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy.Boss
@@ -18,6 +19,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         private readonly float _globalAttackInterval;
 
         private BossAttackBase _currentAttack;
+        private List<BossAttackBase> _executeableAttackList;
         private BossState _currentState;
         private float _globalAttackTimer;
 
@@ -27,6 +29,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         {
             _owner = owner;
             _attacks = _owner.GetComponentsInChildren<BossAttackBase>();
+            _executeableAttackList = new (_attacks.Length);
             _player = player;
             _playerDamageable = playerDamageable;
             _globalAttackInterval = globalAttackInterval;
@@ -35,8 +38,6 @@ namespace RobotAction.Gameplay.Enemy.Boss
             {
                 attack.SetPlayer(_player, _playerDamageable);
             }
-
-            SortAttacksByProximityRange();
         }
 
         public void Tick(float deltaTime)
@@ -69,35 +70,29 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private bool TrySetAttack()
         {
+            _executeableAttackList.Clear();
+
             float distanceSqr = (_player.position - _owner.transform.position).sqrMagnitude;
 
             foreach (var attack in _attacks)
             {
                 if (attack.CanAttack(distanceSqr))
                 {
-                    _currentAttack = attack;
-                    return true;
+                    _executeableAttackList.Add(attack);
                 }
             }
 
-            //全て攻撃範囲外ならnullを代入
-            _currentAttack = null;
-            return false;
-        }
-
-        private void SortAttacksByProximityRange()
-        {
-            for(int i = 0; i < _attacks.Length-1; i++)
+            if(_executeableAttackList.Count == 0)
             {
-                for (int j = i + 1; j < _attacks.Length; j++)
-                {
-                    if(_attacks[j].AttackRange < _attacks[i].AttackRange)
-                    {
-                        var temp = _attacks[i];
-                        _attacks[i] = _attacks[j];
-                        _attacks[j] = temp;
-                    }
-                }
+                //全て攻撃範囲外ならnullを代入
+                _currentAttack = null;
+                return false;
+            }
+            else
+            {
+                //攻撃可能が複数があるならランダムに選択
+                _currentAttack = _executeableAttackList[Random.Range(0, _executeableAttackList.Count)];
+                return true;
             }
         }
     }

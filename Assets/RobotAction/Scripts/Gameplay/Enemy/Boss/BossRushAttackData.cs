@@ -10,7 +10,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         [SerializeField] private float _rushDistance;
         [SerializeField] private float _rushDuration;
         [SerializeField] private float _rushCoolTime;
-        [SerializeField] private float _hitRange;
+        [SerializeField] private float _hitRangeOffset;
         [SerializeField, Range(-1, 1)] private float _hitThreshold;
 
         public float BaseAttackPower => _baseAttackPower;
@@ -18,7 +18,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         public float RushDistance => _rushDistance;
         public float RushDuration => _rushDuration;
         public float RushCoolTime => _rushCoolTime;
-        public float HitRange => _hitRange;
+        public float HitRangeOffset => _hitRangeOffset;
         public float HitThreshold => _hitThreshold;
     }
 }

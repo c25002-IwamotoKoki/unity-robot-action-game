@@ -17,5 +17,5 @@ MonoBehaviour:
   _rushDistance: 3
   _rushDuration: 1
   _rushCoolTime: 3
-  _hitRange: 5
+  _hitRangeOffset: 5
   _hitThreshold: 0.6

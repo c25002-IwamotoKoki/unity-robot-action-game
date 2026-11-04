@@ -13,6 +13,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private Rigidbody _rigidbody;
         private float _attackRange;
+        private float _hitRange;
         private float _durationTimer;
         private float _rushCoolTimer;
         private bool _isRushing;
@@ -22,7 +23,14 @@ namespace RobotAction.Gameplay.Enemy.Boss
         private void Awake()
         {
             TryGetComponent(out _rigidbody);
-            _attackRange = _data.RushDistance * _modelTransform.localScale.magnitude;
+
+            float scaleAverage = (_modelTransform.localScale.x + _modelTransform.localScale.y + _modelTransform.localScale.z) / 3;
+            _attackRange = (_data.HitRangeOffset + scaleAverage) * _data.RushDistance;
+            _hitRange = _data.HitRangeOffset + scaleAverage;
+            _attackRange = (_data.HitRangeOffset + scaleAverage) * _data.RushDistance;
+            _hitRange = _data.HitRangeOffset + scaleAverage;
+
+            Debug.Log($"ScaleAverage = {_attackRange}");
         }
 
         private void FixedUpdate()
@@ -78,11 +86,11 @@ namespace RobotAction.Gameplay.Enemy.Boss
             float toPlayerDistanceSqr = (_player.position - transform.position).sqrMagnitude;
 
             //UŒ‚”ÍˆÍ‚É‚¢‚È‚¢‚È‚ç‚»‚à‚»‚àŒŸ’m”»’è‚ð‚µ‚È‚¢
-            if (toPlayerDistanceSqr >= _attackRange * _attackRange) return;
+            if (toPlayerDistanceSqr >= _hitRange * _hitRange / _data.RushDistance) return;
 
             Vector3 direction = (_player.position - transform.position).normalized;
 
-            float dot = Vector3.Dot(transform.position, direction);
+            float dot = Vector3.Dot(transform.forward, direction);
 
             if (dot >= _data.HitThreshold)
             {

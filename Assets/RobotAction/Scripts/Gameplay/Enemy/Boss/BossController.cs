@@ -109,7 +109,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             //âEë§ÇÃê≥ñ Ç™è·äQï®Ç…à¯Ç¡Ç©Ç©Ç¡ÇƒÇ¢ÇÈÇ»ÇÁç∂Ç…âÒî
             if (Physics.Raycast(rightEdge, hitBoxModel.forward, _data.AvoidObstacleDistance, _data.ObstacleLayer))
             {
-                Vector3 avoidOffset = _data.AvoidObstacleSpeed * Time.deltaTime * -hitBoxModel.right;
+                Vector3 avoidOffset = _data.AvoidObstacleSpeed * Time.deltaTime * (-hitBoxModel.right + -hitBoxModel.forward);
                 _rididbody.MovePosition(_rididbody.position + avoidOffset);
                 return;
             }
@@ -117,7 +117,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             //è„ãLèàóùÇÃãt
             if (Physics.Raycast(leftEdge, hitBoxModel.forward, _data.AvoidObstacleDistance, _data.ObstacleLayer))
             {
-                Vector3 avoidOffset = _data.AvoidObstacleSpeed * Time.deltaTime * hitBoxModel.right;
+                Vector3 avoidOffset = _data.AvoidObstacleSpeed * Time.deltaTime * (-hitBoxModel.right + -hitBoxModel.forward);
                 _rididbody.MovePosition(_rididbody.position + avoidOffset);
             }
         }

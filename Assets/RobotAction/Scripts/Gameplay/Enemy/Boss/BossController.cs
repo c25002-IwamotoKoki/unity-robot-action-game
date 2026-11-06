@@ -1,5 +1,6 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Sensors;
+using System;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Enemy.Boss
@@ -7,6 +8,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
     [RequireComponent(typeof(Rigidbody))]
     public sealed class BossController : MonoBehaviour, IDamageable, ITargetable
     {
+        public event Action OnDied;
         public Transform Transform => transform;
 
         //ボスがプレイヤーを見失うなどは考えていないためそのままつかんでおきます
@@ -24,6 +26,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         private Rigidbody _rididbody;
         private IDamageable _playerDamageable;
         private float _currentHealth;
+        private bool _isDead;
 
         private void Awake()
         {
@@ -43,12 +46,20 @@ namespace RobotAction.Gameplay.Enemy.Boss
 
         private void Update()
         {
+            if (_isDead) return;
+
             _brain.Tick(Time.deltaTime);
         }
 
         public void GetDamage(float damage)
         {
             _currentHealth -= damage;
+
+            if(_currentHealth <= 0)
+            {
+                OnDied?.Invoke();
+                _isDead = true;
+            }
         }
 
         public void RotateTwordsToPlayer()

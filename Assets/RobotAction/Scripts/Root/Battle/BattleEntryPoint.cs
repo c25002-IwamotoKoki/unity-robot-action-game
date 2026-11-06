@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using RobotAction.Gameplay.Battle;
+using RobotAction.Gameplay.Enemy.Boss;
 
 namespace RobotAction.Root.Battle
 {
@@ -18,6 +19,7 @@ namespace RobotAction.Root.Battle
         [SerializeField] private RandomAreaEnemyGenerator _randomAreaEnemyGenerator;
         [SerializeField] private GameHudView _gameHudView;
         [SerializeField] private LockOnHudView _lockOnHudView;
+        [SerializeField] private BossController _bossController;
         [SerializeField] private InputActionReference _submitAction;
         [SerializeField] private int _requiredKillCount;
 
@@ -35,10 +37,16 @@ namespace RobotAction.Root.Battle
                 _player.LeftWeaponPartsHandler
             );
 
-            _batteFlowController = new BattleFlowController(playerStatus:_player,_randomAreaEnemyGenerator,_requiredKillCount);
+            _batteFlowController = new BattleFlowController(
+                playerStatus: _player,
+                _randomAreaEnemyGenerator,
+                _bossController,
+                _requiredKillCount
+            );
+
             _batteFlowController.OnEnemyDied += HandleDiedEnemy;
             _batteFlowController.OnPlayerDied += HandlePlayerDied;
-            _batteFlowController.OnEnemyTargetCleared += GameClearProcess;
+            _batteFlowController.OnBossDied += GameClearProcess;
 
             _lockOnHudView.Initialized(_player.AutoLockSensor);
             _gameHudView.SetKiilCount(_requiredKillCount,_batteFlowController.CurrentDiedEnemyCount);      
@@ -50,7 +58,7 @@ namespace RobotAction.Root.Battle
             {
                 _batteFlowController.OnEnemyDied -= HandleDiedEnemy;
                 _batteFlowController.OnPlayerDied -= HandlePlayerDied;
-                _batteFlowController.OnEnemyTargetCleared -= GameClearProcess;
+                _batteFlowController.OnBossDied -= GameClearProcess;
                 _batteFlowController.Dispose();
             }
 

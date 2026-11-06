@@ -66,6 +66,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             //‚±‚±‚Ü‚Åˆ—‚ª‰ñ‚Á‚Ä‚«‚Ä‚¢‚é‚È‚ç’Ç‚¢‚©‚¯‚éˆ—‚ğs‚¤
             _owner.RotateTwordsToPlayer();
             _owner.MoveForward();
+            _owner.AvoidObstacleProcess();
         }
 
         private bool TrySetAttack()

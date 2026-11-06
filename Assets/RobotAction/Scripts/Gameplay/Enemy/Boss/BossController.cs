@@ -14,13 +14,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
         //ボスがプレイヤーを見失うなどは考えていないためそのままつかんでおきます
         [SerializeField] private Transform _player;
         [SerializeField] private Collider _hitBox;
-        [SerializeField] private float _maxHealth;
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _rotateSpeed;
-        [SerializeField] private float _avoidObstacleDistance;
-        [SerializeField] private float _avoidObstacleSpeed;
-        [SerializeField] private float _globalAttackInterval;
-        [SerializeField] private LayerMask _obstacleLayer;
+        [SerializeField] private BossData _data;
 
         private BossBrain _brain;
         private Rigidbody _rididbody;
@@ -36,12 +30,12 @@ namespace RobotAction.Gameplay.Enemy.Boss
             }
 
             TryGetComponent(out _rididbody);
-            _currentHealth = _maxHealth;
+            _currentHealth = _data.MaxHealth;
         }
 
         private void Start()
         {
-            _brain = new BossBrain(owner: this, _player, _playerDamageable, _globalAttackInterval);
+            _brain = new BossBrain(owner: this, _player, _playerDamageable, _data.GlobalAttackInterval);
         }
 
         private void Update()
@@ -74,13 +68,13 @@ namespace RobotAction.Gameplay.Enemy.Boss
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 lookDirection,
-                _rotateSpeed * Time.deltaTime
+                _data.RotateSpeed * Time.deltaTime
             );
         }
 
         public void MoveForward()
         {
-            _rididbody.AddForce(transform.forward * _moveSpeed, ForceMode.Force);
+            _rididbody.AddForce(transform.forward * _data.MoveSpeed, ForceMode.Force);
         }
 
         public void AvoidObstacleProcess()
@@ -113,17 +107,17 @@ namespace RobotAction.Gameplay.Enemy.Boss
             Vector3 leftEdge = hitBoxModel.TransformPoint(leftBackLocal);
 
             //右側の正面が障害物に引っかかっているなら左に回避
-            if (Physics.Raycast(rightEdge, hitBoxModel.forward, _avoidObstacleDistance, _obstacleLayer))
+            if (Physics.Raycast(rightEdge, hitBoxModel.forward, _data.AvoidObstacleDistance, _data.ObstacleLayer))
             {
-                Vector3 avoidOffset = _avoidObstacleSpeed * Time.deltaTime * -hitBoxModel.right;
+                Vector3 avoidOffset = _data.AvoidObstacleSpeed * Time.deltaTime * -hitBoxModel.right;
                 _rididbody.MovePosition(_rididbody.position + avoidOffset);
                 return;
             }
 
             //上記処理の逆
-            if (Physics.Raycast(leftEdge, hitBoxModel.forward, _avoidObstacleDistance, _obstacleLayer))
+            if (Physics.Raycast(leftEdge, hitBoxModel.forward, _data.AvoidObstacleDistance, _data.ObstacleLayer))
             {
-                Vector3 avoidOffset = _avoidObstacleSpeed * Time.deltaTime * hitBoxModel.right;
+                Vector3 avoidOffset = _data.AvoidObstacleSpeed * Time.deltaTime * hitBoxModel.right;
                 _rididbody.MovePosition(_rididbody.position + avoidOffset);
             }
         }

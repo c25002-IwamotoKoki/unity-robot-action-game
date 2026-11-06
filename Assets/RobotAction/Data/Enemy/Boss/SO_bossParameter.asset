@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SO_bossParameter
   m_EditorClassIdentifier: Gameplay::RobotAction.Gameplay.Enemy.Boss.BossData
   _maxHealth: 5000
-  _moveSpeed: 10
+  _moveSpeed: 30
   _rotateSpeed: 15
-  _avoidObstacleDistance: 10
-  _avoidObstacleSpeed: 15
+  _avoidObstacleDistance: 15
+  _avoidObstacleSpeed: 30
   _globalAttackInterval: 3
   _obstacleLayer:
     serializedVersion: 2

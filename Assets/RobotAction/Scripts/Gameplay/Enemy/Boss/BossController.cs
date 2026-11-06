@@ -18,7 +18,6 @@ namespace RobotAction.Gameplay.Enemy.Boss
         [SerializeField] private float _avoidObstacleDistance;
         [SerializeField] private float _avoidObstacleSpeed;
         [SerializeField] private float _globalAttackInterval;
-        [SerializeField] private BossState _currentState;
         [SerializeField] private LayerMask _obstacleLayer;
 
         private BossBrain _brain;
@@ -45,7 +44,6 @@ namespace RobotAction.Gameplay.Enemy.Boss
         private void Update()
         {
             _brain.Tick(Time.deltaTime);
-            _currentState = _brain.CurrentState;
         }
 
         public void GetDamage(float damage)

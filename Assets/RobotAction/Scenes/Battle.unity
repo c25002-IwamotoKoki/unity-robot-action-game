@@ -1377,6 +1377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UI::RobotAction.UI.Sensor.LockOnHudView
   _lockOnReticle: {fileID: 931641329}
   _camera: {fileID: 330585545}
+  _reticleSmoothDamp: 0.05
 --- !u!4 &1540643948
 Transform:
   m_ObjectHideFlags: 0

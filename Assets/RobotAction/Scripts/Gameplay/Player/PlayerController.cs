@@ -126,7 +126,7 @@ namespace RobotAction.Gameplay.Player
         {
             if (_isLockOn && _targetBuffer.HasTarget)
             {
-                _selectTargetNum = Mathf.Clamp(_selectTargetNum, 0, _targetBuffer.DetectedTargets.Count - 1);
+                _selectTargetNum = Mathf.Clamp(_selectTargetNum, 0, _targetBuffer.Count - 1);
 
                 var target = _targetBuffer.CurrentTarget;
                 _lookController.TrackingTarget(target, Time.deltaTime);
@@ -234,10 +234,10 @@ namespace RobotAction.Gameplay.Player
                 _selectTargetNum = Mathf.Clamp(
                     _selectTargetNum,
                     0,
-                    _targetBuffer.DetectedTargets.Count - 1
+                    _targetBuffer.Count - 1
                 );
 
-                _targetBuffer.CurrentTarget = _targetBuffer.DetectedTargets[_selectTargetNum];
+                _targetBuffer.CurrentTarget = _targetBuffer.GetByIndex(_selectTargetNum);
             }
         }
 
@@ -249,10 +249,10 @@ namespace RobotAction.Gameplay.Player
                 _selectTargetNum = Mathf.Clamp(
                     _selectTargetNum,
                     0,
-                    _targetBuffer.DetectedTargets.Count - 1
+                    _targetBuffer.Count - 1
                 );
 
-                _targetBuffer.CurrentTarget = _targetBuffer.DetectedTargets[_selectTargetNum];
+                _targetBuffer.CurrentTarget = _targetBuffer.GetByIndex(_selectTargetNum);
             }
         }
     }

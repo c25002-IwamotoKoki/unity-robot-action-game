@@ -46,10 +46,10 @@ namespace RobotAction.Gameplay.Sensors
 
             //現在のターゲットがいないもしくは範囲外のターゲットを検知したままになっているなら
             //最も近い敵を自動でロックオンする
-            if (currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
+            if (currentTarget == null || !_targetBuffer.Contains(currentTarget))
             {
                 _targetBuffer.CurrentTarget = _targetBuffer.HasTarget
-                    ? _targetBuffer.DetectedTargets[0]
+                    ? _targetBuffer.GetByIndex(0)
                     : null;
             }
         }

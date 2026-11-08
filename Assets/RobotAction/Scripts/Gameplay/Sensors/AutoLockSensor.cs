@@ -28,7 +28,6 @@ namespace RobotAction.Gameplay.Sensors
             _owner = owner;
             _data = data;
             _targetBuffer = buffer;
-            _targetBuffer.SetCapacity(_data.MaxSearch);
             _detectedColliders = new Collider[_data.MaxSearch];
             _detectedTargets = new List<Transform>(_data.MaxSearch);
         }

@@ -12,28 +12,14 @@ namespace RobotAction.Gameplay.Sensors
 
         public bool HasTarget => DetectedTargets.Count > 0;
 
-        private bool _isCapacitySet;
-
-        public TargetBuffer()
+        public TargetBuffer(int capacity)
         {
-            DetectedTargets = new();
-            TargetSet = new();
-        }
-
-        public void SetCapacity(int capacity)
-        {
-            DetectedTargets = new List<Transform>(capacity);
-            TargetSet = new HashSet<Transform>(capacity);
-            _isCapacitySet = true;
+            DetectedTargets = new(capacity);
+            TargetSet = new(capacity);
         }
 
         public void UpdateTargets(IReadOnlyList<Transform> targets)
         {
-            if(!_isCapacitySet)
-            {
-                return;
-            }
-
             DetectedTargets.Clear();
             TargetSet.Clear();
 

@@ -59,7 +59,7 @@ namespace RobotAction.Gameplay.Player
             TryGetComponent(out Rigidbody rigidbody);
             _mover = new PlayerMover(owner: transform, _playerMoverData, rigidbody, _energyCore);
 
-            _targetBuffer = new TargetBuffer();
+            _targetBuffer = new TargetBuffer(_autoLockSensorData.MaxSearch);
             _autoLockSensor = new(transform, _autoLockSensorData, _targetBuffer);
 
             _lookController = new PlayerLookController(_lookData,owner:transform);

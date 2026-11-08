@@ -22,11 +22,17 @@ namespace RobotAction.Root.Battle
         [SerializeField] private BossController _bossController;
         [SerializeField] private InputActionReference _submitAction;
         [SerializeField] private int _requiredKillCount;
+        [SerializeField] private int _frameRate = 60;
 
         private PlayerStatusHudPresenter _playerStatusHudPresenter;
         private BattleFlowController _batteFlowController;
         private bool _isPlayerDeathProcessed;
         private bool _isGameClearProcessed;
+
+        private void Awake()
+        {
+            Application.targetFrameRate = _frameRate;
+        }
 
         private void Start()
         {

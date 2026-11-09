@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059d36e5c17e3d641b257343f24f2ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.Guns.EnergyGun
-  _muzzlePoint: {fileID: 7600597055036436094}
+  _muzzlePoint: {fileID: 3720625942635574216}
   _data: {fileID: 11400000, guid: 8b855fe73319d904cb21c1474c24404b, type: 2}
 --- !u!65 &1455997533754989495
 BoxCollider:

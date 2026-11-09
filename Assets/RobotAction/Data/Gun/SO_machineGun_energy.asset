@@ -22,6 +22,3 @@ MonoBehaviour:
   _hitLayer:
     serializedVersion: 2
     m_Bits: 256
-  _obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 512

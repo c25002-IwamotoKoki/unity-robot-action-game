@@ -7,8 +7,6 @@ using RobotAction.UI.Sensor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using RobotAction.Gameplay.Battle;
-using RobotAction.Gameplay.Enemy.Boss;
 
 namespace RobotAction.Root.Battle
 {
@@ -19,20 +17,13 @@ namespace RobotAction.Root.Battle
         [SerializeField] private RandomAreaEnemyGenerator _randomAreaEnemyGenerator;
         [SerializeField] private GameHudView _gameHudView;
         [SerializeField] private LockOnHudView _lockOnHudView;
-        [SerializeField] private BossController _bossController;
         [SerializeField] private InputActionReference _submitAction;
         [SerializeField] private int _requiredKillCount;
-        [SerializeField] private int _frameRate = 60;
 
         private PlayerStatusHudPresenter _playerStatusHudPresenter;
-        private BattleFlowController _batteFlowController;
+        private int _currnetKillCount;
         private bool _isPlayerDeathProcessed;
         private bool _isGameClearProcessed;
-
-        private void Awake()
-        {
-            Application.targetFrameRate = _frameRate;
-        }
 
         private void Start()
         {
@@ -43,30 +34,21 @@ namespace RobotAction.Root.Battle
                 _player.LeftWeaponPartsHandler
             );
 
-            _batteFlowController = new BattleFlowController(
-                playerStatus: _player,
-                _randomAreaEnemyGenerator,
-                _bossController,
-                _requiredKillCount
-            );
-
-            _batteFlowController.OnEnemyDied += HandleDiedEnemy;
-            _batteFlowController.OnPlayerDied += HandlePlayerDied;
-            _batteFlowController.OnBossDied += GameClearProcess;
-
             _lockOnHudView.Initialized(_player.AutoLockSensor);
-            _gameHudView.SetKiilCount(_requiredKillCount,_batteFlowController.CurrentDiedEnemyCount);      
+
+            _gameHudView.SetKiilCount(_requiredKillCount, _currnetKillCount);
+        }
+
+        private void OnEnable()
+        {
+            _randomAreaEnemyGenerator.OnEnemyDied += HandleDiedEnemy;
+            _player.OnDied += HandlePlayerDied;
         }
 
         private void OnDisable()
         {
-            if(_batteFlowController != null)
-            {
-                _batteFlowController.OnEnemyDied -= HandleDiedEnemy;
-                _batteFlowController.OnPlayerDied -= HandlePlayerDied;
-                _batteFlowController.OnBossDied -= GameClearProcess;
-                _batteFlowController.Dispose();
-            }
+            _randomAreaEnemyGenerator.OnEnemyDied -= HandleDiedEnemy;
+            _player.OnDied -= HandlePlayerDied;
 
             _submitAction.action.started -= HandleRetryAction;
             _submitAction.action.started -= HandleToTitleAction;
@@ -77,7 +59,14 @@ namespace RobotAction.Root.Battle
 
         private void HandleDiedEnemy()
         {
-            _gameHudView.SetKiilCount(_requiredKillCount,_batteFlowController.CurrentDiedEnemyCount);
+            _currnetKillCount++;
+
+            _gameHudView.SetKiilCount(_requiredKillCount, _currnetKillCount);
+
+            if(_currnetKillCount >= _requiredKillCount)
+            {
+                GameClearProcess();
+            }
         }
 
         private void HandlePlayerDied()

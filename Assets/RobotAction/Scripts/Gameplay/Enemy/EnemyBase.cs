@@ -5,15 +5,12 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System;
 using RobotAction.Gameplay.Enemy.Scriptables;
-using RobotAction.Gameplay.Sensors;
 
 namespace RobotAction.Gameplay.Enemy
 {
-    public abstract class EnemyBase : MonoBehaviour, IDamageable,IPoolable<EnemyBase>,ITargetable
+    public abstract class EnemyBase : MonoBehaviour, IDamageable,IPoolable<EnemyBase>
     {
         public event Action<EnemyBase> OnDied;
-
-        public Transform Transform => transform;
 
         [SerializeField] protected EnemyData _data;
 

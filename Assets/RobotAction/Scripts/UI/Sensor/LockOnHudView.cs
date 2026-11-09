@@ -9,30 +9,18 @@ namespace RobotAction.UI.Sensor
 
         [SerializeField] private RectTransform _lockOnReticle;
         [SerializeField] private Camera _camera;
-        [SerializeField] private float _reticleSmoothDamp;
 
         private IAutoLockSensorStatus _autoLockSensorStatus;
-        private Vector3 _dampVelocity;
 
-        private void LateUpdate()
+        private void Update()
         {
-            if (_autoLockSensorStatus.IsActive && _autoLockSensorStatus.HasLockOnTarget)
+            if(_autoLockSensorStatus.HasLockOnTarget)
             {
-                Vector3 targetPosition = _camera.WorldToScreenPoint(_autoLockSensorStatus.CurrentLockOnPosition);
-
-                if (targetPosition.z < 0) return;
-
-                _lockOnReticle.position = Vector3.SmoothDamp(
-                    _lockOnReticle.position,
-                    targetPosition,
-                    ref _dampVelocity,
-                    _reticleSmoothDamp
-                );
+                _lockOnReticle.position = _camera.WorldToScreenPoint(_autoLockSensorStatus.CurrentLockOnPosition);
             }
             else
             {
                 _lockOnReticle.position = OffScreenPosition;
-                _dampVelocity = Vector3.zero;
             }
         }
 

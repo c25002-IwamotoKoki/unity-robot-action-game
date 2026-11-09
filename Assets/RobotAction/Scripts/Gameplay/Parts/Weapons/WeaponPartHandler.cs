@@ -76,11 +76,6 @@ namespace RobotAction.Gameplay.Parts.Weapons
             CurrentPart?.SetTarget(position);
         }
 
-        public void ResetTarget()
-        {
-            CurrentPart?.ResetTarget();
-        }
-
         public void Attack()
         {
             CurrentPart?.Attack();

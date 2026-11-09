@@ -14,7 +14,6 @@ namespace RobotAction.Gameplay.Sensors
             : Vector3.zero;
 
         public bool HasLockOnTarget => _targetBuffer.CurrentTarget != null;
-        public bool IsActive { get; private set; }
 
         private readonly Transform _owner;
         private readonly AutoLockSensorData _data;
@@ -29,14 +28,13 @@ namespace RobotAction.Gameplay.Sensors
             _owner = owner;
             _data = data;
             _targetBuffer = buffer;
+            _targetBuffer.SetCapacity(_data.MaxSearch);
             _detectedColliders = new Collider[_data.MaxSearch];
             _detectedTargets = new List<Transform>(_data.MaxSearch);
         }
 
         public void Tick(float deltaTime, Vector3 searchOrigin)
         {
-            if (!IsActive) return;
-
             _searchCoolTimer += deltaTime;
 
             if (_searchCoolTimer >= _data.SearchCoolTime)
@@ -49,17 +47,12 @@ namespace RobotAction.Gameplay.Sensors
 
             //現在のターゲットがいないもしくは範囲外のターゲットを検知したままになっているなら
             //最も近い敵を自動でロックオンする
-            if (currentTarget == null || !_targetBuffer.Contains(currentTarget))
+            if (currentTarget == null || !_targetBuffer.TargetSet.Contains(currentTarget))
             {
                 _targetBuffer.CurrentTarget = _targetBuffer.HasTarget
-                    ? _targetBuffer.GetByIndex(0)
+                    ? _targetBuffer.DetectedTargets[0]
                     : null;
             }
-        }
-
-        public void SetState(bool isActive)
-        {
-            IsActive = isActive;
         }
 
         private void ExecuteSearch(Vector3 searchOrigin)
@@ -85,9 +78,9 @@ namespace RobotAction.Gameplay.Sensors
                     continue;
                 }
 
-                if (_detectedColliders[i].TryGetComponent(out ITargetable Target))
+                if (_detectedColliders[i].TryGetComponent(out EnemyBase enemy))
                 {
-                    _detectedTargets.Add(Target.Transform);
+                    _detectedTargets.Add(enemy.transform);
                 }
             }
 

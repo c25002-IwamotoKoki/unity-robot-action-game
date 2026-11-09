@@ -9,8 +9,6 @@ namespace RobotAction.Gameplay.Parts
 
         public void SetTarget(Vector3 position);
 
-        public void ResetTarget();
-
         public void Attack();
 
         public void SetAttackTargetLayer(LayerMask targetLayer);

@@ -32,6 +32,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _muzzleTransform.LookAt(position);
         }
 
+        public override void ResetTarget()
+        {
+            _muzzleTransform.rotation = transform.rotation;
+        }
+
         public override void Fire()
         {
             if (_isFired || !CanFire) return;

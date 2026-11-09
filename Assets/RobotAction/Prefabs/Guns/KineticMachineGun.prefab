@@ -223,8 +223,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6911294862441330858}
   - component: {fileID: 2434336852820515146}
-  - component: {fileID: 4695786457779904768}
-  - component: {fileID: 585792968018622430}
   - component: {fileID: 6760311632964275847}
   - component: {fileID: 5501750893904281115}
   m_Layer: 6
@@ -265,31 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.Guns.DefaultKineticGun
   _data: {fileID: 11400000, guid: a3b0f45a25f693f4ea7e93c28b481278, type: 2}
   _muzzleTransform: {fileID: 1905258100040762344}
---- !u!114 &4695786457779904768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7107182905998974717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ec6f4c6d2b17284abd00e6cfc8a99a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.Guns.BulletPool
-  _poolablePrefab: {fileID: 9123041612303493901, guid: ca3a2261e7c4e34419cd23264b001614, type: 3}
---- !u!114 &585792968018622430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7107182905998974717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15f76dde6ed149d41b5a14012eebeecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.Guns.KineticMagazine
+  _bulletPrefab: {fileID: 8208875791446754374, guid: ca3a2261e7c4e34419cd23264b001614, type: 3}
 --- !u!65 &6760311632964275847
 BoxCollider:
   m_ObjectHideFlags: 0

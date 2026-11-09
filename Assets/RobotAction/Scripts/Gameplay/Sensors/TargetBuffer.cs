@@ -7,41 +7,40 @@ namespace RobotAction.Gameplay.Sensors
     {
         public Transform CurrentTarget { get; set; }
 
-        public List<Transform> DetectedTargets { get; private set; } = new();
-        public HashSet<Transform> TargetSet { get; private set; }
 
-        public bool HasTarget => DetectedTargets.Count > 0;
+        private readonly List<Transform> _detectedTarget;
+        private readonly HashSet<Transform> _targetSet;
 
-        private bool _isCapacitySet;
+        public int Count => _detectedTarget.Count;
 
-        public TargetBuffer()
+        public bool HasTarget => _detectedTarget.Count > 0;
+
+        public TargetBuffer(int capacity)
         {
-            DetectedTargets = new();
-            TargetSet = new();
-        }
-
-        public void SetCapacity(int capacity)
-        {
-            DetectedTargets = new List<Transform>(capacity);
-            TargetSet = new HashSet<Transform>(capacity);
-            _isCapacitySet = true;
+            _detectedTarget = new(capacity);
+            _targetSet = new(capacity);
         }
 
         public void UpdateTargets(IReadOnlyList<Transform> targets)
         {
-            if(!_isCapacitySet)
-            {
-                return;
-            }
-
-            DetectedTargets.Clear();
-            TargetSet.Clear();
+            _detectedTarget.Clear();
+            _targetSet.Clear();
 
             for(int i = 0; i < targets.Count; i++)
             {
-                DetectedTargets.Add(targets[i]);
-                TargetSet.Add(targets[i]);
+                _detectedTarget.Add(targets[i]);
+                _targetSet.Add(targets[i]);
             }       
+        }
+
+        public Transform GetByIndex(int index)
+        {
+            return _detectedTarget[index];
+        }
+
+        public bool Contains(Transform target)
+        {
+            return _targetSet.Contains(target);
         }
     }
 }

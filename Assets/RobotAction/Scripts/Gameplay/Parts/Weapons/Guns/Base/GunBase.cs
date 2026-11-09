@@ -82,7 +82,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         public abstract void SetTarget(Vector3 position);
 
-        public void SetAttackTargetLayer(LayerMask targetLayer)
+        public virtual void ResetTarget()
+        {
+            
+        }
+
+        public virtual void SetAttackTargetLayer(LayerMask targetLayer)
         {
             AttackTargetLayer = targetLayer;
         }

@@ -28,13 +28,13 @@ namespace RobotAction.Gameplay.Player.Look
             //‹——£‚ª‚Ù‚Ú0‚È‚ç‚Í‚¶‚­
             if (direction.sqrMagnitude < 0.00001f) return;
 
-            Quaternion rotation = Quaternion.LookRotation(direction);
+            Vector3 horizontalDirection = new Vector3(direction.x,0,direction.z);
 
-            _owner.rotation = Quaternion.Slerp(
-                _owner.rotation,
-                rotation,
-                _data.TargetLookSpeed * deltaTime
-            );
+            if(horizontalDirection.sqrMagnitude > 0.00001f)
+            {
+                Quaternion targetYaw = Quaternion.LookRotation(horizontalDirection);
+                _owner.rotation = Quaternion.Slerp(_owner.rotation,targetYaw,_data.TargetLookSpeed * deltaTime);
+            }
         }
 
         public void UpdateYawRotation(float rawInputX,float deltaTime,bool isMouseLook)

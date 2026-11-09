@@ -16,7 +16,7 @@ namespace RobotAction.UI.Sensor
 
         private void LateUpdate()
         {
-            if (_autoLockSensorStatus.HasLockOnTarget)
+            if (_autoLockSensorStatus.IsActive && _autoLockSensorStatus.HasLockOnTarget)
             {
                 Vector3 targetPosition = _camera.WorldToScreenPoint(_autoLockSensorStatus.CurrentLockOnPosition);
 

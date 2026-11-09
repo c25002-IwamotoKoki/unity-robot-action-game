@@ -218,6 +218,7 @@ namespace RobotAction.Gameplay.Player
         private void HandleLockOn()
         {
             _isLockOn = !_isLockOn;
+            _autoLockSensor.SetState(_isLockOn);
 
             if(!_isLockOn)
             {

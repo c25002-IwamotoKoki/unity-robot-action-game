@@ -14,6 +14,7 @@ namespace RobotAction.Gameplay.Sensors
             : Vector3.zero;
 
         public bool HasLockOnTarget => _targetBuffer.CurrentTarget != null;
+        public bool IsActive { get; private set; }
 
         private readonly Transform _owner;
         private readonly AutoLockSensorData _data;
@@ -34,6 +35,8 @@ namespace RobotAction.Gameplay.Sensors
 
         public void Tick(float deltaTime, Vector3 searchOrigin)
         {
+            if (!IsActive) return;
+
             _searchCoolTimer += deltaTime;
 
             if (_searchCoolTimer >= _data.SearchCoolTime)
@@ -52,6 +55,11 @@ namespace RobotAction.Gameplay.Sensors
                     ? _targetBuffer.GetByIndex(0)
                     : null;
             }
+        }
+
+        public void SetState(bool isActive)
+        {
+            IsActive = isActive;
         }
 
         private void ExecuteSearch(Vector3 searchOrigin)

@@ -59,7 +59,7 @@ namespace RobotAction.Gameplay.Player
             TryGetComponent(out Rigidbody rigidbody);
             _mover = new PlayerMover(owner: transform, _playerMoverData, rigidbody, _energyCore);
 
-            _targetBuffer = new TargetBuffer();
+            _targetBuffer = new TargetBuffer(_autoLockSensorData.MaxSearch);
             _autoLockSensor = new(transform, _autoLockSensorData, _targetBuffer);
 
             _lookController = new PlayerLookController(_lookData,owner:transform);
@@ -126,7 +126,7 @@ namespace RobotAction.Gameplay.Player
         {
             if (_isLockOn && _targetBuffer.HasTarget)
             {
-                _selectTargetNum = Mathf.Clamp(_selectTargetNum, 0, _targetBuffer.DetectedTargets.Count - 1);
+                _selectTargetNum = Mathf.Clamp(_selectTargetNum, 0, _targetBuffer.Count - 1);
 
                 var target = _targetBuffer.CurrentTarget;
                 _lookController.TrackingTarget(target, Time.deltaTime);
@@ -218,6 +218,7 @@ namespace RobotAction.Gameplay.Player
         private void HandleLockOn()
         {
             _isLockOn = !_isLockOn;
+            _autoLockSensor.SetState(_isLockOn);
 
             if(!_isLockOn)
             {
@@ -234,10 +235,10 @@ namespace RobotAction.Gameplay.Player
                 _selectTargetNum = Mathf.Clamp(
                     _selectTargetNum,
                     0,
-                    _targetBuffer.DetectedTargets.Count - 1
+                    _targetBuffer.Count - 1
                 );
 
-                _targetBuffer.CurrentTarget = _targetBuffer.DetectedTargets[_selectTargetNum];
+                _targetBuffer.CurrentTarget = _targetBuffer.GetByIndex(_selectTargetNum);
             }
         }
 
@@ -249,10 +250,10 @@ namespace RobotAction.Gameplay.Player
                 _selectTargetNum = Mathf.Clamp(
                     _selectTargetNum,
                     0,
-                    _targetBuffer.DetectedTargets.Count - 1
+                    _targetBuffer.Count - 1
                 );
 
-                _targetBuffer.CurrentTarget = _targetBuffer.DetectedTargets[_selectTargetNum];
+                _targetBuffer.CurrentTarget = _targetBuffer.GetByIndex(_selectTargetNum);
             }
         }
     }

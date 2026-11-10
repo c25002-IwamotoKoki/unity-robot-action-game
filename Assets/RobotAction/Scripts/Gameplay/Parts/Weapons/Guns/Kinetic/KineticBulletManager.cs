@@ -37,6 +37,37 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet);
             _activeBulletList = new List<ActiveBullet>(maxOnFieldBullet);
             _hitColliders = new Collider[_gunData.MaxHitCount];
+
+            SetPrewarmedBulletMeshes(maxOnFieldBullet);
+        }
+
+        private void SetPrewarmedBulletMeshes(int count)
+        {
+            if(!_pool.CanRent)
+            {
+                Debug.LogWarning($"KineticBulletのPrewarm前にMeshを変更しようとしています。");
+                return;
+            }
+
+            for (int i = 0; i < count; i++)
+            {           
+                var bullet = _pool.Rent();
+
+                if (bullet.TryGetComponent(out MeshFilter meshFilter))
+                {
+                    meshFilter.sharedMesh = _gunData.BulletMesh;
+                }
+                else
+                {
+                    Debug.LogWarning($"{bullet.name}にMeshFilterが存在しません");
+                    _pool.Release(bullet);
+                    //1つのPrefabを参照しているため一つついていない時点で以降の処理は不要なためリターン
+                    return;
+                }
+
+                //Meshの変更を行う事が目的なためListに追加したりはせずそのままRelease()
+                _pool.Release(bullet);
+            }
         }
 
         public void Tick(float deltaTime)

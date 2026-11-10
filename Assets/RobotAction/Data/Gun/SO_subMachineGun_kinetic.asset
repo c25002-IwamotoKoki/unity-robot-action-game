@@ -22,3 +22,4 @@ MonoBehaviour:
   _obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  _bulletMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}

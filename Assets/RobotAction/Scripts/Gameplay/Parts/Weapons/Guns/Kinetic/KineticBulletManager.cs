@@ -56,6 +56,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 if (bullet.TryGetComponent(out MeshFilter meshFilter))
                 {
                     meshFilter.sharedMesh = _gunData.BulletMesh;
+                    bullet.localScale = _gunData.BulletScale;
                 }
                 else
                 {
@@ -132,9 +133,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private bool TryBulletHitProcess(Transform bullet,float deltaTime)
         {
-            //現状弾丸を楕円形や四角にするなどを考えていないため1軸のスケールのみ参照
-            float bulletRadius = bullet.localScale.x;
-            float checkRadius = bulletRadius + _gunData.BulletSpeed * deltaTime;
+            //弾によってScaleが変わるため平均を命中判定に使います。
+            float bulletRadiusAverage = (bullet.localScale.x + bullet.localScale.y + bullet.localScale.z) / 3;
+            float checkRadius = bulletRadiusAverage + _gunData.BulletSpeed * deltaTime;
 
             LayerMask hitMask = _attackTargetLayer | _gunData.ObstacleLayer;
 

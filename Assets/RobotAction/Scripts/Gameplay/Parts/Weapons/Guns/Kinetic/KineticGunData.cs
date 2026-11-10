@@ -11,6 +11,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         [SerializeField] private float _bulletBaseAttackPower;
         [SerializeField, Min(1)] private int _maxHitCount = 1;
         [SerializeField] private LayerMask _obstacleLayer;
+        [SerializeField] private Mesh _bulletMesh;
+        [SerializeField] private Vector3 _bulletScale = Vector3.one;
 
         public float FireRate => _fireRate;
         public float BulletLifeTime => _bulletLifeTime;
@@ -18,5 +20,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public float BulletBaseAttackPower => _bulletBaseAttackPower;
         public int MaxHitCount => _maxHitCount;
         public LayerMask ObstacleLayer => _obstacleLayer;
+        public Mesh BulletMesh => _bulletMesh;
+        public Vector3 BulletScale => _bulletScale;
     }
 }

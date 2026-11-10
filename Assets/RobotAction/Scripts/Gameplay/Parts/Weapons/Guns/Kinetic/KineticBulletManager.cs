@@ -37,6 +37,38 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet);
             _activeBulletList = new List<ActiveBullet>(maxOnFieldBullet);
             _hitColliders = new Collider[_gunData.MaxHitCount];
+
+            SetPrewarmedBulletMeshes(maxOnFieldBullet);
+        }
+
+        private void SetPrewarmedBulletMeshes(int count)
+        {
+            if(!_pool.CanRent)
+            {
+                Debug.LogWarning($"KineticBulletのPrewarm前にMeshを変更しようとしています。");
+                return;
+            }
+
+            for (int i = 0; i < count; i++)
+            {           
+                var bullet = _pool.Rent();
+
+                if (bullet.TryGetComponent(out MeshFilter meshFilter))
+                {
+                    meshFilter.sharedMesh = _gunData.BulletMesh;
+                    bullet.localScale = _gunData.BulletScale;
+                }
+                else
+                {
+                    Debug.LogWarning($"{bullet.name}にMeshFilterが存在しません");
+                    _pool.Release(bullet);
+                    //1つのPrefabを参照しているため一つついていない時点で以降の処理は不要なためリターン
+                    return;
+                }
+
+                //Meshの変更を行う事が目的なためListに追加したりはせずそのままRelease()
+                _pool.Release(bullet);
+            }
         }
 
         public void Tick(float deltaTime)
@@ -101,9 +133,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private bool TryBulletHitProcess(Transform bullet,float deltaTime)
         {
-            //現状弾丸を楕円形や四角にするなどを考えていないため1軸のスケールのみ参照
-            float bulletRadius = bullet.localScale.x;
-            float checkRadius = bulletRadius + _gunData.BulletSpeed * deltaTime;
+            //弾によってScaleが変わるため平均を命中判定に使います。
+            float bulletRadiusAverage = (bullet.localScale.x + bullet.localScale.y + bullet.localScale.z) / 3;
+            float checkRadius = bulletRadiusAverage + _gunData.BulletSpeed * deltaTime;
 
             LayerMask hitMask = _attackTargetLayer | _gunData.ObstacleLayer;
 

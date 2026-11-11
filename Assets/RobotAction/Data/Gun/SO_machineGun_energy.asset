@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.Guns.EnergyGunData
   _name: EnergyMachineGun
   _maxUseCount: 200
-  _shotSE: {fileID: 8300000, guid: eee91637c3b62cf4691b48e5fd674171, type: 3}
+  _shotSE: {fileID: 8300000, guid: e71ab8dd858ad5141a4f6c9464297f2e, type: 3}
   _fireRate: 0.3
   _damage: 40
   _maxRange: 20

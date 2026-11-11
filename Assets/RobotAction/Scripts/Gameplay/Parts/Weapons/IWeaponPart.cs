@@ -17,6 +17,6 @@ namespace RobotAction.Gameplay.Parts
 
         public void SetAttackTargetLayer(LayerMask targetLayer);
 
-        public void SetAudioSurvice(IAudioService audioService);
+        public void SetAudioService(IAudioService audioService);
     }
 }

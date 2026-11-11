@@ -46,7 +46,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         }
 
-        public virtual void SetAudioSurvice(IAudioService audioService)
+        public virtual void SetAudioService(IAudioService audioService)
         {
             AudioService = audioService;
         }

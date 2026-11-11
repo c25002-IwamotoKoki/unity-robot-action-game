@@ -56,7 +56,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
             base.Equip(weapon);
 
             CurrentPart.SetAttackTargetLayer(_attackTargetLayer);
-            CurrentPart.SetAudioSurvice(_audioService);
+            CurrentPart.SetAudioService(_audioService);
 
             CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
 

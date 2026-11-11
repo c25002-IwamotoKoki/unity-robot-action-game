@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
   _name: SubMachineGun
   _maxUseCount: 200
-  _shotSE: {fileID: 8300000, guid: eee91637c3b62cf4691b48e5fd674171, type: 3}
+  _shotSE: {fileID: 8300000, guid: 1f17f80dc10b96242bf9a2d8b33ec4ef, type: 3}
   _fireRate: 0.16
   _bulletLifeTime: 1
   _bulletSpeed: 200

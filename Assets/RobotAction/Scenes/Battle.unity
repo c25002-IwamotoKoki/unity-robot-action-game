@@ -1379,7 +1379,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Infrastructure::RobotAction.Infrastructure.AudioManager
   _seSource: {fileID: 1212348384}
   _clips:
-  - {fileID: 8300000, guid: eee91637c3b62cf4691b48e5fd674171, type: 3}
+  - {fileID: 8300000, guid: a72d7c1495f46a64aab6b4be7ad99a83, type: 3}
+  - {fileID: 8300000, guid: 0160caf84bb75cd4c8744b65bdbf15a0, type: 3}
+  - {fileID: 8300000, guid: 1f17f80dc10b96242bf9a2d8b33ec4ef, type: 3}
+  - {fileID: 8300000, guid: 5acedaaf95f20154a8082bf28fb7fc01, type: 3}
+  - {fileID: 8300000, guid: e71ab8dd858ad5141a4f6c9464297f2e, type: 3}
 --- !u!4 &1157528533
 Transform:
   m_ObjectHideFlags: 0

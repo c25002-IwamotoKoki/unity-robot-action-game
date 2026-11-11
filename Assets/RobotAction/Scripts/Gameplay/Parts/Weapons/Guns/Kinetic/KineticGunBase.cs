@@ -46,6 +46,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _isFired = true;
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();
+            PlayShotSE(_data.ShotSEId);
         }
 
         public override void Equip(Transform owner)

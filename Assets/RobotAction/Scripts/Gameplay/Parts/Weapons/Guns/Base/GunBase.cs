@@ -1,40 +1,15 @@
-using RobotAction.Core.Audio;
-using System;
 using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(Collider))]
-    public abstract class GunBase : MonoBehaviour,IWeaponPart
+    public abstract class GunBase : WeaponPartBase
     {
-        public event Action OnWeaponStatusChanged;
-
-        public Transform Owner { get; private set; }
-        public IAudioService AudioService { get; private set; }
-        public float AttackRange { get; protected set; }
-        public int RemainingUseCount { get; protected set; }
-        public abstract int MaxUseCount { get; }
-
         protected abstract float FireRate { get; }
-
-        //Œp³æ‚©‚ç‚ÌˆÓ}‚µ‚È‚¢’l‚Ì•ÏX‚ð–h‚®‚½‚ßAŒp³æ‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚Ä“Ç‚ÝŽæ‚èê—p‚Å•ÛŽ
-        protected LayerMask AttackTargetLayer { get; private set; }
 
         protected bool CanFire => RemainingUseCount > 0;
         protected bool _isFired;
 
         private float _fireRateTimer;
-        private Rigidbody _rigidbody;
-        private Collider _collider;
-
-        private void Awake()
-        {
-            TryGetComponent(out _rigidbody);
-            TryGetComponent(out _collider);
-
-            OnAwake();
-        }
 
         protected virtual void Update()
         {
@@ -50,56 +25,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             }
         }
 
-        protected virtual void OnAwake()
-        {
-
-        }
-
-        public void Attack() => Fire();
-
-        public virtual void Equip(Transform owner)
-        {
-            Owner = owner;
-            _rigidbody.isKinematic = true;
-            _collider.enabled = false;
-            transform.SetParent(Owner);
-            transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        }
-
-        public void Unequip()
-        {
-            Owner = null;
-            _rigidbody.isKinematic = false;
-            _collider.enabled = true;
-            transform.SetParent(null);
-        }
-
-        protected void InvokeOnWeaponStatusChangedEvent()
-        {
-            OnWeaponStatusChanged?.Invoke();
-        }
+        public override void Attack() => Fire();
 
         public abstract void Fire();
-
-        public abstract void SetTarget(Vector3 position);
-
-        public virtual void ResetTarget()
-        {
-            
-        }
-
-        public virtual void SetAttackTargetLayer(LayerMask targetLayer)
-        {
-            AttackTargetLayer = targetLayer;
-        }
-        public void SetAudioSurvice(IAudioService audioService)
-        {
-            AudioService = audioService;
-        }
-
-        protected void PlayShotSE(string audioId)
-        {
-            AudioService?.PlaySE(audioId);
-        }
     }
 }

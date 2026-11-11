@@ -1,4 +1,4 @@
-using RobotAction.Core;
+using RobotAction.Core.Audio;
 using System;
 using UnityEngine;
 
@@ -11,6 +11,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public event Action OnWeaponStatusChanged;
 
         public Transform Owner { get; private set; }
+        public IAudioService AudioService { get; private set; }
         public float AttackRange { get; protected set; }
         public int RemainingUseCount { get; protected set; }
         public abstract int MaxUseCount { get; }
@@ -90,6 +91,15 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public virtual void SetAttackTargetLayer(LayerMask targetLayer)
         {
             AttackTargetLayer = targetLayer;
+        }
+        public void SetAudioSurvice(IAudioService audioService)
+        {
+            AudioService = audioService;
+        }
+
+        protected void PlayShotSE(string audioId)
+        {
+            AudioService?.PlaySE(audioId);
         }
     }
 }

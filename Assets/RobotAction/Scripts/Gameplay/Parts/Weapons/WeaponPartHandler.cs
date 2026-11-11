@@ -1,4 +1,5 @@
 using RobotAction.Core;
+using RobotAction.Core.Audio;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
         private Collider[] _detectedColliders;
         private List<IWeaponPart> _detectedWeaponParts;
+        private IAudioService _audioService;
 
         private void Awake()
         {
@@ -54,6 +56,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
             base.Equip(weapon);
 
             CurrentPart.SetAttackTargetLayer(_attackTargetLayer);
+            CurrentPart.SetAudioSurvice(_audioService);
 
             CurrentPart.OnWeaponStatusChanged += HandleWeaponStatusChanged;
 
@@ -151,6 +154,11 @@ namespace RobotAction.Gameplay.Parts.Weapons
                     }
                 }
             }
+        }
+
+        public void SetAudioService(IAudioService audioService)
+        {
+            _audioService = audioService;
         }
     }
 }

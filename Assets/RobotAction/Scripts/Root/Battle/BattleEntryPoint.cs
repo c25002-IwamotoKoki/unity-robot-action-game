@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using RobotAction.Gameplay.Battle;
 using RobotAction.Gameplay.Enemy.Boss;
+using RobotAction.Infrastructure;
 
 namespace RobotAction.Root.Battle
 {
@@ -21,6 +22,7 @@ namespace RobotAction.Root.Battle
         [SerializeField] private LockOnHudView _lockOnHudView;
         [SerializeField] private BossController _bossController;
         [SerializeField] private InputActionReference _submitAction;
+        [SerializeField] private AudioManager _audioManager; 
         [SerializeField] private int _requiredKillCount;
         [SerializeField] private int _frameRate = 60;
 
@@ -42,6 +44,9 @@ namespace RobotAction.Root.Battle
                 _player.RightWeaponPartsHandler,
                 _player.LeftWeaponPartsHandler
             );
+
+            _player.RightWeaponPartsHandler.SetAudioService( _audioManager );
+            _player.LeftWeaponPartsHandler.SetAudioService(_audioManager );
 
             _batteFlowController = new BattleFlowController(
                 playerStatus: _player,

@@ -83,6 +83,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _damagedTargetIds.Clear();
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();
+            PlayShotSE(_data.ShotSEId);
             _isfiring = true;
             _isFired = true;
         }

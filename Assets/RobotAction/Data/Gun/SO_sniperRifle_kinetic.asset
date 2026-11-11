@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
   _name: SniperRifle
   _maxUseCount: 80
+  _shotSE: {fileID: 8300000, guid: eee91637c3b62cf4691b48e5fd674171, type: 3}
   _fireRate: 2
   _bulletLifeTime: 3
   _bulletSpeed: 300

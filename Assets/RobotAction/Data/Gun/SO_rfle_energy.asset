@@ -14,14 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.EnergyGunData
   _name: EnergyRifle
   _maxUseCount: 80
+  _shotSE: {fileID: 8300000, guid: eee91637c3b62cf4691b48e5fd674171, type: 3}
   _fireRate: 2
   _damage: 200
   _maxRange: 50
   _beamExtendSpeed: 500
   _maxHitCount: 5
-  _hitLayer:
-    serializedVersion: 2
-    m_Bits: 256
   _obstacleLayer:
     serializedVersion: 2
     m_Bits: 512

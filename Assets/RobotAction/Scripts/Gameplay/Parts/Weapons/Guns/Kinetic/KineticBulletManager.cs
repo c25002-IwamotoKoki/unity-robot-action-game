@@ -34,41 +34,19 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _attackTargetLayer = layer;
             //Poolの初期化に使うためFireRate/BulletLifeTimeでフィールド上に存在するための数を算出
             int maxOnFieldBullet = Mathf.FloorToInt(_gunData.BulletLifeTime / _gunData.FireRate);
-            _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet);
+
+            if(prefab.TryGetComponent(out MeshFilter meshFilter))
+            {
+                meshFilter.sharedMesh = _gunData.BulletMesh;
+            }
+            else
+            {
+                Debug.LogWarning($"{prefab.name}にMeshFilterがついていません");
+            }
+
+            _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet,_gunData.BulletScale);
             _activeBulletList = new List<ActiveBullet>(maxOnFieldBullet);
             _hitColliders = new Collider[_gunData.MaxHitCount];
-
-            SetPrewarmedBulletMeshes(maxOnFieldBullet);
-        }
-
-        private void SetPrewarmedBulletMeshes(int count)
-        {
-            if(!_pool.CanRent)
-            {
-                Debug.LogWarning($"KineticBulletのPrewarm前にMeshを変更しようとしています。");
-                return;
-            }
-
-            for (int i = 0; i < count; i++)
-            {           
-                var bullet = _pool.Rent();
-
-                if (bullet.TryGetComponent(out MeshFilter meshFilter))
-                {
-                    meshFilter.sharedMesh = _gunData.BulletMesh;
-                    bullet.localScale = _gunData.BulletScale;
-                }
-                else
-                {
-                    Debug.LogWarning($"{bullet.name}にMeshFilterが存在しません");
-                    _pool.Release(bullet);
-                    //1つのPrefabを参照しているため一つついていない時点で以降の処理は不要なためリターン
-                    return;
-                }
-
-                //Meshの変更を行う事が目的なためListに追加したりはせずそのままRelease()
-                _pool.Release(bullet);
-            }
         }
 
         public void Tick(float deltaTime)
@@ -133,9 +111,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private bool TryBulletHitProcess(Transform bullet,float deltaTime)
         {
-            //弾によってScaleが変わるため平均を命中判定に使います。
-            float bulletRadiusAverage = (bullet.localScale.x + bullet.localScale.y + bullet.localScale.z) / 3;
-            float checkRadius = bulletRadiusAverage + _gunData.BulletSpeed * deltaTime;
+            //命中判定に使う弾の大きさはモデルの差異による破綻を防ぐため判定用の弾の基準半径は1fに固定します。
+            float checkRadius = 1f + _gunData.BulletSpeed * deltaTime;
 
             LayerMask hitMask = _attackTargetLayer | _gunData.ObstacleLayer;
 

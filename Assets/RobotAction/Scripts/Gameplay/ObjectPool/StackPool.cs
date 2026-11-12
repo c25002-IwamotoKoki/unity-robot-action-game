@@ -17,23 +17,28 @@ namespace RobotAction.Gameplay.ObjectPool
         private readonly HashSet<T> _poolItemSet;
         private readonly T _prefab;
 
-        public StackPool(T prefab,int capacity)
+        public StackPool(T prefab, int capacity)
+            : this(prefab,capacity,prefab.transform.localScale)
+        {
+        }
+
+        public StackPool(T prefab,int capacity,Vector3 instanceLocalScale)
         {
             _pool = new Stack<T>(capacity);
             _poolItemSet = new HashSet<T>(capacity);
             _prefab = prefab;
 
-            Prewarm(capacity);
+            Prewarm(capacity, instanceLocalScale);
         }
 
-        private void Prewarm(int capacity)
+        private void Prewarm(int capacity, Vector3 instanceLocalScale)
         {
             GameObject inPoolItemsParent = new GameObject($"{_prefab.name}InPoolParent");
 
             for(int i = 0; i < capacity; i ++)
             {
                 T item = Object.Instantiate(_prefab, inPoolItemsParent.transform);
-                item.transform.SetParent(inPoolItemsParent.transform);
+                item.transform.localScale = instanceLocalScale;
                 item.gameObject.SetActive(false);
 
                 _pool.Push(item);

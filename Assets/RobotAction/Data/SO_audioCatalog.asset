@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38736a3a45f31f048baa59e83bd18bb0, type: 3}
+  m_Name: SO_audioCatalog
+  m_EditorClassIdentifier: Infrastructure::RobotAction.Infrastructure.AudioCatalog
+  _audioInfos:
+  - _clip: {fileID: 8300000, guid: a72d7c1495f46a64aab6b4be7ad99a83, type: 3}
+    _volume: 0.7
+  - _clip: {fileID: 8300000, guid: 1f17f80dc10b96242bf9a2d8b33ec4ef, type: 3}
+    _volume: 0.7
+  - _clip: {fileID: 8300000, guid: 0160caf84bb75cd4c8744b65bdbf15a0, type: 3}
+    _volume: 0.7
+  - _clip: {fileID: 8300000, guid: 5acedaaf95f20154a8082bf28fb7fc01, type: 3}
+    _volume: 0.7
+  - _clip: {fileID: 8300000, guid: e71ab8dd858ad5141a4f6c9464297f2e, type: 3}
+    _volume: 0.7

@@ -34,6 +34,16 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _attackTargetLayer = layer;
             //Poolの初期化に使うためFireRate/BulletLifeTimeでフィールド上に存在するための数を算出
             int maxOnFieldBullet = Mathf.FloorToInt(_gunData.BulletLifeTime / _gunData.FireRate);
+
+            if(prefab.TryGetComponent(out MeshFilter meshFilter))
+            {
+                meshFilter.sharedMesh = _gunData.BulletMesh;
+            }
+            else
+            {
+                Debug.LogWarning($"{prefab.name}にMeshFilterがついていません");
+            }
+
             _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet);
             _activeBulletList = new List<ActiveBullet>(maxOnFieldBullet);
             _hitColliders = new Collider[_gunData.MaxHitCount];
@@ -53,20 +63,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             {           
                 var bullet = _pool.Rent();
 
-                if (bullet.TryGetComponent(out MeshFilter meshFilter))
-                {
-                    meshFilter.sharedMesh = _gunData.BulletMesh;
-                    bullet.localScale = _gunData.BulletScale;
-                }
-                else
-                {
-                    Debug.LogWarning($"{bullet.name}にMeshFilterが存在しません");
-                    _pool.Release(bullet);
-                    //1つのPrefabを参照しているため一つついていない時点で以降の処理は不要なためリターン
-                    return;
-                }
+                bullet.localScale = _gunData.BulletScale;
 
-                //Meshの変更を行う事が目的なためListに追加したりはせずそのままRelease()
+                //Scaleの変更が目的なためListに追加したりはせずそのままRelease()
                 _pool.Release(bullet);
             }
         }

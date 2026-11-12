@@ -111,9 +111,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private bool TryBulletHitProcess(Transform bullet,float deltaTime)
         {
-            //’e‚É‚æ‚Á‚ÄScale‚ª•Ï‚í‚é‚½‚ß•½‹Ï‚ğ–½’†”»’è‚Ég‚¢‚Ü‚·B
-            float bulletRadiusAverage = (bullet.localScale.x + bullet.localScale.y + bullet.localScale.z) / 3;
-            float checkRadius = bulletRadiusAverage + _gunData.BulletSpeed * deltaTime;
+            //–½’†”»’è‚Ég‚¤’e‚Ì‘å‚«‚³‚Íƒ‚ƒfƒ‹‚Ì·ˆÙ‚É‚æ‚é”j’]‚ğ–h‚®‚½‚ß”»’è—p‚Ì’e‚ÌŠî€”¼Œa‚Í1f‚ÉŒÅ’è‚µ‚Ü‚·B
+            float checkRadius = 1f + _gunData.BulletSpeed * deltaTime;
 
             LayerMask hitMask = _attackTargetLayer | _gunData.ObstacleLayer;
 

@@ -10,6 +10,9 @@ namespace RobotAction.UI.Player
         private readonly IWeaponPartHandler _rightWeaponHandler;
         private readonly IWeaponPartHandler _leftWeaponHandler;
 
+        private int _lastCurrentHealth = -1;
+        private int _lastCurrentEnergy = -1;
+
         public PlayerStatusHudPresenter(
             PlayerStatusHudView hudView,
             IPlayerStatus playerStatus, 
@@ -46,12 +49,32 @@ namespace RobotAction.UI.Player
 
         private void SetHealthView()
         {
-            _hudView.SetHelth(_playerStatus.MaxHealth,_playerStatus.CurrentHealth);
+            int intCurrent = (int)_playerStatus.CurrentHealth;
+            //Å‘åHP‚ª“®“I‚É‘‚¦‚éˆ—‚Í‚È‚¢‚½‚ßCurrentHealth‚Ì‚İ”äŠr‚µ
+            bool isChangeText = intCurrent != _lastCurrentHealth;
+
+            //intŒ^‚ÅŒ©‚½•Ï“®‚ª‚ ‚é‚Æ‚«‚Ì‚İText‚ğ•Ï‰»‚³‚¹‚é
+            if(isChangeText)
+            {
+                _lastCurrentHealth = intCurrent;
+            }
+
+            _hudView.SetEnergy(_playerStatus.MaxHealth,_playerStatus.CurrentHealth,isChangeText);
         }
 
         private void SetEnergyView()
         {
-            _hudView.SetEenrgy(_playerStatus.MaxEnergy,_playerStatus.CurrentEnergy);
+            int intCurrent = (int)_playerStatus.CurrentEnergy;
+            //Å‘åEnergy‚ª“®“I‚É‘‚¦‚éˆ—‚Í‚È‚¢‚½‚ßCurrentEnergy‚Ì‚İ”äŠr
+            bool isChangeText = intCurrent != _lastCurrentEnergy;
+
+            //intŒ^‚ÅŒ©‚½•Ï“®‚ª‚ ‚é‚Æ‚«‚Ì‚İText‚ğ•Ï‰»‚³‚¹‚é
+            if (_lastCurrentEnergy != intCurrent)
+            {
+                _lastCurrentEnergy = intCurrent;
+            }
+
+            _hudView.SetEnergy(_playerStatus.MaxEnergy, _playerStatus.CurrentEnergy,isChangeText);
         }
 
         private void SetRightWeaponStatusView()

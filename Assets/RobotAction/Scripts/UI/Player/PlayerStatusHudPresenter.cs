@@ -59,7 +59,7 @@ namespace RobotAction.UI.Player
                 _lastCurrentHealth = intCurrent;
             }
 
-            _hudView.SetEenrgy(_playerStatus.MaxHealth,_playerStatus.CurrentHealth,isChangeText);
+            _hudView.SetEnergy(_playerStatus.MaxHealth,_playerStatus.CurrentHealth,isChangeText);
         }
 
         private void SetEnergyView()
@@ -74,7 +74,7 @@ namespace RobotAction.UI.Player
                 _lastCurrentEnergy = intCurrent;
             }
 
-            _hudView.SetEenrgy(_playerStatus.MaxEnergy, _playerStatus.CurrentEnergy,isChangeText);
+            _hudView.SetEnergy(_playerStatus.MaxEnergy, _playerStatus.CurrentEnergy,isChangeText);
         }
 
         private void SetRightWeaponStatusView()

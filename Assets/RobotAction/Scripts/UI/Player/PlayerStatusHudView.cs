@@ -27,7 +27,7 @@ namespace RobotAction.UI.Player
             }
         }
 
-        public void SetEenrgy(float maxEnergy, float currentEnergy,bool isChangeText)
+        public void SetEnergy(float maxEnergy, float currentEnergy,bool isChangeText)
         {
             _energyBar.fillAmount = currentEnergy / maxEnergy;
 

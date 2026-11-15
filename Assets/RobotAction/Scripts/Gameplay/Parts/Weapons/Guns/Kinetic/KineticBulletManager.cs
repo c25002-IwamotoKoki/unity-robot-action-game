@@ -34,17 +34,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _attackTargetLayer = layer;
             //Poolの初期化に使うためFireRate/BulletLifeTimeでフィールド上に存在するための数を算出
             int maxOnFieldBullet = Mathf.FloorToInt(_gunData.BulletLifeTime / _gunData.FireRate);
-
-            if(prefab.TryGetComponent(out MeshFilter meshFilter))
-            {
-                meshFilter.sharedMesh = _gunData.BulletMesh;
-            }
-            else
-            {
-                Debug.LogWarning($"{prefab.name}にMeshFilterがついていません");
-            }
-
-            _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet,_gunData.BulletScale);
+            _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet);
             _activeBulletList = new List<ActiveBullet>(maxOnFieldBullet);
             _hitColliders = new Collider[_gunData.MaxHitCount];
         }

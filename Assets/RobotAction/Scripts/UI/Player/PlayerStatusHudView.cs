@@ -15,28 +15,18 @@ namespace RobotAction.UI.Player
         [SerializeField] private Image _leftWeaponBar;
         [SerializeField] private TextMeshProUGUI _leftWeaponBarText;
 
-        public void SetHelth(float maxHealth,float currentHealth, bool isChangeText)
+        public void SetHelth(float maxHealth,float currentHealth)
         {
             _healthBar.fillAmount = currentHealth / maxHealth;
-
-            //必要なタイミングのみテキストを書き換える
-            if(isChangeText)
-            {
-                //UIに小数点以下を表示させないためintにキャスト
-                _healthBarText.SetText("HP:{0}/{1}", (int)currentHealth, maxHealth);
-            }
+            //UIに小数点以下を表示させないためintにキャスト
+            _healthBarText.SetText("HP:{0}/{1}",(int)currentHealth,maxHealth);
         }
 
-        public void SetEnergy(float maxEnergy, float currentEnergy,bool isChangeText)
+        public void SetEnergy(float maxEnergy, float currentEnergy)
         {
             _energyBar.fillAmount = currentEnergy / maxEnergy;
-
-            //必要なタイミングのみテキストを書き換える
-            if (isChangeText)
-            {
-                //UIに小数点以下を表示させないためintにキャスト
-                _energyBarText.SetText("Energy:{0}/{1}", (int)currentEnergy, maxEnergy);
-            }
+            //UIに小数点以下を表示させないためintにキャスト
+            _energyBarText.SetText("Energy:{0}/{1}",(int)currentEnergy,maxEnergy);
         }
 
         public void SetRightWeapon(int maxUseCount, int remainingUseCount)

@@ -64,6 +64,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 if (_activeBulletList[i].CurrnetLifeTime >= _gunData.BulletLifeTime)
                 {
                     ReleaseBulletByIndex(i);
+                    //ìÒèdï‘ãpñhé~
+                    continue;
                 }
 
                 if (TryBulletHitProcess(activeBullet.Transform,deltaTime))

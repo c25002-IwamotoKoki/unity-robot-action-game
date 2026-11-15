@@ -10,7 +10,7 @@ namespace RobotAction.Infrastructure
 
         private void Awake()
         {
-            _catalog.SetUpDictionary();
+            _catalog.SetUpDictionary(force:true);
         }
 
         public void PlaySE(string seId)

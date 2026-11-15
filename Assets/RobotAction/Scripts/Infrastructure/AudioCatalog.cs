@@ -28,9 +28,9 @@ namespace RobotAction.Infrastructure
         private Dictionary<string,AudioInfo> _audioInfoTableById;
         private bool _isSetUp;
 
-        public void SetUpDictionary()
+        public void SetUpDictionary(bool force = false)
         {
-            if (_isSetUp) return;
+            if (_isSetUp && !force) return;
 
             _audioInfoTableById = new Dictionary<string,AudioInfo>(_audioInfos.Length);
 

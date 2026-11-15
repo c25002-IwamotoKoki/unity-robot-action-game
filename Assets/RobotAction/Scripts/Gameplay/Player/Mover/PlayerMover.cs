@@ -37,6 +37,13 @@ namespace RobotAction.Gameplay.Player.Mover
                 _rigidbody.AddForce(_data.MoveSpeed * _owner.up, ForceMode.Force);
             }
 
+            if (!_isBoosting && _rigidbody.maxLinearVelocity != _data.DefaultMaxSpeed)
+            {
+                _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
+                                                                 _data.DefaultMaxSpeed,
+                                                                 _data.MaxSpeedDeceleration * fixedDeltaTime);
+            }
+
             if (_currentMoveDirection.sqrMagnitude < DeadZoneSqr)
             {
                 return;
@@ -50,13 +57,6 @@ namespace RobotAction.Gameplay.Player.Mover
             if (_isBoosting && _energyCore.TryCosume(_data.BoostEnergyCost * fixedDeltaTime))
             {
                 _rigidbody.AddForce(_data.BoostSpeed * _currentMoveDirection, ForceMode.Force);
-            }
-
-            if (!_isBoosting && _rigidbody.maxLinearVelocity != _data.DefaultMaxSpeed)
-            {
-                _rigidbody.maxLinearVelocity = Mathf.MoveTowards(_rigidbody.maxLinearVelocity,
-                                                                 _data.BoostMaxSpeed,
-                                                                 _data.MaxSpeedDeceleration * fixedDeltaTime);
             }
         }
 

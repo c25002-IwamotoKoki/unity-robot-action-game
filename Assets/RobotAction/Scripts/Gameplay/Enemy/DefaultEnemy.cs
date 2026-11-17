@@ -1,7 +1,9 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Parts;
 using RobotAction.Gameplay.Parts.Weapons;
+using RobotAction.Gameplay.Parts.Weapons.Scriptables;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RobotAction.Gameplay.Enemy
 {
@@ -11,13 +13,14 @@ namespace RobotAction.Gameplay.Enemy
     {
         [SerializeField] private WeaponPartHandler _rightWeaponHandler;
         [SerializeField] private WeaponPartHandler _leftWeaponHandler;
+        [SerializeField] private WeaponPartCatalog _weaponPartCatalog;
         [SerializeField] private float _rushAttackSpeed;
         [SerializeField] private float _rushAttackRange;
         [SerializeField] private int _maxRushHitCount;
         [SerializeField] private float _rushRate;
         [SerializeField] private LayerMask _rushHitLayer;
 
-        private Rigidbody _rightBody;
+        private Rigidbody _rigidbody;
         private Collider[] _hitColliders;
         private float _rushRateTimer;
         private bool _canRush;
@@ -27,7 +30,7 @@ namespace RobotAction.Gameplay.Enemy
         {
             _hitColliders = new Collider[_maxRushHitCount];
 
-            TryGetComponent(out _rightBody);
+            TryGetComponent(out _rigidbody);
             base.Awake();
         }
 
@@ -59,6 +62,26 @@ namespace RobotAction.Gameplay.Enemy
             _leftWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
         }
 
+        public override void OnCreated(IObjectPool<EnemyBase> ownerPool)
+        {
+            base.OnCreated(ownerPool);
+
+            EquipRandomCatalogWeapon(_rightWeaponHandler);
+            EquipRandomCatalogWeapon(_leftWeaponHandler);
+        }
+
+        /// <summary>
+        /// カタログ内のランダムな武器を生成して装備します
+        /// </summary>
+        private void EquipRandomCatalogWeapon(WeaponPartHandler handler)
+        {
+            int randomIndex = Random.Range(0, _weaponPartCatalog.Count());
+            WeaponPartData data = _weaponPartCatalog.GetByIndex(randomIndex);
+
+            WeaponPartBase weapon = Instantiate(data.PartPrefab);
+            handler.Equip(weapon);
+        }
+
 
         public override void Attack()
         {
@@ -82,7 +105,7 @@ namespace RobotAction.Gameplay.Enemy
             if (!_canRush) return;
 
             Vector3 direction = (_blackboard.Target.position - transform.position).normalized;
-            _rightBody.AddForce(direction * _rushAttackSpeed, ForceMode.Impulse);
+            _rigidbody.AddForce(direction * _rushAttackSpeed, ForceMode.Impulse);
 
             int hitCount = Physics.OverlapSphereNonAlloc(
                 transform.position,

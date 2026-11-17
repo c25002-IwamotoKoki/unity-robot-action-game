@@ -77,12 +77,12 @@ namespace RobotAction.Gameplay.Parts.Weapons
             switch (_currentSlot)
             {
                 case WeaponPartSlot.Right:
-                    _currentRightId = _catalog.Data[_currentRightSelectIndex].Id;
+                    _currentRightId = _catalog.GetIdByIndex(_currentRightSelectIndex);
                     _isRightSubmitted = true;
                     break;
 
                 case WeaponPartSlot.Left:
-                    _currentLeftId = _catalog.Data[_currentLeftSelectIndex].Id;
+                    _currentLeftId = _catalog.GetIdByIndex(_currentLeftSelectIndex);
                     _isLeftSubmitted = true;
                     break;
 
@@ -155,14 +155,14 @@ namespace RobotAction.Gameplay.Parts.Weapons
             {
                 case WeaponPartSlot.Right:
                     _currentRightSelectIndex++;
-                    _currentRightSelectIndex %= _catalog.Data.Count;
-                    OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
+                    _currentRightSelectIndex %= _catalog.Count();
+                    OnSelected?.Invoke(_catalog.GetByIndex(_currentRightSelectIndex));
                     break;
 
                 case WeaponPartSlot.Left:
                     _currentLeftSelectIndex++;
-                    _currentLeftSelectIndex %= _catalog.Data.Count;
-                    OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
+                    _currentLeftSelectIndex %= _catalog.Count();
+                    OnSelected?.Invoke(_catalog.GetByIndex(_currentLeftSelectIndex));
                     break;
             }
         }
@@ -179,14 +179,14 @@ namespace RobotAction.Gameplay.Parts.Weapons
             {
                 case WeaponPartSlot.Right:
                     _currentRightSelectIndex--;
-                    _currentRightSelectIndex = (_currentRightSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
-                    OnSelected?.Invoke(_catalog.Data[_currentRightSelectIndex]);
+                    _currentRightSelectIndex = (_currentRightSelectIndex + _catalog.Count()) % _catalog.Count();
+                    OnSelected?.Invoke(_catalog.GetByIndex(_currentRightSelectIndex));
                     break;
 
                 case WeaponPartSlot.Left:
                     _currentLeftSelectIndex--;
-                    _currentLeftSelectIndex = (_currentLeftSelectIndex + _catalog.Data.Count) % _catalog.Data.Count;
-                    OnSelected?.Invoke(_catalog.Data[_currentLeftSelectIndex]);
+                    _currentLeftSelectIndex = (_currentLeftSelectIndex + _catalog.Count()) % _catalog.Count();
+                    OnSelected?.Invoke(_catalog.GetByIndex(_currentLeftSelectIndex));
                     break;
             }
         }

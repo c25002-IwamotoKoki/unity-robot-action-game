@@ -1,7 +1,9 @@
 using RobotAction.Gameplay.Combat;
 using RobotAction.Gameplay.Parts;
 using RobotAction.Gameplay.Parts.Weapons;
+using RobotAction.Gameplay.Parts.Weapons.Scriptables;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RobotAction.Gameplay.Enemy
 {
@@ -11,6 +13,7 @@ namespace RobotAction.Gameplay.Enemy
     {
         [SerializeField] private WeaponPartHandler _rightWeaponHandler;
         [SerializeField] private WeaponPartHandler _leftWeaponHandler;
+        [SerializeField] private WeaponPartCatalog _weaponPartCatalog;
         [SerializeField] private float _rushAttackSpeed;
         [SerializeField] private float _rushAttackRange;
         [SerializeField] private int _maxRushHitCount;
@@ -57,6 +60,26 @@ namespace RobotAction.Gameplay.Enemy
         {
             _rightWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
             _leftWeaponHandler.OnWeaponEquipped -= HandleWeaponEquipped;
+        }
+
+        public override void OnCreated(IObjectPool<EnemyBase> ownerPool)
+        {
+            base.OnCreated(ownerPool);
+
+            EquipRandomCatalogWeapon(_rightWeaponHandler);
+            EquipRandomCatalogWeapon(_leftWeaponHandler);
+        }
+
+        /// <summary>
+        /// カタログ内のランダムな武器を生成して装備します
+        /// </summary>
+        private void EquipRandomCatalogWeapon(WeaponPartHandler handler)
+        {
+            int randomIndex = Random.Range(0, _weaponPartCatalog.Count());
+            WeaponPartData data = _weaponPartCatalog.GetByIndex(randomIndex);
+
+            WeaponPartBase weapon = Instantiate(data.PartPrefab);
+            handler.Equip(weapon);
         }
 
 

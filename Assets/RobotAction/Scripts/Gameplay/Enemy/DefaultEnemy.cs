@@ -17,7 +17,7 @@ namespace RobotAction.Gameplay.Enemy
         [SerializeField] private float _rushRate;
         [SerializeField] private LayerMask _rushHitLayer;
 
-        private Rigidbody _rightBody;
+        private Rigidbody _rigidbody;
         private Collider[] _hitColliders;
         private float _rushRateTimer;
         private bool _canRush;
@@ -27,7 +27,7 @@ namespace RobotAction.Gameplay.Enemy
         {
             _hitColliders = new Collider[_maxRushHitCount];
 
-            TryGetComponent(out _rightBody);
+            TryGetComponent(out _rigidbody);
             base.Awake();
         }
 
@@ -82,7 +82,7 @@ namespace RobotAction.Gameplay.Enemy
             if (!_canRush) return;
 
             Vector3 direction = (_blackboard.Target.position - transform.position).normalized;
-            _rightBody.AddForce(direction * _rushAttackSpeed, ForceMode.Impulse);
+            _rigidbody.AddForce(direction * _rushAttackSpeed, ForceMode.Impulse);
 
             int hitCount = Physics.OverlapSphereNonAlloc(
                 transform.position,

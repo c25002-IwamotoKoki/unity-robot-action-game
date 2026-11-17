@@ -9,8 +9,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Scriptables
     {
         [SerializeField] private WeaponPartData[] _data;
 
-        public IReadOnlyList<WeaponPartData> Data => _data;
-
         private Dictionary<string, WeaponPartData> _partsById;
 
         public void SetupDictionary()
@@ -50,6 +48,21 @@ namespace RobotAction.Gameplay.Parts.Weapons.Scriptables
             Debug.LogWarning($"[WeaponPartsCatalog]Id:{id}‚ÌWeaponPart‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
 
             return null;
+        }
+
+        public int Count()
+        {
+            return _data.Length;
+        }
+
+        public WeaponPartData GetByIndex(int index)
+        {
+            return _data[index];
+        }
+
+        public string GetIdByIndex(int index)
+        {
+            return _data[index].Id;
         }
     }
 }

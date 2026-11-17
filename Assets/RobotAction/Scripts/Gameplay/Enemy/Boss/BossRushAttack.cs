@@ -64,6 +64,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
                 _isHit = false;
                 _isRushed = true;
                 _durationTimer = 0;
+                _rigidbody.linearVelocity = Vector3.zero;
             }
         }
 

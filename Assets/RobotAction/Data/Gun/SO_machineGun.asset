@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Scriptables.KineticGunData
   _name: MachineGun
   _maxUseCount: 250
+  _shotSE: {fileID: 8300000, guid: a72d7c1495f46a64aab6b4be7ad99a83, type: 3}
   _fireRate: 0.2
   _bulletLifeTime: 2
   _bulletSpeed: 100
   _bulletBaseAttackPower: 70
+  _maxHitCount: 1
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512

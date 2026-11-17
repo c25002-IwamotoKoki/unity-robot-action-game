@@ -97,5 +97,17 @@ namespace RobotAction.Gameplay.Enemy
             _onFieldEnemy.Remove(enemy);
             OnEnemyDied?.Invoke();
         }
+
+        public void DespawnAllEnemy()
+        {
+            //一番後ろから回すことでindex範囲外を防止し安全に全ての敵をプールに返却
+            for(int i = _onFieldEnemy.Count - 1; i >= 0; i--)
+            {
+                _onFieldEnemy[i].OnDied -= HandleOnDead;
+                _enemyPool.Pool.Release(_onFieldEnemy[i]);
+            }
+
+            _onFieldEnemy.Clear();
+        }
     }
 }

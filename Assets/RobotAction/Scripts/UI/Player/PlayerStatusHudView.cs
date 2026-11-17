@@ -22,7 +22,7 @@ namespace RobotAction.UI.Player
             _healthBarText.SetText("HP:{0}/{1}",(int)currentHealth,maxHealth);
         }
 
-        public void SetEenrgy(float maxEnergy, float currentEnergy)
+        public void SetEnergy(float maxEnergy, float currentEnergy)
         {
             _energyBar.fillAmount = currentEnergy / maxEnergy;
             //UIに小数点以下を表示させないためintにキャスト

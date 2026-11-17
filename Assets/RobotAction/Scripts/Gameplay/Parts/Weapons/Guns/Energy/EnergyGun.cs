@@ -44,7 +44,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _currentLength += _data.BeamExtendSpeed * Time.deltaTime;
             _currentLength = MathF.Min(_data.MaxRange, _currentLength);
 
-            _endBeamWorldPosition = _startBeamWorldPosition + transform.forward * _currentLength;
+            _endBeamWorldPosition = _startBeamWorldPosition + _muzzlePoint.forward * _currentLength;
 
             _beamRenderer.SetPosition(0, _startBeamWorldPosition);
             _beamRenderer.SetPosition(1, _endBeamWorldPosition);
@@ -70,6 +70,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _muzzlePoint.LookAt(position);
         }
 
+        public override void ResetTarget()
+        {
+            _muzzlePoint.rotation = transform.rotation;
+        }
+
         public override void Fire()
         {
             if (_isFired || !CanFire) return;
@@ -78,18 +83,21 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _damagedTargetIds.Clear();
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();
+            PlayShotSE(_data.ShotSEId);
             _isfiring = true;
             _isFired = true;
         }
 
         private void BeamHitProcess()
         {
+            LayerMask hitMask = AttackTargetLayer | _data.ObstacleLayer;
+
             int hitCount = Physics.OverlapCapsuleNonAlloc(
                _startBeamWorldPosition,
                _endBeamWorldPosition,
                _beamRenderer.startWidth,
                _hitColliders,
-               AttackTargetLayer
+               hitMask
             );
 
             if (hitCount <= 0) return;
@@ -99,7 +107,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             for (int i = 0; i < hitCount; i++)
             {
                 //_hitCollidersは近い順に並んでいるため近い順にダメージを与えていき
-                //何かのオブジェクトにぶつかった時点でビームを止める処理
+                //攻撃対象(IDamageable)以外のオブジェクトにぶつかった時点でビームを止める処理
                 if (_hitColliders[i].TryGetComponent(out IDamageable target))
                 {
                     //同じ敵に多重にヒットすることを防止する処理

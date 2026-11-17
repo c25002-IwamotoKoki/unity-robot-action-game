@@ -51,7 +51,7 @@ namespace RobotAction.UI.Player
 
         private void SetEnergyView()
         {
-            _hudView.SetEenrgy(_playerStatus.MaxEnergy,_playerStatus.CurrentEnergy);
+            _hudView.SetEnergy(_playerStatus.MaxEnergy, _playerStatus.CurrentEnergy);
         }
 
         private void SetRightWeaponStatusView()

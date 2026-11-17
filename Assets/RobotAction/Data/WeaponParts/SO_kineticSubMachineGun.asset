@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.WeaponPartData
   _id: wpn_kinetic_sub_machine_gun
   _name: KineticSubMachineGun
-  _prefab: {fileID: 3643482524513276768, guid: 59dcb10a180bda8409de51fac374300a, type: 3}
+  _partPrefab: {fileID: 6859870552612880761, guid: 59dcb10a180bda8409de51fac374300a, type: 3}
   _sprite: {fileID: 21300000, guid: 96a0dedf1beed0c48a9c9083dc8ec26a, type: 3}

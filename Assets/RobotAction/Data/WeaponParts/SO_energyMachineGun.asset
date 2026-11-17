@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.WeaponPartData
   _id: wpn_energy_machine_gun
   _name: EnergyMachineGun
-  _prefab: {fileID: 992268344198174469, guid: 7db7a29cdee433c498f9e312158b64d6, type: 3}
+  _partPrefab: {fileID: 1873923541097040882, guid: 7db7a29cdee433c498f9e312158b64d6, type: 3}
   _sprite: {fileID: 21300000, guid: 694e4d0ec101e494ca5c8c25ef629e67, type: 3}

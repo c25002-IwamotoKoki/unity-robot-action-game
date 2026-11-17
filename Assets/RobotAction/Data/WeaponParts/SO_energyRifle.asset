@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: GamePlay::RobotAction.Gameplay.Parts.Weapons.WeaponPartData
   _id: wpn_energy_rifle
   _name: EnergyRifle
-  _prefab: {fileID: 190892539810458367, guid: 3ac33d911eca69f4ea6e7de01961b675, type: 3}
+  _partPrefab: {fileID: 4880020144602931629, guid: 3ac33d911eca69f4ea6e7de01961b675, type: 3}
   _sprite: {fileID: 21300000, guid: 1007e5c9c15466c429ab9a564d321f8b, type: 3}

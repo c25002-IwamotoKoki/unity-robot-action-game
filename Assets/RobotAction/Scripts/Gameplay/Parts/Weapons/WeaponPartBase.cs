@@ -18,6 +18,7 @@ namespace RobotAction.Gameplay.Parts.Weapons
 
 
         //Œp³æ‚©‚ç‚ÌˆÓ}‚µ‚È‚¢’l‚Ì•ÏX‚ğ–h‚®‚½‚ßAŒp³æ‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚Ä“Ç‚İæ‚èê—p‚Å•Û
+        protected Transform CurrentTarget { get; private set; }
         protected LayerMask AttackTargetLayer { get; private set; }
 
         private Rigidbody _rigidbody;
@@ -39,6 +40,11 @@ namespace RobotAction.Gameplay.Parts.Weapons
         public virtual void SetTarget(Vector3 target)
         {
 
+        }
+
+        public virtual void SetTarget(Transform target)
+        {
+            CurrentTarget = target;
         }
 
         public virtual void ResetTarget()

@@ -10,6 +10,7 @@ namespace RobotAction.Gameplay.Parts
         public IAudioService AudioService { get; }
 
         public void SetTarget(Vector3 position);
+        public void SetTarget(Transform target);
 
         public void ResetTarget();
 

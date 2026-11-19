@@ -20,6 +20,8 @@ namespace RobotAction.Gameplay.Parts.Weapons
         [SerializeField] private LayerMask _sarchLayer;
         [SerializeField] private LayerMask _attackTargetLayer;
 
+        protected Transform CurrentTarget { get; private set; }
+
         private Collider[] _detectedColliders;
         private List<IWeaponPart> _detectedWeaponParts;
         private IAudioService _audioService;
@@ -77,6 +79,11 @@ namespace RobotAction.Gameplay.Parts.Weapons
         public void SetTarget(Vector3 position)
         {
             CurrentPart?.SetTarget(position);
+        }
+
+        public void SetTarget(Transform target)
+        {
+            CurrentPart?.SetTarget(target);
         }
 
         public void ResetTarget()

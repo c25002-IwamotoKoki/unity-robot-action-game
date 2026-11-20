@@ -3,7 +3,8 @@
     "rootNamespace": "RobotAction",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:a11f07668eb5a804b83fa861cd36bda1"
+        "GUID:a11f07668eb5a804b83fa861cd36bda1",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

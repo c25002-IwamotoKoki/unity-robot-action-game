@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,23 +23,36 @@ namespace RobotAction.Gameplay.ObjectPool
         {
         }
 
-        public StackPool(T prefab,int capacity,Vector3 instanceLocalScale)
+        /// <summary>
+        /// DI用の補助コンストラクタです
+        /// オブジェクト生成時、SetActive(false)前に呼ばれます。
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <param name="capacity"></param>
+        /// <param name="onCreatedItem"></param>
+        public StackPool(T prefab, int capacity, Action<T, StackPool<T>> onCreatedItem)
+            : this(prefab, capacity, prefab.transform.localScale, onCreatedItem)
+        {
+        }
+
+        public StackPool(T prefab, int capacity,Vector3 instanceLocalScale, Action<T,StackPool<T>> onCreatedItem = null )
         {
             _pool = new Stack<T>(capacity);
             _poolItemSet = new HashSet<T>(capacity);
             _prefab = prefab;
 
-            Prewarm(capacity, instanceLocalScale);
+            Prewarm(capacity, instanceLocalScale, onCreatedItem);
         }
 
-        private void Prewarm(int capacity, Vector3 instanceLocalScale)
+        private void Prewarm(int capacity, Vector3 instanceLocalScale, Action<T,StackPool<T>> onCreatedItem = null)
         {
             GameObject inPoolItemsParent = new GameObject($"{_prefab.name}InPoolParent");
 
             for(int i = 0; i < capacity; i ++)
             {
-                T item = Object.Instantiate(_prefab, inPoolItemsParent.transform);
+                T item = UnityEngine.Object.Instantiate(_prefab, inPoolItemsParent.transform);
                 item.transform.localScale = instanceLocalScale;
+                onCreatedItem?.Invoke(item,this);
                 item.gameObject.SetActive(false);
 
                 _pool.Push(item);

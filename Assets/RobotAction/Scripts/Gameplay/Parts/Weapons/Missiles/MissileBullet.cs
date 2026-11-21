@@ -58,9 +58,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             float delayTimer = 0;
             float lifeTimer = 0;
 
-            while (delayTimer < _launcherData.ToHomingDelay)
+            while (delayTimer < _launcherData.BulletToHomingDelay)
             {
-                transform.position += Time.deltaTime * _launcherData.FlightSpeed * transform.forward;
+                transform.position += Time.deltaTime * _launcherData.BulletFlightSpeed * transform.forward;
 
                 if (TryHitProcess())
                 {
@@ -96,12 +96,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
                         transform.rotation = Quaternion.RotateTowards(
                             transform.rotation,
                             lookRotation,
-                            diffRotation * _launcherData.HomingRate * Time.deltaTime
+                            diffRotation * _launcherData.BulletHomingRate * Time.deltaTime
                         );
                     }               
                 }
 
-                transform.position += Time.deltaTime * _launcherData.OnHomingSpeed * transform.forward;
+                transform.position += Time.deltaTime * _launcherData.BulletOnHomingSpeed * transform.forward;
 
                 await UniTask.Yield(PlayerLoopTiming.Update,destroyCancellationToken);
                 if (generation != _fireGeneration || !isActiveAndEnabled) return;

@@ -9,7 +9,6 @@ namespace RobotAction.Gameplay.Enemy.Boss
         public override float AttackRange => _data.AttackRange;
 
         [SerializeField] private Transform[] _gunEquipPoints;
-        [Header("銃が動的に変わるためインスペクター上であらかじめ攻撃範囲を設定")]
         [SerializeField] private BossPickupGunAttackData _data;
 
         private Collider[] _detectedColliders;

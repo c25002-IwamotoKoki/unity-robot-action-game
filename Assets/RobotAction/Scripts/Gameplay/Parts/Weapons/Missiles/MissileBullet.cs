@@ -16,6 +16,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         private int _fireGeneration;
         private float _lifeTimer;
         private bool _isFlighting;
+        private bool _isReleaced;
 
         private void Update()
         {
@@ -46,6 +47,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             if (_isFlighting) return;
 
             _isFlighting = true;
+            _isReleaced = false;
             _currentTarget = target;
 
             FlightProcessAsync(_fireGeneration).Forget();
@@ -154,8 +156,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 
         private void ReturnToPool()
         {
-            if (!_isFlighting) return;
+            if (_isReleaced) return;
 
+            _isReleaced = true;
             _isFlighting = false;
             _lifeTimer = 0f;
             //番号を進めて実行中のループを無効化

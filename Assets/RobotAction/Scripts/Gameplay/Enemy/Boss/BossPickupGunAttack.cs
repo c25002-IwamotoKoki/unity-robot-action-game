@@ -36,6 +36,7 @@ namespace RobotAction.Gameplay.Enemy.Boss
             for (int i = 0; i < _currentGuns.Count; i++)
             {
                 _currentGuns[i].SetTarget(_player.position);
+                _currentGuns[i].SetTarget(_player);
                 _currentGuns[i].Attack();
             }
         }

@@ -91,6 +91,9 @@ namespace RobotAction.Gameplay.Enemy
                 _rightWeaponHandler.SetTarget(_blackboard.Target.position);
                 _leftWeaponHandler.SetTarget(_blackboard.Target.position);
 
+                _rightWeaponHandler.SetTarget(_blackboard.Target);
+                _leftWeaponHandler.SetTarget(_blackboard.Target);
+
                 _rightWeaponHandler.Attack();
                 _leftWeaponHandler.Attack();
             }

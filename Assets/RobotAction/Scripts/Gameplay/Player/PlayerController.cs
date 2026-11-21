@@ -105,6 +105,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     var target = _targetBuffer.CurrentTarget;
                     _rightWeaponHandler.SetTarget(target.position);
+                    _rightWeaponHandler.SetTarget(target);
                 }
 
                 _rightWeaponHandler.Attack();
@@ -116,6 +117,7 @@ namespace RobotAction.Gameplay.Player
                 {
                     var target = _targetBuffer.CurrentTarget;
                     _leftWeaponHandler.SetTarget(target.position);
+                    _leftWeaponHandler.SetTarget(target);
                 }
 
                 _leftWeaponHandler.Attack();

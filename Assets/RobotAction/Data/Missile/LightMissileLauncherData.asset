@@ -26,3 +26,4 @@ MonoBehaviour:
   _obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  _shotSE: {fileID: 8300000, guid: a5bcb2adc5559cd4bb4e4835ae13f1a0, type: 3}

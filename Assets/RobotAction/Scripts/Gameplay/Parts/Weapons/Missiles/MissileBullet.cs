@@ -16,6 +16,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         private int _fireGeneration;
         private float _lifeTimer;
         private bool _isFlighting;
+        private bool _isReleaced;
 
         private void Update()
         {
@@ -46,6 +47,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             if (_isFlighting) return;
 
             _isFlighting = true;
+            _isReleaced = false;
             _currentTarget = target;
 
             FlightProcessAsync(_fireGeneration).Forget();
@@ -58,9 +60,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             float delayTimer = 0;
             float lifeTimer = 0;
 
-            while (delayTimer < _launcherData.ToHomingDelay)
+            while (delayTimer < _launcherData.BulletToHomingDelay)
             {
-                transform.position += Time.deltaTime * _launcherData.FlightSpeed * transform.forward;
+                transform.position += Time.deltaTime * _launcherData.BulletFlightSpeed * transform.forward;
 
                 if (TryHitProcess())
                 {
@@ -96,12 +98,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
                         transform.rotation = Quaternion.RotateTowards(
                             transform.rotation,
                             lookRotation,
-                            diffRotation * _launcherData.HomingRate * Time.deltaTime
+                            diffRotation * _launcherData.BulletHomingRate * Time.deltaTime
                         );
                     }               
                 }
 
-                transform.position += Time.deltaTime * _launcherData.OnHomingSpeed * transform.forward;
+                transform.position += Time.deltaTime * _launcherData.BulletOnHomingSpeed * transform.forward;
 
                 await UniTask.Yield(PlayerLoopTiming.Update,destroyCancellationToken);
                 if (generation != _fireGeneration || !isActiveAndEnabled) return;
@@ -154,8 +156,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 
         private void ReturnToPool()
         {
-            if (!_isFlighting) return;
+            if (_isReleaced) return;
 
+            _isReleaced = true;
             _isFlighting = false;
             _lifeTimer = 0f;
             //番号を進めて実行中のループを無効化

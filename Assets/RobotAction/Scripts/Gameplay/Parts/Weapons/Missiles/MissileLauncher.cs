@@ -5,6 +5,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 {
     public class MissileLauncher : WeaponPartBase
     {
+        //ミサイルは曲がり、有効射程距離が理論値より下がるためAttackRangeの指定にこの変数を使う
+        private const float EffectiveAttackRangeRatio = 0.8f;
+
         [SerializeField] private MissileLauncherData _data;
         [SerializeField] private Transform _muzzlePoint;
 
@@ -18,6 +21,14 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         protected override void OnAwake()
         {
             RemainingUseCount = _data.MaxAmmo;
+
+            float straightTime = _data.BulletToHomingDelay;
+            float homingTime = _data.BulletLifeTime - _data.BulletToHomingDelay;
+            float straightMoveDistance = straightTime * _data.BulletFlightSpeed;
+            float homingMoveDistance = homingTime * _data.BulletOnHomingSpeed;
+            //ホーミング前後の移動距離を足してAttackRangeを算出
+            //カーブを考慮して理論値より小さめにAttackRangeを設定
+            AttackRange = (straightMoveDistance + homingMoveDistance) * EffectiveAttackRangeRatio;
 
             int maxOnFieldBulletCount = Mathf.CeilToInt(_data.BulletLifeTime / _data.FireRate);
 
@@ -56,6 +67,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 
             bullet.SetAttackTargetLayer(AttackTargetLayer);
             bullet.Fire(CurrentTarget);
+            AudioService?.PlaySE(_data.ShotSEId);
 
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();

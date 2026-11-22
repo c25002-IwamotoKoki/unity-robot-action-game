@@ -15,10 +15,10 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 898241171410864692, guid: 2592e7d1109547e41b21c0492fa613f5, type: 3}
   _attackPower: 200
   _fireRate: 0.5
-  _flightSpeed: 15
-  _onHomingSpeed: 40
-  _homingRate: 0.3
-  _toHomingDelay: 0.3
+  _bulletFlightSpeed: 15
+  _bulletOnHomingSpeed: 40
+  _bulletHomingRate: 1
+  _bulletToHomingDelay: 0.5
   _bulletLifeTime: 2
   _blastRadius: 3
   _maxBlastHitCount: 5
@@ -26,3 +26,4 @@ MonoBehaviour:
   _obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  _shotSE: {fileID: 8300000, guid: a5bcb2adc5559cd4bb4e4835ae13f1a0, type: 3}

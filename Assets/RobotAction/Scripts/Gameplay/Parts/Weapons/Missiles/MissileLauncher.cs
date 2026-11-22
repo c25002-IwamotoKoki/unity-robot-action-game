@@ -67,6 +67,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 
             bullet.SetAttackTargetLayer(AttackTargetLayer);
             bullet.Fire(CurrentTarget);
+            AudioService?.PlaySE(_data.ShotSEId);
 
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();

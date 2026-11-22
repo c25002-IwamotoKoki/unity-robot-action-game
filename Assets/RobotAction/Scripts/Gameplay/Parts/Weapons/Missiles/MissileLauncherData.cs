@@ -19,6 +19,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         [SerializeField] private int _maxAmmo;
         [Header("ƒ~ƒTƒCƒ‹‚ÍáŠQ•¨‚É“–‚½‚Á‚Ä‚à”š”­‚·‚é‚½‚ß•ÛŽ")]
         [SerializeField] private LayerMask _obstacleLayer;
+        [SerializeField] private AudioClip _shotSE;
 
         public MissileBullet BulletPrefab => _bulletPrefab;
         public float AttackPower => _attackPower;
@@ -32,5 +33,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         public int MaxBlastHitCount => _maxBlastHitCount;
         public int MaxAmmo => _maxAmmo;
         public LayerMask ObstacleLayer => _obstacleLayer;
+        public string ShotSEId => _shotSE.name;
     }
 }

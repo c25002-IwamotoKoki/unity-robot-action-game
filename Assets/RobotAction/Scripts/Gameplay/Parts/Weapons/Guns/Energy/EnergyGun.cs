@@ -59,15 +59,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             if (_currentLength >= _data.MaxRange)
             {
-                _currentLength = 0;
-
-                _isfiring = false;
-
-                if (_beamParticle != null)
-                {
-                    _beamParticle.Clear();
-                    _beamParticle.Stop();
-                }
+                StopFire();
             }
         }
 
@@ -126,14 +118,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 }
                 else
                 {
-                    _currentLength = 0;
-                    if (_beamParticle != null)
-                    {
-                        _beamParticle.Clear();
-                        _beamParticle.Stop();
-                    }
-                    _isfiring = false;
-                    return;
+                    StopFire();
                 }
             }
         }
@@ -155,6 +140,17 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                     }
                 }
             }
+        }
+
+        private void StopFire()
+        {
+            _currentLength = 0;
+            if (_beamParticle != null)
+            {
+                _beamParticle.Clear();
+                _beamParticle.Stop();
+            }
+            _isfiring = false;
         }
     }
 }

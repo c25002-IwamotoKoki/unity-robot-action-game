@@ -9,6 +9,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         [SerializeField] private float _damage;
         [SerializeField] private float _maxRange;
         [SerializeField] private float _beamExtendSpeed;
+        [SerializeField,Min(1)] private float _beamWidth = 1;
         [SerializeField,Min(1)] private int _maxHitCount;
         [SerializeField] private LayerMask _obstacleLayer;
         
@@ -16,6 +17,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         public float Damage => _damage;
         public float MaxRange => _maxRange;
         public float BeamExtendSpeed => _beamExtendSpeed;
+        public float BeamWidth => _beamWidth;
         public int MaxHitCount => _maxHitCount;
         public LayerMask ObstacleLayer => _obstacleLayer;
     }

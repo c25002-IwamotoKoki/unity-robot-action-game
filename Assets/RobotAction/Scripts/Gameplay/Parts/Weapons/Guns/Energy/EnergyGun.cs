@@ -5,17 +5,16 @@ using UnityEngine;
 
 namespace RobotAction.Gameplay.Parts.Weapons.Guns
 {
-    [RequireComponent(typeof(LineRenderer))]
     public class EnergyGun : GunBase
     {
         [SerializeField] private Transform _muzzlePoint;
+        [SerializeField] private ParticleSystem _beamParticle;
         [SerializeField] private EnergyGunData _data;
 
         public override int MaxUseCount => _data.MaxAmmo;
 
         protected override float FireRate => _data.FireRate;
 
-        private LineRenderer _beamRenderer;
         private Collider[] _hitColliders;
         private HashSet<int> _damagedTargetIds;
         private Vector3 _startBeamWorldPosition;
@@ -27,11 +26,21 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             AttackRange = _data.MaxRange;
 
-            TryGetComponent(out _beamRenderer);
-            _beamRenderer.enabled = false;
             _hitColliders = new Collider[_data.MaxHitCount];
             _damagedTargetIds = new(_data.MaxHitCount);
             RemainingUseCount = _data.MaxAmmo;
+
+            if(_beamParticle == null)
+            {
+                Debug.LogWarning("BeamParticleが未設定です");
+            }
+            else
+            {
+                var mainModule = _beamParticle.main;
+                mainModule.startLifetimeMultiplier = Mathf.Ceil(_data.MaxRange / _data.BeamExtendSpeed);
+                mainModule.startSpeedMultiplier = _data.BeamExtendSpeed;
+            }
+           
             base.OnAwake();
         }
 
@@ -46,14 +55,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             _endBeamWorldPosition = _startBeamWorldPosition + _muzzlePoint.forward * _currentLength;
 
-            _beamRenderer.SetPosition(0, _startBeamWorldPosition);
-            _beamRenderer.SetPosition(1, _endBeamWorldPosition);
-
-            //ここでRendererをアクティブにしているのはFire()関数内で書くと
-            //ビームが伸びる前の状態が見えるため視覚的に違和感を感じるため
-            _beamRenderer.enabled = true;
-            _beamRenderer.useWorldSpace = true;
-
             BeamHitProcess();
 
             if (_currentLength >= _data.MaxRange)
@@ -61,7 +62,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 _currentLength = 0;
 
                 _isfiring = false;
-                _beamRenderer.enabled = false;
+
+                if (_beamParticle != null)
+                {
+                    _beamParticle.Clear();
+                    _beamParticle.Stop();
+                }
             }
         }
 
@@ -84,8 +90,10 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();
             PlayShotSE(_data.ShotSEId);
+            if (_beamParticle != null) _beamParticle.Play();
             _isfiring = true;
             _isFired = true;
+
         }
 
         private void BeamHitProcess()
@@ -95,7 +103,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             int hitCount = Physics.OverlapCapsuleNonAlloc(
                _startBeamWorldPosition,
                _endBeamWorldPosition,
-               _beamRenderer.startWidth,
+               _data.BeamWidth,
                _hitColliders,
                hitMask
             );
@@ -121,7 +129,6 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                     _currentLength = 0;
 
                     _isfiring = false;
-                    _beamRenderer.enabled = false;
                     return;
                 }
             }

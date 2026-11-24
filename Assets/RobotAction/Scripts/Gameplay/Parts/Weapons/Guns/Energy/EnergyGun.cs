@@ -127,7 +127,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
                 else
                 {
                     _currentLength = 0;
-
+                    if (_beamParticle != null)
+                    {
+                        _beamParticle.Clear();
+                        _beamParticle.Stop();
+                    }
                     _isfiring = false;
                     return;
                 }

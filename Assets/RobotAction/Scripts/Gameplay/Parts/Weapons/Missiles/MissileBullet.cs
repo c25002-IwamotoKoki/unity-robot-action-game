@@ -7,6 +7,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 {
     public class MissileBullet : MonoBehaviour
     {
+        [SerializeField] private ParticleSystem _smokeTrailParticle;
 
         private StackPool<MissileBullet> _ownerPool;
         private MissileLauncherData _launcherData;
@@ -16,7 +17,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         private int _fireGeneration;
         private float _lifeTimer;
         private bool _isFlighting;
-        private bool _isReleaced;
+        private bool _isReleaced;        
 
         private void Update()
         {
@@ -35,6 +36,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             _launcherData = launcherData;
 
             _hitColliders = new Collider[_launcherData.MaxBlastHitCount];
+
+            //mainModuleの型はstructだが、内部でアドレスを持っているため実質クラスなため注意
+            var mainModule = _smokeTrailParticle.main;
+            float particlePerSec = _smokeTrailParticle.emission.rateOverTimeMultiplier;
+            mainModule.duration = _launcherData.BulletLifeTime;
+            mainModule.maxParticles = Mathf.CeilToInt(particlePerSec * _launcherData.BulletLifeTime);
         }
 
         public void SetAttackTargetLayer(LayerMask layer)
@@ -49,6 +56,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             _isFlighting = true;
             _isReleaced = false;
             _currentTarget = target;
+            _smokeTrailParticle.Play();
 
             FlightProcessAsync(_fireGeneration).Forget();
         }
@@ -164,6 +172,8 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             //番号を進めて実行中のループを無効化
             _fireGeneration++;
             _currentTarget = null;
+            _smokeTrailParticle.Clear();
+            _smokeTrailParticle.Stop();
 
             _ownerPool.Release(this);
         }

@@ -7,6 +7,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         [SerializeField] private KineticGunData _data;
         [SerializeField] private Transform _muzzleTransform;
         [SerializeField] private GameObject _bulletPrefab;
+        [SerializeField] private ParticleSystem _shotParticle;
 
         public override int MaxUseCount =>  _data.MaxAmmo;
         protected override float FireRate => _data.FireRate;
@@ -19,6 +20,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
             RemainingUseCount = _data.MaxAmmo;
             InvokeOnWeaponStatusChangedEvent();
+
+            if(_shotParticle == null)
+            {
+                Debug.LogWarning("[KineticGunBase]: ShotParticleÇ™ñ¢ê›íËÇ≈Ç∑");
+                return;
+            }
         }
 
         protected override void Update()
@@ -47,6 +54,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             RemainingUseCount--;
             InvokeOnWeaponStatusChangedEvent();
             PlayShotSE(_data.ShotSEId);
+
+            if (_shotParticle == null) return;
+
+            _shotParticle.Clear();
+            _shotParticle.Stop();
+            _shotParticle.Play();
         }
 
         public override void Equip(Transform owner)

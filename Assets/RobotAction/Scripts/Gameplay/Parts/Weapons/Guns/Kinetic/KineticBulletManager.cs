@@ -10,11 +10,12 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         private struct ActiveBullet
         {
             public Transform Transform;
+            public MeshRenderer MeshRenderer;
             public float CurrnetLifeTime;
         }
 
         private readonly KineticGunData _gunData;
-        private readonly StackPool<Transform> _pool;
+        private readonly StackPool<MeshRenderer> _pool;
         private readonly Transform _muzzlePoint;
         private readonly List<ActiveBullet> _activeBulletList;
         private readonly Collider[] _hitColliders;
@@ -34,7 +35,20 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _attackTargetLayer = layer;
             //Poolの初期化に使うためFireRate/BulletLifeTimeでフィールド上に存在するための数を算出
             int maxOnFieldBullet = Mathf.FloorToInt(_gunData.BulletLifeTime / _gunData.FireRate);
-            _pool = new StackPool<Transform>(prefab.transform, maxOnFieldBullet);
+
+            if(!prefab.TryGetComponent(out MeshRenderer meshRenderer))
+            {
+                throw new System.ArgumentException($"{prefab.name}にmeshRendererがありません");
+            }
+
+            _pool = new StackPool<MeshRenderer>(
+                meshRenderer,
+                maxOnFieldBullet,
+                autoSetActive:false,
+                (item,_) => item.enabled = false
+            );
+
+
             _activeBulletList = new List<ActiveBullet>(maxOnFieldBullet);
             _hitColliders = new Collider[_gunData.MaxHitCount];
         }
@@ -69,21 +83,26 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
         {
             if (!_pool.CanRent) return;
 
-            Transform bullet = _pool.Rent();
+            var meshRenderer = _pool.Rent();
 
-            if (bullet == null) return;
+            if (meshRenderer == null) return;
+
+            Transform bullet = meshRenderer.transform;
 
             bullet.SetPositionAndRotation(_muzzlePoint.position, _muzzlePoint.rotation);
 
             if(TryBulletHitProcess(bullet,deltaTime))
             {
-                _pool.Release(bullet);
+                _pool.Release(meshRenderer);
                 return;
             }
+
+            meshRenderer.enabled = true;
 
             var activeBullet = new ActiveBullet()
             {
                 Transform = bullet,
+                MeshRenderer = meshRenderer,
                 CurrnetLifeTime = 0
             };
 
@@ -92,7 +111,9 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
 
         private void ReleaseBulletByIndex(int index)
         {
-            _pool.Release(_activeBulletList[index].Transform);
+            MeshRenderer meshRenderer = _activeBulletList[index].MeshRenderer;
+            meshRenderer.enabled = false;
+            _pool.Release(meshRenderer);
 
             int lastIndex = _activeBulletList.Count - 1;
 

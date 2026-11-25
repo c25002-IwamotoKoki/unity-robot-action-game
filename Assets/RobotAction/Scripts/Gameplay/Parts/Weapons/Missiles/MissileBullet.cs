@@ -175,6 +175,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             //番号を進めて実行中のループを無効化
             _fireGeneration++;
             _currentTarget = null;
+            _smokeTrailRenderer.Clear();
             _meshRenderer.enabled = false;
 
             _ownerPool.Release(this);

@@ -89,13 +89,11 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 
                 if (_currentTarget != null)
                 {
-                    Vector3 direction = _currentTarget.transform.position - transform.position;
+                    Vector3 direction = _currentTarget.position - transform.position;
                     if(direction.sqrMagnitude >= 0.00001f)
                     {
                         Quaternion lookRotation = Quaternion.LookRotation(direction);
-
                         float diffRotation = (transform.eulerAngles - lookRotation.eulerAngles).magnitude;
-
                         transform.rotation = Quaternion.RotateTowards(
                             transform.rotation,
                             lookRotation,

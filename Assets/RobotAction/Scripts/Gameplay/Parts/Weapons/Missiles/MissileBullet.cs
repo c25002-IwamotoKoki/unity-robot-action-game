@@ -11,6 +11,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 
         private StackPool<MissileBullet> _ownerPool;
         private MissileLauncherData _launcherData;
+        private MeshRenderer _meshRenderer;
         private Transform _currentTarget;
         private Collider[] _hitColliders;
         private LayerMask _attackTargetLayer;
@@ -36,6 +37,15 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             _launcherData = launcherData;
 
             _hitColliders = new Collider[_launcherData.MaxBlastHitCount];
+
+             _meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+            if(_meshRenderer == null)
+            {
+                throw new MissingReferenceException("MissileBulletPrefab‚ÉMeshRenderer‚ª‚Â‚¢‚Ä‚¢‚Ü‚¹‚ñ");
+            }
+
+            _meshRenderer.enabled = false;
         }
 
         public void SetAttackTargetLayer(LayerMask layer)
@@ -50,6 +60,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             _isFlighting = true;
             _isReleaced = false;
             _currentTarget = target;
+            _meshRenderer.enabled = true;
 
             FlightProcessAsync(_fireGeneration).Forget();
         }
@@ -164,6 +175,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             _fireGeneration++;
             _currentTarget = null;
             _smokeTrailRenderer.Clear();
+            _meshRenderer.enabled = false;
 
             _ownerPool.Release(this);
         }

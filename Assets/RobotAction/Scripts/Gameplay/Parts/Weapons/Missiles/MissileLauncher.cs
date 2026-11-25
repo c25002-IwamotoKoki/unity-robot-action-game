@@ -35,6 +35,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             _bulletPool = new StackPool<MissileBullet>(
                 _data.BulletPrefab,
                 maxOnFieldBulletCount,
+                autoSetActive:false,
                 (item, pool) => item.Initialize(pool,_data)
             );
 

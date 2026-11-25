@@ -7,6 +7,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
 {
     public class MissileBullet : MonoBehaviour
     {
+        [SerializeField] private TrailRenderer _smokeTrailRenderer;
 
         private StackPool<MissileBullet> _ownerPool;
         private MissileLauncherData _launcherData;
@@ -16,7 +17,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
         private int _fireGeneration;
         private float _lifeTimer;
         private bool _isFlighting;
-        private bool _isReleaced;
+        private bool _isReleaced;        
 
         private void Update()
         {
@@ -164,6 +165,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Missiles
             //番号を進めて実行中のループを無効化
             _fireGeneration++;
             _currentTarget = null;
+            _smokeTrailRenderer.Clear();
 
             _ownerPool.Release(this);
         }

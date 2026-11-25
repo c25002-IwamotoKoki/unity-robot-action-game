@@ -17,19 +17,27 @@ namespace RobotAction.Gameplay.ObjectPool
         private readonly Stack<T> _pool;
         private readonly HashSet<T> _poolItemSet;
         private readonly T _prefab;
+        private readonly bool _autoSetActive;
+
+        public StackPool(T prefab, int capacity,Action<T, StackPool<T>> onCreatedItem,bool autoSetActive = true)
+            : this(prefab,capacity,autoSetActive,onCreatedItem)
+        {
+        }
 
         /// <summary>
         /// <paramref name="onCreatedItem"/>はDI用関数を入れることを想定しています。
         /// オブジェクト生成時、SetActive(false)前に呼ばれます。
+        /// <br/><paramref name="autoSetActive"/>は初期化時、貸し出し時に自動でSetActive()するかどうかを決めるものです。
         /// </summary>
         /// <param name="prefab"></param>
         /// <param name="capacity"></param>
         /// <param name="onCreatedItem"></param>
-        public StackPool(T prefab, int capacity,Action<T,StackPool<T>> onCreatedItem = null)
+        public StackPool(T prefab, int capacity, bool autoSetActive = true,Action<T,StackPool<T>> onCreatedItem = null)
         {
             _pool = new Stack<T>(capacity);
             _poolItemSet = new HashSet<T>(capacity);
             _prefab = prefab;
+            _autoSetActive = autoSetActive;
 
             Prewarm(capacity,onCreatedItem);
         }
@@ -42,7 +50,7 @@ namespace RobotAction.Gameplay.ObjectPool
             {
                 T item = UnityEngine.Object.Instantiate(_prefab, inPoolItemsParent.transform);
                 onCreatedItem?.Invoke(item,this);
-                item.gameObject.SetActive(false);
+                if(_autoSetActive) item.gameObject.SetActive(false);
 
                 _pool.Push(item);
                 _poolItemSet.Add(item);
@@ -60,7 +68,8 @@ namespace RobotAction.Gameplay.ObjectPool
 
             T item = _pool.Pop();
             _poolItemSet.Remove(item);
-            item.gameObject.SetActive(true);
+
+            if(_autoSetActive) item.gameObject.SetActive(true);
 
             return item;
         }
@@ -71,7 +80,8 @@ namespace RobotAction.Gameplay.ObjectPool
 
             if (!_poolItemSet.Add(item)) return;
 
-            item.gameObject.SetActive(false);
+            if(_autoSetActive) item.gameObject.SetActive(false);
+
             _pool.Push(item);
         }
     }

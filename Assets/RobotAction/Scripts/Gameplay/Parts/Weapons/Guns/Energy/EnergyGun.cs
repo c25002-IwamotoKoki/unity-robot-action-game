@@ -147,8 +147,7 @@ namespace RobotAction.Gameplay.Parts.Weapons.Guns
             _currentLength = 0;
             if (_beamParticle != null)
             {
-                _beamParticle.Clear();
-                _beamParticle.Stop();
+                _beamParticle.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
             }
             _isfiring = false;
         }
